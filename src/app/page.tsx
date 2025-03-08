@@ -17,7 +17,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 pt-15">
       <Header />
       <Hero scrollToFeatures={() => scrollToSection(featuresRef)} scrollToVideo={() => scrollToSection(videoRef)} />
       <About />

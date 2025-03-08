@@ -1,17 +1,37 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Header() {
     return (
-        <header className="flex justify-between items-center p-6 bg-white shadow-md">
-            <div className="flex items-center space-x-4">
-                <Image src="/logo.png" alt="ITU NLP Logo" width={120} height={40} />
+        <header className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
+            <div className="container mx-auto flex justify-between items-center h-16 px-10">
+                {/* Left: Logo */}
+                <div className="flex items-center">
+                    <Link href="/">
+                        <img src="/logo.png" alt="Logo" className="h-10" />
+                    </Link>
+                </div>
+
+                {/* Right: Navigation Links (Centered) */}
+                <nav>
+                    <ul className="flex space-x-30">
+                        <li>
+                            <Link href="#features" className="text-gray-700 hover:text-gray-900">
+                                Metin Üretimi
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="#analysis" className="text-gray-700 hover:text-gray-900">
+                                Metin Analizi
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="#adaptation" className="text-gray-700 hover:text-gray-900">
+                                Seviye Uyarlama
+                            </Link>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-            <nav className="space-x-6">
-                <Link href="#" className="text-gray-700 hover:underline">Metin Üretimi</Link>
-                <Link href="#" className="text-gray-700 hover:underline">Metin Analizi</Link>
-                <Link href="#" className="text-gray-700 hover:underline">Seviye Uyarlama</Link>
-            </nav>
         </header>
     );
 }
