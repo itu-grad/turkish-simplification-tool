@@ -1,6 +1,6 @@
 export default function About() {
     return (
-        <section className="py-16 px-10 bg-white flex flex-col items-center">
+        <section className="min-h-screen py-16 px-10 bg-white flex flex-col items-center">
             <h2 className="text-3xl font-semibold text-center mb-6 text-[#1e1e1e]">
                 Hakkımızda
             </h2>

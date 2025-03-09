@@ -26,10 +26,10 @@ const features: Feature[] = [
 
 export default function Features() {
     return (
-        <section className="py-16 bg-gray-100 grid grid-cols-1 md:grid-cols-3 gap-6 px-10">
+        <section className="min-h-150 py-16 bg-gray-100 grid grid-cols-1 md:grid-cols-3 gap-6 px-10">
             {features.map((feature, index) => (
                 <div key={index} className="bg-white p-6 shadow-md rounded-lg text-center hover:shadow-xl transition-shadow duration-300">
-                    <div className="mb-4 flex justify-center">
+                    <div className="mb-16 flex justify-center">
                         {feature.icon} {/* Render the icon */}
                     </div>
                     <h3 className="text-xl font-semibold text-[#1e1e1e] mb-10">{feature.title}</h3>
@@ -37,7 +37,7 @@ export default function Features() {
                         className="text-gray-600 mt-2"
                         dangerouslySetInnerHTML={{ __html: feature.desc }} // Render HTML content (including <br />)
                     ></p>
-                    <div className="mt-4 flex justify-center">
+                    <div className="mt-16 flex justify-center">
                         <FaArrowRight className="text-gray-600 text-2xl cursor-pointer hover:text-blue-500" />
                     </div>
                 </div>
