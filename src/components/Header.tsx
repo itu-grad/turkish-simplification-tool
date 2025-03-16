@@ -15,7 +15,7 @@ export default function Header() {
                 <nav>
                     <ul className="flex space-x-30">
                         <li>
-                            <Link href="#features" className="text-gray-700 hover:text-gray-900">
+                            <Link href="text-generation" className="text-gray-700 hover:text-gray-900">
                                 Metin Üretimi
                             </Link>
                         </li>

@@ -1,11 +1,9 @@
 "use client";
 
-import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Features from "@/components/Features";
 import Video from "@/components/Video";
-import Footer from "@/components/Footer";
 import { useRef } from "react";
 
 export default function Home() {
@@ -18,7 +16,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100 pt-15">
-      <Header />
       <Hero scrollToFeatures={() => scrollToSection(featuresRef)} scrollToVideo={() => scrollToSection(videoRef)} />
       <About />
       <div ref={featuresRef}>
@@ -27,7 +24,6 @@ export default function Home() {
       <div ref={videoRef}>
         <Video />
       </div>
-      <Footer />
     </div>
   );
 }
