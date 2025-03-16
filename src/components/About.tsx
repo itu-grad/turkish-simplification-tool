@@ -16,6 +16,13 @@ export default function About() {
                 <br /><br />
                 Türkçe doğal dil işleme alanında çalışmalar yürüten grup, araştırmalarını telekom, bankacılık, hukuk ve otomotiv gibi sektörlere uygulamaktadır. Öne çıkan projeleri arasında Web2.0 cümle analizi, Türkçe-İşaret Dili çeviri sistemi, kişisel asistan uygulamaları ve makine çevirisi gibi çalışmalar bulunmaktadır. Ayrıca sanayi iş birlikleriyle bankacılık diyalog sistemleri, hukuksal doküman analizi ve duygu analizi gibi projeler geliştirmektedir.
             </p>
+            <a
+                href="https://nlp.itu.edu.tr/hakkimizda"
+                target="_blank"
+                className="text-blue-700 mt-4 text-right w-full max-w-4xl mx-auto leading-relaxed block"
+            >
+                Daha fazlası için tıklayın.
+            </a>
         </section>
     );
 }
