@@ -20,7 +20,7 @@ export default function Header() {
                             </Link>
                         </li>
                         <li>
-                            <Link href="#analysis" className="text-gray-700 hover:text-gray-900">
+                            <Link href="text-analysis" className="text-gray-700 hover:text-gray-900">
                                 Metin Analizi
                             </Link>
                         </li>
