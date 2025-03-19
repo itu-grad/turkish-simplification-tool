@@ -5,7 +5,7 @@ interface Props {
 
 export default function TextInput({ isLoading, handleAnalyzeText }: Props) {
     return (
-        <div className="w-full min-h-screen bg-white flex items-center justify-center p-4">
+        <div className="w-full min-w-[400px] min-h-screen bg-white flex items-center justify-center p-4">
             <div className="w-full max-w-[900px] bg-[#f5f5f5] p-6 rounded-lg shadow-md">
                 <div className="flex flex-col space-y-2">
                 <textarea
