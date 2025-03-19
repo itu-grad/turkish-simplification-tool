@@ -18,7 +18,7 @@ const features: Feature[] = [
     {
         title: "Metin Analizi",
         desc: "Bir metnin seviyesini belirleyin!<br />Kelime ve gramer yapılarını analiz ederek içeriklerinizi daha bilinçli seçin ve geliştirin.",
-        link: "#",
+        link: "text-analysis",
         icon: <FaSearch className="text-4xl text-green-500" />
     },
     {
