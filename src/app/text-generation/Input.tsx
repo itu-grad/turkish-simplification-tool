@@ -1,15 +1,56 @@
+import { TagInput } from "@/components/TagInput";
+import { useState } from "react";
+
 interface Props {
     isLoading: boolean;
     handleGenerateText: () => void;
 }
 
 export default function TextGenerationInput({ isLoading, handleGenerateText }: Props) {
+    const [formData, setFormData] = useState({
+        level: "a1",
+        wordCount: "",
+        theme: "",
+        content: "",
+        targetWords: [] as string[],
+        targetGrammar: [] as string[],
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
+
+    const handleAddTag = (tags: string[], type: "targetWords" | "targetGrammar") => {
+        if (tags) {
+            setFormData((prevState) => ({
+                ...prevState,
+                [type]: tags,
+            }));
+        }
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log("Form Data:", formData);
+        handleGenerateText();
+    };
+
     return (
-        <div className="p-8 min-w-[1200] bg-[#f5f5f5] rounded-xl shadow-lg flex flex-col space-y-6">
+        <form onSubmit={handleSubmit} className="p-8 min-w-[1200px] bg-[#f5f5f5] rounded-xl shadow-lg flex flex-col space-y-6">
             <div className="grid grid-cols-3 gap-6">
                 <div className="flex flex-col space-y-2">
                     <label htmlFor="level" className="text-sm font-semibold text-[#1e1e1e] text-left">Seviye</label>
-                    <select id="level" className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-sm text-[#1e1e1e] focus:outline-gray-500">
+                    <select
+                        id="level"
+                        name="level"
+                        value={formData.level}
+                        onChange={handleChange}
+                        className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-sm text-[#1e1e1e] focus:outline-gray-500"
+                    >
                         <option value="a1">A1</option>
                         <option value="a2">A2</option>
                         <option value="b1">B1</option>
@@ -20,39 +61,64 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                 </div>
 
                 <div className="flex flex-col space-y-2">
-                    <label htmlFor="number" className="text-sm font-semibold text-[#1e1e1e] text-left">Yaklaşık Kelime Sayısı</label>
-                    <input type="number" id="number" className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500" placeholder="100" />
+                    <label htmlFor="wordCount" className="text-sm font-semibold text-[#1e1e1e] text-left">Yaklaşık Kelime Sayısı</label>
+                    <input
+                        type="number"
+                        id="wordCount"
+                        name="wordCount"
+                        placeholder="100"
+                        value={formData.wordCount}
+                        onChange={handleChange}
+                        className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500"
+                        min="1"
+                    />
                 </div>
 
                 <div className="flex flex-col space-y-2">
                     <label htmlFor="theme" className="text-sm font-semibold text-[#1e1e1e] text-left">Tema</label>
-                    <input type="text" id="theme" className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500" placeholder="Bilim" />
+                    <input
+                        type="text"
+                        id="theme"
+                        name="theme"
+                        placeholder="bilim"
+                        value={formData.theme}
+                        onChange={handleChange}
+                        className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500"
+                    />
                 </div>
             </div>
 
             <div className="flex flex-col space-y-2">
                 <label htmlFor="content" className="text-sm font-semibold text-[#1e1e1e] text-left">Metin İçeriği</label>
-                <textarea id="content" className="p-2 border border-gray-300 rounded-md h-40 bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500" placeholder="Metnin içeriğini giriniz..." />
+                <textarea
+                    id="content"
+                    name="content"
+                    value={formData.content}
+                    onChange={handleChange}
+                    className="p-2 border border-gray-300 rounded-md h-40 bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500"
+                />
             </div>
 
             <div className="grid grid-cols-4 gap-6">
-                <div className="flex flex-col space-y-2">
-                    <label htmlFor="targetWords" className="text-sm font-semibold text-[#1e1e1e] text-left">Hedef Kelimeler</label>
-                    <input type="text" id="targetWords" className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500" placeholder="zürafa, kendi" />
-                </div>
-
-                <div className="flex flex-col space-y-2">
-                    <label htmlFor="targetGrammar" className="text-sm font-semibold text-[#1e1e1e] text-left">Hedef Gramer Yapıları</label>
-                    <input type="text" id="targetGrammar" className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500" placeholder="Geçmiş zaman, sıfat fiil" />
-                </div>
+                <TagInput
+                    label="Hedef Kelimeler"
+                    placeholder="zürafa, kendi"
+                    value={formData.targetWords}
+                    onChange={(tag) => handleAddTag(tag, "targetWords")}
+                />
+                <TagInput
+                    label="Hedef Gramer Yapıları"
+                    placeholder="Geçmiş zaman, sıfat fiil"
+                    value={formData.targetGrammar}
+                    onChange={(tag) => handleAddTag(tag, "targetGrammar")}
+                />
 
                 <div></div>
 
                 <div className="flex flex-col space-y-2">
                     <button
-                        className="mt-6 p-3 bg-gray-500 text-white rounded-md transition-all duration-300 
-                                            hover:scale-105 hover:bg-gray-600 active:scale-95 cursor-pointer"
-                        onClick={handleGenerateText}
+                        type="submit"
+                        className="mt-6 p-3 bg-gray-500 text-white rounded-md transition-all duration-300 hover:scale-105 hover:bg-gray-600 active:scale-95 cursor-pointer"
                         disabled={isLoading}
                     >
                         {isLoading ? (
@@ -65,6 +131,6 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                     </button>
                 </div>
             </div>
-        </div>
+        </form>
     );
 }

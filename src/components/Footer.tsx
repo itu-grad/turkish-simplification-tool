@@ -6,7 +6,7 @@ export default function Footer() {
                 <div className="flex gap-6">
                     <a href="https://nlp.itu.edu.tr" target="_blank">
                         <img
-                            src="webpage.svg"
+                            src="/webpage.svg"
                             alt="Webpage"
                             width={24}
                             style={{ filter: "invert(80%) sepia(10%) saturate(200%) hue-rotate(180deg)" }}
@@ -14,7 +14,7 @@ export default function Footer() {
                         />
                     </a>
                     <a href="https://www.linkedin.com/company/itunlp" target="_blank">
-                        <img src="linkedin.svg" alt="LinkedIn" width={20} className="hover:scale-110 transition" style={{ filter: "invert(26%) sepia(91%) saturate(1107%) hue-rotate(186deg) brightness(92%) contrast(88%)" }} />
+                        <img src="/linkedin.svg" alt="LinkedIn" width={20} className="hover:scale-110 transition" style={{ filter: "invert(26%) sepia(91%) saturate(1107%) hue-rotate(186deg) brightness(92%) contrast(88%)" }} />
                     </a>
                 </div>
                 <p className="text-sm text-gray-400 mt-2">

@@ -1,21 +1,6 @@
-"use client";
-import React, { useState } from "react";
-import TextGenerationInput from "./Input";
-import { useRouter } from "next/navigation";
+import TextGenerationOutputComponent from "./Output";
 
-export default function TextGeneration() {
-    const [isLoading, setIsLoading] = useState(false);
-    const router = useRouter();
-
-    const handleGenerateText = () => {
-        setIsLoading(true);
-
-        setTimeout(() => {
-            setIsLoading(false);
-            router.push("/text-generation/output#text-output");
-        }, 2000);
-    };
-
+export default function TextGenerationOutput() {
     return (
         <div>
             <section className="min-h-screen flex flex-col items-center justify-center text-center px-50 bg-[#f5f5f5]">
@@ -27,8 +12,8 @@ export default function TextGeneration() {
                     Ayrıca, üretilen metinlerde kullanılan kelime ve dilbilgisi yapılarını detaylı şekilde listeleyerek öğretim süreçlerini daha verimli hale getirir.
                 </p>
             </section>
-            <section className="min-h-screen flex flex-col items-center justify-center text-center px-50 bg-white">
-                <TextGenerationInput isLoading={isLoading} handleGenerateText={handleGenerateText} />
+            <section id="text-output" className="min-h-screen flex flex-col items-center justify-center text-center px-50 bg-white">
+                <TextGenerationOutputComponent />
             </section>
         </div>
     );

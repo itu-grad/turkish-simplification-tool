@@ -1,9 +1,13 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-export default function TextGenerationOutput() {
+export default function TextGenerationOutputComponent() {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [isFading, setIsFading] = useState<boolean>(false);
+    const router = useRouter();
 
     const alternatives = [
         {
@@ -81,6 +85,7 @@ export default function TextGenerationOutput() {
                             </div>
                         </div>
                     </div>
+                    <div className="text-2xl font-medium text-[#1e1e1e] mt-5">{currentIndex + 1}</div>
                 </div>
                 <div className="max-w-[20] flex justify-center items-center">
                     <FaArrowRight
@@ -88,6 +93,15 @@ export default function TextGenerationOutput() {
                         onClick={handleNext}
                     />
                 </div>
+            </div>
+            <div className="flex flex-row">
+                <button
+                    className="mt-6 p-3 bg-gray-500 text-white rounded-md transition-all duration-300
+                   hover:scale-105 hover:bg-gray-600 active:scale-95 cursor-pointer ml-auto"
+                    onClick={() => router.push("/text-generation")}
+                >
+                    Tekrar Üret
+                </button>
             </div>
         </div>
     );
