@@ -1,21 +1,6 @@
-"use client";
-import React, { useState } from "react";
-import TextAnalysisInput from "./Input";
-import { useRouter } from "next/navigation";
+import TextAnalysisOutputComponent from "./Output";
 
-export default function TextAnalysis() {
-    const [isLoading, setIsLoading] = useState(false);
-    const router = useRouter();
-
-    const handleAnalyzeText = () => {
-        setIsLoading(true);
-
-        setTimeout(() => {
-            setIsLoading(false);
-            router.push("/text-analysis/output#text-output");
-        }, 2000);
-    };
-
+export default function TextAnalysisOutput() {
     return (
         <div>
             <section className="min-h-screen flex flex-col items-center justify-center text-center px-50 bg-[#f5f5f5]">
@@ -25,8 +10,8 @@ export default function TextAnalysis() {
                 Kelime ve gramer yapılarının dökümü sayesinde metnin dil özelliklerini net bir şekilde görebilir, öğrencileriniz için en uygun materyali oluşturabilirsiniz. Böylece, dil seviyesine uygun kaynak seçimi ve geliştirme süreciniz daha bilinçli ve sistematik hale gelir.
                 </p>
             </section>
-            <section className="min-h-screen flex flex-col items-center justify-center text-center px-50 bg-white">
-                {<TextAnalysisInput isLoading={isLoading} handleAnalyzeText={handleAnalyzeText} />}
+            <section id="text-output" className="min-h-screen flex flex-col items-center justify-center text-center px-50 bg-white">
+                <TextAnalysisOutputComponent />
             </section>
         </div>
     );
