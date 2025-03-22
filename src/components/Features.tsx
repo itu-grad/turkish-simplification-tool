@@ -24,7 +24,7 @@ const features: Feature[] = [
     {
         title: "Seviye Uyarlama",
         desc: "Metinleri farklı seviyelere uyarlayın!<br />Orijinal ve uyarlanmış metinleri karşılaştırarak öğrencileriniz için en uygun içeriği hazırlayın.",
-        link: "#",
+        link: "level-adaptation",
         icon: <FaSyncAlt className="text-4xl text-orange-500" />
     }
 ];
