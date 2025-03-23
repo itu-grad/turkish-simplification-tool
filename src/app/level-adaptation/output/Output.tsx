@@ -46,8 +46,7 @@ export default function LevelAdaptationOutputComponent() {
         <div className="p-8 min-w-[1200] bg-[#f5f5f5] rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
             <div className="flex flex-row gap-3">
                 <div
-                    className="mt-6 p-3 bg-gray-500 text-white rounded-md transition-all duration-300
-                   hover:scale-105 hover:bg-gray-600 active:scale-95 ml-auto"
+                    className="mt-6 p-3 bg-gray-500 text-white rounded-md ml-auto"
                 >
                     Seviye: {formData?.level}
                 </div>
@@ -88,7 +87,7 @@ export default function LevelAdaptationOutputComponent() {
                    hover:scale-105 hover:bg-gray-600 active:scale-95 cursor-pointer ml-auto"
                     onClick={() => router.push("/level-adaptation")}
                 >
-                    Tekrar Analiz Et
+                    Tekrar Uyarla
                 </button>
             </div>
         </div>
