@@ -49,7 +49,7 @@ export default function TextAnalysisOutputComponent() {
                 <div className="flex max-h-[50vh] w-1/2 space-x-6 mt-20">
                     {/* Word Table */}
                     <div className="flex-1">
-                        <h3 className="font-semibold mb-2">Kelime</h3>
+                        <h3 className="font-semibold mb-2 text-[#1e1e1e]">Kelime</h3>
                         <div className="flex-1 bg-white p-4 rounded-lg shadow-md">
                             <div className="max-h-[40vh] overflow-y-scroll">
                                 {[
@@ -72,8 +72,8 @@ export default function TextAnalysisOutputComponent() {
                                     { word: "peri", level: "A1" },
                                 ].map((item, index) => (
                                     <div key={index} className="flex justify-between py-1 mr-4">
-                                        <span>{item.word}</span>
-                                        <span className="text-gray-500">{item.level}</span>
+                                        <span className="text-gray-700">{item.word}</span>
+                                        <span className="text-[#1e1e1e]">{item.level}</span>
                                     </div>
                                 ))}
                             </div>
@@ -82,7 +82,7 @@ export default function TextAnalysisOutputComponent() {
 
                     {/* Grammar Table */}
                     <div className="flex-1">
-                        <h3 className="font-semibold mb-2">Gramer Yapısı</h3>
+                        <h3 className="font-semibold mb-2 text-[#1e1e1e]">Gramer Yapısı</h3>
                         <div className="flex-1 bg-white p-4 rounded-lg shadow-md">
                             <div className="max-h-[40vh] overflow-y-scroll">
                                 {[
@@ -105,8 +105,8 @@ export default function TextAnalysisOutputComponent() {
                                     { rule: "ayrılma hal eki", level: "B1" },
                                 ].map((item, index) => (
                                     <div key={index} className="flex justify-between py-1 mr-4">
-                                        <span>{item.rule}</span>
-                                        <span className="text-gray-500">{item.level}</span>
+                                        <span className="text-gray-700">{item.rule}</span>
+                                        <span className="text-[#1e1e1e]">{item.level}</span>
                                     </div>
                                 ))}
                             </div>
