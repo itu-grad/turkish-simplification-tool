@@ -77,8 +77,8 @@ export default function LevelAdaptationOutputComponent() {
                                     onClick={handleCopy}
                                     className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-gray-200 hover:bg-gray-300 rounded-md transition ml-auto"
                                 >
-                                    <ClipboardCopy size={16} />
-                                    {copied ? "Kopyalandı!" : ""}
+                                    <ClipboardCopy size={16} color="black" />
+                                    {copied ? <p className="text-black">Kopyalandı!</p> : ""}
                                 </button>
                             </div>
                             <div className="flex flex-row">
@@ -107,39 +107,6 @@ export default function LevelAdaptationOutputComponent() {
                         </div>
                     </div>
                 </div>
-                {/* <div className="flex flex-row gap-3 flex-1 justify-center items-center min-h-[250px]">
-                    <div className={`flex flex-col h-full w-full transition-opacity duration-300`}>
-                        <div className="">
-                            <div className="text-2xl font-medium text-[#1e1e1e]">Üretilen Metin</div>
-                            <div className={`p-6 bg-white rounded-md shadow-sm w-full h-full transition-opacity duration-300 ${isFading ? "opacity-0" : "opacity-100"}`}>
-                                <div className="max-w-[20] flex justify-center items-center">
-                                    <FaArrowLeft
-                                        className="text-gray-600 text-2xl cursor-pointer hover:text-blue-500"
-                                        onClick={handlePrevious}
-                                    />
-                                </div>
-                                <div className="flex items-center justify-between mb-5">
-                                    <button
-                                        onClick={handleCopy}
-                                        className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-gray-200 hover:bg-gray-300 rounded-md transition"
-                                    >
-                                        <ClipboardCopy size={16} />
-                                        {copied ? "Kopyalandı!" : ""}
-                                    </button>
-                                </div>
-                                <p className="text-[#1e1e1e] text-justify flex-1">{alternatives[currentIndex].text}</p>
-                                <div className="max-w-[20] flex justify-center items-center">
-                                    <FaArrowRight
-                                        className="text-gray-600 text-2xl cursor-pointer hover:text-blue-500"
-                                        onClick={handleNext}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div> */}
-
             </div>
             <div className="flex flex-row">
                 <button

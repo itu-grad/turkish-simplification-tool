@@ -113,8 +113,8 @@ export default function TextGenerationOutputComponent() {
                             onClick={handleCopy}
                             className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-gray-200 hover:bg-gray-300 rounded-md transition ml-auto"
                         >
-                            <ClipboardCopy size={16} />
-                            {copied ? "Kopyalandı!" : ""}
+                            <ClipboardCopy size={16} color="black" />
+                            {copied ? <p className="text-black">Kopyalandı!</p> : ""}
                         </button>
                     </div>
                     <div className="p-6 bg-white rounded-md shadow-sm">
@@ -124,27 +124,6 @@ export default function TextGenerationOutputComponent() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-6 mt-10">
-                        {/* <div className="flex flex-col p-6 bg-white rounded-md shadow-sm">
-                            <p className="text-xl font-medium text-[#1e1e1e]">Kullanılan Kelimeler</p>
-                            <div className="overflow-y-scroll mt-4 max-h-32">
-                                {alternatives[currentIndex].words.map((word, index) => (
-                                    <div key={index} className="text-[#1e1e1e]">
-                                        {word}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col p-6 bg-white rounded-md shadow-sm">
-                            <p className="text-xl font-medium text-[#1e1e1e]">Kullanılan Gramer Yapıları</p>
-                            <div className="overflow-y-scroll mt-4 max-h-32">
-                                <ul className="text-[#1e1e1e] text-left list-disc list-inside">
-                                    {alternatives[currentIndex].grammar.map((grammar, index) => (
-                                        <li key={index}>{grammar}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div> */}
                         <TableWithLevels title={"Kullanılan Kelimeler"} levelList={alternatives[currentIndex].words} width={0} />
                         <TableWithLevels title={"Kullanılan Gramer Yapıları"} levelList={alternatives[currentIndex].grammar} width={0} />
                     </div>
