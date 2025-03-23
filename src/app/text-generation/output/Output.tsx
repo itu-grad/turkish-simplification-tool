@@ -4,10 +4,12 @@ import TableWithLevels from "@/components/TableWithLevels";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { ClipboardCopy } from "lucide-react";
 
 export default function TextGenerationOutputComponent() {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [isFading, setIsFading] = useState<boolean>(false);
+    const [copied, setCopied] = useState(false);
     const router = useRouter();
 
     const alternatives = [
@@ -70,6 +72,12 @@ export default function TextGenerationOutputComponent() {
         },
     ];
 
+    const handleCopy = () => {
+        navigator.clipboard.writeText(alternatives[currentIndex].text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
     const handleNext = () => {
         setIsFading(true);
         setTimeout(() => {
@@ -100,6 +108,15 @@ export default function TextGenerationOutputComponent() {
                     />
                 </div>
                 <div className={`w-full transition-opacity duration-300 ${isFading ? "opacity-0" : "opacity-100"}`}>
+                    <div className="flex flex-row mb-4">
+                        <button
+                            onClick={handleCopy}
+                            className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-gray-200 hover:bg-gray-300 rounded-md transition ml-auto"
+                        >
+                            <ClipboardCopy size={16} />
+                            {copied ? "Kopyalandı!" : ""}
+                        </button>
+                    </div>
                     <div className="p-6 bg-white rounded-md shadow-sm">
                         <p className="text-[#1e1e1e] text-justify">
                             {alternatives[currentIndex].text}
