@@ -59,8 +59,17 @@ export default function TextAnalysisOutputComponent() {
                         Seviye: {level}
                     </div>
 
-                    <div className="flex flex-col space-y-2 w-[200px] ml-auto">
-                        <label htmlFor="level" className="text-sm font-semibold text-[#1e1e1e] text-right">Renklendirme</label>
+                    <div className="flex flex-row justify-between">
+                        <div className="flex flex-row items-center justify-center gap-1 place-self-center rounded-lg border-1 border-gray-400 px-3 py-1 text-sm font-semibold xs:flex-row xs:gap-3">
+                            <div className="flex flex-row gap-3 text-center">
+                                <span className="text-[#9ba7af]">A1</span>
+                                <span className="text-[#077015]">A2</span>
+                                <span className="text-[#0072e4]">B1</span>
+                                <span className="text-[#0b0882]">B2</span>
+                                <span className="text-[#d0cb00]">C1</span>
+                                <span className="text-[#de682c]">C2</span>
+                            </div>
+                        </div>
                         <select
                             id="coloring"
                             name="coloring"
@@ -68,8 +77,10 @@ export default function TextAnalysisOutputComponent() {
                             // onChange={handleChange}
                             className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-sm text-[#1e1e1e] focus:outline-gray-500"
                         >
+                            <option value="" hidden>Renklendirme</option>
                             <option value="word">Kelimeye göre</option>
                             <option value="sentence">Cümleye göre</option>
+                            <option value="no-coloring">Renklendirme yok</option>
                         </select>
                     </div>
 
@@ -80,13 +91,13 @@ export default function TextAnalysisOutputComponent() {
                         - Ne perisi?
                         - Bayağı peri! Gece çıkar. Evdekilere rahat vermez.
                     </p>
-                </div>
+                </div >
 
                 <div className="flex max-h-[50vh] w-1/2 space-x-6 mt-20">
                     <TableWithLevels title={"Kelimeler"} levelList={words} width={0} />
                     <TableWithLevels title={"Gramer Yapıları"} levelList={rules} width={0} />
                 </div>
-            </div>
+            </div >
 
             <div className="flex flex-row">
                 <button
@@ -97,6 +108,6 @@ export default function TextAnalysisOutputComponent() {
                     Tekrar Analiz Et
                 </button>
             </div>
-        </div>
+        </div >
     );
 };
