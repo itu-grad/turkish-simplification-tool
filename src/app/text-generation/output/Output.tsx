@@ -46,7 +46,7 @@ export default function TextGenerationOutputComponent() {
     };
 
     return (
-        <div className="p-8 min-w-[1200] bg-[#f5f5f5] rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
+        <div className="p-8 min-w-[1200px] bg-[#f5f5f5] rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
             <div className="flex flex-row gap-3">
                 <div className="max-w-[20] flex justify-center items-center">
                     <FaArrowLeft
