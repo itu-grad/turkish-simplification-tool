@@ -3,10 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { ClipboardCopy } from "lucide-react";
 
 export default function LevelAdaptationOutputComponent() {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [isFading, setIsFading] = useState<boolean>(false);
+    const [copied, setCopied] = useState(false);
     const router = useRouter();
     const formData = {
         level: "B1",
@@ -20,9 +22,15 @@ export default function LevelAdaptationOutputComponent() {
             text: "İstanbul güzel şehir. İstanbul’un boy boy, renk renk resimleri yapılmıştır yıllar boyu.",
         },
         {
-            text: "Bir çöplük, bence bir şehir demektir. Martıların hayat kavgaları en çok çöplüklerde olur.",
+            text: "Bir çöplük, bence bir şehir demektir. Martıların hayat kavgaları en çok çöplüklerde olur. Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.",
         },
     ];
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(alternatives[currentIndex].text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
 
     const handleNext = () => {
         setIsFading(true);
@@ -51,35 +59,87 @@ export default function LevelAdaptationOutputComponent() {
                     Seviye: {formData?.level}
                 </div>
             </div>
-            <div className="flex flex-row gap-3 w-full items-stretch">
-                <div className="p-6 bg-white rounded-md shadow-sm flex-1 min-h-[250px]">
-                    <div className="text-2xl font-medium text-[#1e1e1e] mb-5">Orijinal Metin</div>
-                    <p className="text-[#1e1e1e] text-justify flex-1">
-                        {formData?.content}
-                    </p>
-                </div>
-
-                <div className="flex flex-row gap-3 flex-1 justify-center items-center min-h-[250px]">
-                    <div className="max-w-[20] flex justify-center items-center">
-                        <FaArrowLeft
-                            className="text-gray-600 text-2xl cursor-pointer hover:text-blue-500"
-                            onClick={handlePrevious}
-                        />
-                    </div>
-                    <div className={`flex flex-col h-full w-full transition-opacity duration-300 ${isFading ? "opacity-0" : "opacity-100"}`}>
-                        <div className={`p-6 bg-white rounded-md shadow-sm w-full h-full transition-opacity duration-300 ${isFading ? "opacity-0" : "opacity-100"}`}>
-                            <div className="text-2xl font-medium text-[#1e1e1e] mb-5">Üretilen Metin</div>
-                            <p className="text-[#1e1e1e] text-justify flex-1">{alternatives[currentIndex].text}</p>
+            <div className="flex flex-col gap-3 w-full items-stretch">
+                <div className="flex flex-row gap-6">
+                    <div className="flex-1">
+                        <div className="text-2xl font-medium text-[#1e1e1e] mb-5">Orijinal Metin</div>
+                        <div className="p-6 bg-white rounded-md shadow-sm flex-1 min-h-[250px]">
+                            <p className="text-[#1e1e1e] text-justify flex-1">
+                                {formData?.content}
+                            </p>
                         </div>
-                        {/* <div className="text-2xl font-medium text-[#1e1e1e] mt-5">{currentIndex + 1}</div> */}
                     </div>
-                    <div className="max-w-[20] flex justify-center items-center">
-                        <FaArrowRight
-                            className="text-gray-600 text-2xl cursor-pointer hover:text-blue-500"
-                            onClick={handleNext}
-                        />
+                    <div className="flex-1">
+                        <div className="text-2xl font-medium text-[#1e1e1e] mb-5">Uyarlanan Metin</div>
+                        <div className="flex flex-col p-6 bg-white rounded-md shadow-sm flex-1 min-h-[250px]">
+                            <div className="flex flex-row mb-4">
+                                <button
+                                    onClick={handleCopy}
+                                    className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-gray-200 hover:bg-gray-300 rounded-md transition ml-auto"
+                                >
+                                    <ClipboardCopy size={16} />
+                                    {copied ? "Kopyalandı!" : ""}
+                                </button>
+                            </div>
+                            <div className="flex flex-row">
+                                <div>
+                                    <div className="max-w-[20] pt-16 pr-4">
+                                        <FaArrowLeft
+                                            className="text-gray-600 text-2xl cursor-pointer hover:text-blue-500"
+                                            onClick={handlePrevious}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex flex-col">
+                                    <div className={`transition-opacity duration-300 ${isFading ? "opacity-0" : "opacity-100"}`}>
+                                        <p className="text-[#1e1e1e] text-justify flex-1">{alternatives[currentIndex].text}</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="max-w-[20] pt-16 pl-4">
+                                        <FaArrowRight
+                                            className="text-gray-600 text-2xl cursor-pointer hover:text-blue-500"
+                                            onClick={handleNext}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                {/* <div className="flex flex-row gap-3 flex-1 justify-center items-center min-h-[250px]">
+                    <div className={`flex flex-col h-full w-full transition-opacity duration-300`}>
+                        <div className="">
+                            <div className="text-2xl font-medium text-[#1e1e1e]">Üretilen Metin</div>
+                            <div className={`p-6 bg-white rounded-md shadow-sm w-full h-full transition-opacity duration-300 ${isFading ? "opacity-0" : "opacity-100"}`}>
+                                <div className="max-w-[20] flex justify-center items-center">
+                                    <FaArrowLeft
+                                        className="text-gray-600 text-2xl cursor-pointer hover:text-blue-500"
+                                        onClick={handlePrevious}
+                                    />
+                                </div>
+                                <div className="flex items-center justify-between mb-5">
+                                    <button
+                                        onClick={handleCopy}
+                                        className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-gray-200 hover:bg-gray-300 rounded-md transition"
+                                    >
+                                        <ClipboardCopy size={16} />
+                                        {copied ? "Kopyalandı!" : ""}
+                                    </button>
+                                </div>
+                                <p className="text-[#1e1e1e] text-justify flex-1">{alternatives[currentIndex].text}</p>
+                                <div className="max-w-[20] flex justify-center items-center">
+                                    <FaArrowRight
+                                        className="text-gray-600 text-2xl cursor-pointer hover:text-blue-500"
+                                        onClick={handleNext}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div> */}
+
             </div>
             <div className="flex flex-row">
                 <button
