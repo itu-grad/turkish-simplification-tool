@@ -31,9 +31,9 @@ const features: Feature[] = [
 
 export default function Features() {
     return (
-        <section className="min-h-150 py-16 bg-gray-100 grid grid-cols-1 md:grid-cols-3 gap-6 px-10">
+        <section className="min-h-screen py-16 bg-gray-100 grid grid-cols-1 md:grid-cols-3 gap-6 px-10 items-center">
             {features.map((feature, index) => (
-                <div key={index} className="bg-white p-6 shadow-md rounded-lg text-center hover:shadow-xl transition-shadow duration-300">
+                <div key={index} className="bg-white p-6 max-h-[70vh] shadow-md rounded-lg text-center hover:shadow-xl transition-shadow duration-300">
                     <div className="mb-16 flex justify-center">
                         {feature.icon}
                     </div>
