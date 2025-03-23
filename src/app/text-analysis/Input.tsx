@@ -17,19 +17,21 @@ export default function TextInput({ isLoading, handleAnalyzeText }: Props) {
         console.log("Analyzing Text:", content);
         handleAnalyzeText();
     };
-    
-    return (
-        <form onSubmit={handleSubmit} className="p-8 min-w-[1200px] bg-white rounded-xl flex flex-col space-y-6">
-            <div className="w-full min-w-[400px] min-h-screen bg-white flex items-center justify-center p-4">
-                <div className="w-full max-w-[900px] bg-[#f5f5f5] p-6 rounded-lg shadow-md">
-                    <div className="flex flex-col space-y-2">
-                    <textarea
-                        id="content"
-                        className="p-2 border border-gray-300 rounded-md h-40 bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500"
-                        placeholder="Metin giriniz..."
-                    />
-                    </div>
 
+    return (
+        <form
+            onSubmit={handleSubmit}
+            className="p-8 min-w-[1200px] bg-white rounded-xl flex flex-col space-y-6 min-h-screen"
+        >
+            <div className="w-full min-w-[400px] flex items-center justify-center p-4 flex-grow">
+                <div className="w-full max-w-[1200px] bg-[#f5f5f5] p-6 rounded-lg shadow-md flex flex-col min-h-[60vh]">
+                    <div className="flex flex-col space-y-2 flex-grow">
+                        <textarea
+                            id="content"
+                            className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500 flex-grow"
+                            placeholder="Metin giriniz..."
+                        />
+                    </div>
 
                     <div className="flex justify-end mt-4">
                         <button
