@@ -1,4 +1,5 @@
 import { TagInput } from "@/components/TagInput";
+import { useTextGenerationFormStore } from "@/stores/textGenerationStore";
 import { useState } from "react";
 
 interface Props {
@@ -7,7 +8,9 @@ interface Props {
 }
 
 export default function TextGenerationInput({ isLoading, handleGenerateText }: Props) {
-    const [formData, setFormData] = useState({
+    const { setAlternatives, setFormData } = useTextGenerationFormStore();
+
+    const [formData, setFormState] = useState({
         level: "a1",
         wordCount: "",
         theme: "",
@@ -18,7 +21,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setFormData((prevState) => ({
+        setFormState((prevState) => ({
             ...prevState,
             [name]: value,
         }));
@@ -26,7 +29,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
 
     const handleAddTag = (tags: string[], type: "targetWords" | "targetGrammar") => {
         if (tags) {
-            setFormData((prevState) => ({
+            setFormState((prevState) => ({
                 ...prevState,
                 [type]: tags,
             }));
@@ -36,6 +39,67 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log("Form Data:", formData);
+        setFormData(formData);
+        const alternatives = [  // assume it is the response from the api
+            {
+                text: "Sehrin en önemli yerlerinden birisi de çöplükleridir. Çöplükler şehirler için gereklidir evet ama bu kadar önemli olduklarını hiç düşündünüz mü?",
+                words: [
+                    { text: "göz", level: "A2" },
+                    { text: "köşk", level: "B2" },
+                    { text: "taraf", level: "C2" },
+                    { text: "temel", level: "A1" },
+                    { text: "tavuk", level: "A1" },
+                    { text: "peri", level: "A1" },
+                ],
+                grammar: [
+                    { text: "duyulan geçmiş zaman", level: "B2" },
+                    { text: "görülen geçmiş zaman", level: "C2" },
+                    { text: "sıfat fiil", level: "C2" },
+                    { text: "olumsuzluk eki", level: "A2" },
+                    { text: "gelecek zaman", level: "B1" },
+                    { text: "gelecek zaman", level: "B1" },
+                ]
+            },
+            {
+                text: "İstanbul güzel şehir. İstanbul’un boy boy, renk renk resimleri yapılmıştır yıllar boyu.",
+                words: [
+                    { text: "göz", level: "A2" },
+                    { text: "köşk", level: "B2" },
+                    { text: "taraf", level: "C2" },
+                    { text: "temel", level: "A1" },
+                    { text: "tavuk", level: "A1" },
+                    { text: "peri", level: "A1" },
+                ],
+                grammar: [
+                    { text: "duyulan geçmiş zaman", level: "B2" },
+                    { text: "görülen geçmiş zaman", level: "C2" },
+                    { text: "sıfat fiil", level: "C2" },
+                    { text: "olumsuzluk eki", level: "A2" },
+                    { text: "gelecek zaman", level: "B1" },
+                    { text: "gelecek zaman", level: "B1" },
+                ]
+            },
+            {
+                text: "Bir çöplük, bence bir şehir demektir. Martıların hayat kavgaları en çok çöplüklerde olur.",
+                words: [
+                    { text: "göz", level: "A2" },
+                    { text: "köşk", level: "B2" },
+                    { text: "taraf", level: "C2" },
+                    { text: "temel", level: "A1" },
+                    { text: "tavuk", level: "A1" },
+                    { text: "peri", level: "A1" },
+                ],
+                grammar: [
+                    { text: "duyulan geçmiş zaman", level: "B2" },
+                    { text: "görülen geçmiş zaman", level: "C2" },
+                    { text: "sıfat fiil", level: "C2" },
+                    { text: "olumsuzluk eki", level: "A2" },
+                    { text: "gelecek zaman", level: "B1" },
+                    { text: "gelecek zaman", level: "B1" },
+                ]
+            },
+        ];
+        setAlternatives(alternatives);
         handleGenerateText();
     };
 
