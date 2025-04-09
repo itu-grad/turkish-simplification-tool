@@ -1,6 +1,6 @@
 import { TagInput } from "@/components/TagInput";
-import { useTextGenerationFormStore } from "@/stores/textGenerationStore";
-import { useState } from "react";
+import { TextGenFormData, useTextGenerationFormStore } from "@/stores/textGenerationStore";
+import { useForm } from "react-hook-form";
 
 interface Props {
     isLoading: boolean;
@@ -8,38 +8,38 @@ interface Props {
 }
 
 export default function TextGenerationInput({ isLoading, handleGenerateText }: Props) {
-    const { setAlternatives, setFormData } = useTextGenerationFormStore();
+    const {
+        formData,
+        setFormData,
+        setAlternatives,
+    } = useTextGenerationFormStore();
 
-    const [formData, setFormState] = useState({
-        level: "a1",
-        wordCount: "",
-        theme: "",
-        content: "",
-        targetWords: [] as string[],
-        targetGrammar: [] as string[],
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<TextGenFormData>({
+        defaultValues: formData,
     });
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setFormState((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
-    };
 
     const handleAddTag = (tags: string[], type: "targetWords" | "targetGrammar") => {
         if (tags) {
-            setFormState((prevState) => ({
-                ...prevState,
+            const updated = {
+                ...formData,
                 [type]: tags,
-            }));
+            };
+            setFormData(updated);
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log("Form Data:", formData);
-        setFormData(formData);
+    const onSubmit = (data: TextGenFormData) => {
+        const fullData = {
+            ...data,
+            targetWords: formData.targetWords,
+            targetGrammar: formData.targetGrammar,
+        };
+        setFormData(fullData);
+        console.log("Form Data:", fullData);
         const alternatives = [  // assume it is the response from the api
             {
                 text: "Sehrin en önemli yerlerinden birisi de çöplükleridir. Çöplükler şehirler için gereklidir evet ama bu kadar önemli olduklarını hiç düşündünüz mü?",
@@ -104,15 +104,15 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
     };
 
     return (
-        <form onSubmit={handleSubmit} className="p-8 min-w-[1200px] bg-[#f5f5f5] rounded-xl shadow-lg flex flex-col space-y-6">
+        <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="p-8 min-w-[1200px] bg-[#f5f5f5] rounded-xl shadow-lg flex flex-col space-y-6"
+        >
             <div className="grid grid-cols-3 gap-6">
                 <div className="flex flex-col space-y-2">
-                    <label htmlFor="level" className="text-sm font-semibold text-[#1e1e1e] text-left">Seviye</label>
+                    <label className="text-sm font-semibold text-[#1e1e1e] text-left">Seviye</label>
                     <select
-                        id="level"
-                        name="level"
-                        value={formData.level}
-                        onChange={handleChange}
+                        {...register("level", { required: "Seviye gerekli" })}
                         className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-sm text-[#1e1e1e] focus:outline-gray-500"
                     >
                         <option value="a1">A1</option>
@@ -122,60 +122,69 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                         <option value="c1">C1</option>
                         <option value="c2">C2</option>
                     </select>
+                    {errors.level && <p className="text-red-500 text-sm">{errors.level.message}</p>}
                 </div>
 
                 <div className="flex flex-col space-y-2">
-                    <label htmlFor="wordCount" className="text-sm font-semibold text-[#1e1e1e] text-left">Yaklaşık Kelime Sayısı</label>
+                    <label className="text-sm font-semibold text-[#1e1e1e] text-left">Yaklaşık Kelime Sayısı</label>
                     <input
                         type="number"
-                        id="wordCount"
-                        name="wordCount"
-                        placeholder="100"
-                        value={formData.wordCount}
-                        onChange={handleChange}
+                        {...register("wordCount", {
+                            required: "Kelime sayısı gerekli",
+                            valueAsNumber: true,
+                            min: { value: 100, message: "En az 100 olmalı" },
+                        })}
                         className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500"
-                        min="1"
                     />
+                    {errors.wordCount && (
+                        <div className="mt-2 text-sm text-red-700 bg-red-100 p-3 border-l-4 border-red-500 rounded-md shadow-sm">
+                            {errors.wordCount.message}
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex flex-col space-y-2">
-                    <label htmlFor="theme" className="text-sm font-semibold text-[#1e1e1e] text-left">Tema</label>
+                    <label className="text-sm font-semibold text-[#1e1e1e] text-left">Tema</label>
                     <input
                         type="text"
-                        id="theme"
-                        name="theme"
                         placeholder="bilim"
-                        value={formData.theme}
-                        onChange={handleChange}
                         className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500"
                     />
                 </div>
             </div>
 
             <div className="flex flex-col space-y-2">
-                <label htmlFor="content" className="text-sm font-semibold text-[#1e1e1e] text-left">Metin İçeriği</label>
+                <label className="text-sm font-semibold text-[#1e1e1e] text-left">Metin İçeriği</label>
                 <textarea
-                    id="content"
-                    name="content"
-                    value={formData.content}
-                    onChange={handleChange}
+                    {...register("content", { required: "İçerik gerekli" })}
                     className="p-2 border border-gray-300 rounded-md h-40 bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500"
                 />
+                {errors.content && (
+                    <div className="mt-2 text-sm text-red-700 bg-red-100 p-3 border-l-4 border-red-500 rounded-md shadow-sm">
+                        {errors.content.message}
+                    </div>
+                )}
             </div>
 
             <div className="grid grid-cols-4 gap-6">
-                <TagInput
-                    label="Hedef Kelimeler"
-                    placeholder="zürafa, kendi"
-                    value={formData.targetWords}
-                    onChange={(tag) => handleAddTag(tag, "targetWords")}
-                />
-                <TagInput
-                    label="Hedef Gramer Yapıları"
-                    placeholder="Geçmiş zaman, sıfat fiil"
-                    value={formData.targetGrammar}
-                    onChange={(tag) => handleAddTag(tag, "targetGrammar")}
-                />
+                <div className="flex flex-col space-y-2">
+                    <TagInput
+                        label="Hedef Kelimeler"
+                        placeholder="zürafa, kendi"
+                        value={formData.targetWords}
+                        onChange={(tags) => handleAddTag(tags, "targetWords")}
+
+                    />
+                </div>
+
+                <div className="flex flex-col space-y-2">
+                    <TagInput
+                        label="Hedef Gramer Yapıları"
+                        placeholder="geçmiş zaman, sıfat fiil"
+                        value={formData.targetGrammar}
+                        onChange={(tags) => handleAddTag(tags, "targetGrammar")}
+                    />
+                </div>
 
                 <div></div>
 

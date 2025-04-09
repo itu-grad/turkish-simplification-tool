@@ -24,7 +24,7 @@ export default function TextGenerationOutputComponent() {
     const [hasHydrated, setHasHydrated] = useState(false);
 
     const router = useRouter();
-    const { alternatives, formData } = useTextGenerationFormStore();
+    const { alternatives, formData, resetFormData } = useTextGenerationFormStore();
 
     useEffect(() => {
         setHasHydrated(true);
@@ -121,7 +121,7 @@ export default function TextGenerationOutputComponent() {
                 <button
                     className="mt-3 p-3 bg-gray-500 text-white rounded-md transition-all duration-300
                    hover:scale-105 hover:bg-gray-600 active:scale-95 cursor-pointer ml-auto"
-                    onClick={() => router.push("/text-generation")}
+                    onClick={() => { router.push("/text-generation"); resetFormData() }}
                 >
                     Tekrar Üret
                 </button>
