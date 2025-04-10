@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type TextGenFormData = {
+export type TextGenFormData = {
     level: string;
-    wordCount: string;
+    wordCount: number;
     theme: string;
     content: string;
     targetWords: string[];
@@ -29,7 +29,7 @@ export const useTextGenerationFormStore = create<Store>()(
         (set) => ({
             formData: {
                 level: "a1",
-                wordCount: "",
+                wordCount: 100,
                 theme: "",
                 content: "",
                 targetWords: [],
@@ -40,7 +40,7 @@ export const useTextGenerationFormStore = create<Store>()(
                 set({
                     formData: {
                         level: "a1",
-                        wordCount: "",
+                        wordCount: 100,
                         theme: "",
                         content: "",
                         targetWords: [],
