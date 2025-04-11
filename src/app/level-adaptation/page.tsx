@@ -8,10 +8,8 @@ export default function LevelAdaptation() {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
-    const handleGenerateText = (formData: { level: string, content: string }) => {
+    const handleGenerateText = () => {
         setIsLoading(true);
-
-        console.log(formData);
 
         setTimeout(() => {
             setIsLoading(false);

@@ -1,31 +1,29 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { ClipboardCopy } from "lucide-react";
 import SubmitButton from "@/components/SubmitButton";
+import { useLevelAdaptationFormStore } from "@/stores/levelAdaptationStore";
 
 export default function LevelAdaptationOutputComponent() {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [isFading, setIsFading] = useState<boolean>(false);
     const [copied, setCopied] = useState(false);
+    const [hasHydrated, setHasHydrated] = useState(false);
+    const { alternatives, formData, resetFormData } = useLevelAdaptationFormStore();
     const router = useRouter();
-    const formData = {
-        level: "B1",
-        content: "Sermet Bey, gözünü köşkten alamıyordu. Her tarafında geniş balkonları vardı. Temellerinin üzerine yaslanmış sanılacaktı. Kuluçka yatan beyaz bir Nemse tavuğu gibi yayvandı. Yirmi senedir, çocuğa kavuşalıdan beri hep böyle bir yuva tahayyül ederlerdi."
-    }
-    const alternatives = [
-        {
-            text: "Sehrin en önemli yerlerinden birisi de çöplükleridir. Çöplükler şehirler için gereklidir evet ama bu kadar önemli olduklarını hiç düşündünüz mü?",
-        },
-        {
-            text: "İstanbul güzel şehir. İstanbul’un boy boy, renk renk resimleri yapılmıştır yıllar boyu.",
-        },
-        {
-            text: "Bir çöplük, bence bir şehir demektir. Martıların hayat kavgaları en çok çöplüklerde olur. Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.Martıların hayat kavgaları en çok çöplüklerde olur.",
-        },
-    ];
+
+    useEffect(() => {
+        setHasHydrated(true);
+    }, []);
+
+    useEffect(() => {
+        if (hasHydrated && (!alternatives || alternatives.length === 0)) {
+            router.replace("/text-generation");
+        }
+    }, [hasHydrated, formData, alternatives]);
 
     const handleCopy = () => {
         navigator.clipboard.writeText(alternatives[currentIndex].text);
@@ -57,7 +55,7 @@ export default function LevelAdaptationOutputComponent() {
                 <div
                     className="mt-6 p-3 bg-button-bg text-secondary-bg rounded-md ml-auto"
                 >
-                    Seviye: {formData?.level}
+                    Seviye: {formData.level.charAt(0).toUpperCase() + formData.level.slice(1)}
                 </div>
             </div>
             <div className="flex flex-col gap-3 w-full items-stretch">
@@ -115,6 +113,7 @@ export default function LevelAdaptationOutputComponent() {
                     text="Tekrar Uyarla"
                     type="button"
                     onClick={() => {
+                        resetFormData();
                         window.location.href = "/level-adaptation#content";
                     }}
                 />

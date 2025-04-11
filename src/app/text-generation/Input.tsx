@@ -1,3 +1,4 @@
+import { ErrorMessage } from "@/components/ErrorMessage";
 import SubmitButton from "@/components/SubmitButton";
 import { TagInput } from "@/components/TagInput";
 import { TextGenFormData, useTextGenerationFormStore } from "@/stores/textGenerationStore";
@@ -123,7 +124,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                         <option value="c1">C1</option>
                         <option value="c2">C2</option>
                     </select>
-                    {errors.level && <p className="text-error-txt text-sm">{errors.level.message}</p>}
+                    <ErrorMessage message={errors.level?.message} />
                 </div>
 
                 <div className="flex flex-col space-y-2">
@@ -137,16 +138,13 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                         })}
                         className="p-2 border border-input-border rounded-md bg-secondary-bg text-header focus:outline-gray-500"
                     />
-                    {errors.wordCount && (
-                        <div className="mt-2 text-sm text-error-txt bg-error-bg p-3 border-l-4 border-error-br rounded-md shadow-sm">
-                            {errors.wordCount.message}
-                        </div>
-                    )}
+                    <ErrorMessage message={errors.wordCount?.message} />
                 </div>
 
                 <div className="flex flex-col space-y-2">
                     <label className="text-sm font-semibold text-header text-left">Tema</label>
                     <input
+                        {...register("theme")}
                         type="text"
                         placeholder="bilim"
                         className="p-2 border border-input-border rounded-md bg-secondary-bg text-header focus:outline-gray-500"
@@ -160,11 +158,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                     {...register("content", { required: "İçerik gerekli" })}
                     className="p-2 border border-input-border rounded-md h-40 bg-secondary-bg text-header focus:outline-gray-500"
                 />
-                {errors.content && (
-                    <div className="mt-2 text-sm text-error-txt bg-error-bg p-3 border-l-4 border-error-br rounded-md shadow-sm">
-                        {errors.content.message}
-                    </div>
-                )}
+                <ErrorMessage message={errors.content?.message} />
             </div>
 
             <div className="grid grid-cols-4 gap-6">
