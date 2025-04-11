@@ -1,5 +1,7 @@
+import { ErrorMessage } from "@/components/ErrorMessage";
 import SubmitButton from "@/components/SubmitButton";
-import { useState } from "react";
+import { TextAnalysisFormData, useTextAnalysisFormStore } from "@/stores/textAnalysisStore";
+import { useForm } from "react-hook-form";
 
 interface Props {
     isLoading: boolean;
@@ -7,21 +9,35 @@ interface Props {
 }
 
 export default function TextInput({ isLoading, handleAnalyzeText }: Props) {
-    const [content, setContent] = useState("");
+    const { setFormData, setResponse, formData } =
+        useTextAnalysisFormStore();
 
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setContent(e.target.value);
-    };
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<TextAnalysisFormData>({
+        defaultValues: formData,
+    });
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log("Analyzing Text:", content);
+    const onSubmit = (data: TextAnalysisFormData) => {
+        setFormData(data);
+        console.log("Form Data:", formData);
+        const response = {
+            contentLevel: "B1",
+            sentenceLevels: [  // starting from index 0
+                "A1",
+                "B1",
+                "C1",
+            ]
+        };
+        setResponse(response);
         handleAnalyzeText();
     };
 
     return (
         <form
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             className="p-8 min-w-[1200px] rounded-xl flex flex-col space-y-6 min-h-screen"
         >
             <div className="w-full min-w-[400px] flex items-center justify-center p-4 flex-grow">
@@ -29,9 +45,17 @@ export default function TextInput({ isLoading, handleAnalyzeText }: Props) {
                     <div className="flex flex-col space-y-2 flex-grow">
                         <textarea
                             id="content"
+                            {...register("content", {
+                                required: "Metin içeriği gerekli",
+                                minLength: {
+                                    value: 10,
+                                    message: "En az 10 karakter girmelisiniz",
+                                },
+                            })}
                             className="p-2 border border-input-border rounded-md bg-secondary-bg text-header focus:outline-gray-500 flex-grow"
                             placeholder="Metin giriniz..."
                         />
+                        <ErrorMessage message={errors.content?.message} />
                     </div>
                     <div className="flex justify-end mt-4">
                         <SubmitButton

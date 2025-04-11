@@ -21,7 +21,7 @@ export default function LevelAdaptationOutputComponent() {
 
     useEffect(() => {
         if (hasHydrated && (!alternatives || alternatives.length === 0)) {
-            router.replace("/text-generation");
+            router.replace("/level-adaptation");
         }
     }, [hasHydrated, formData, alternatives]);
 

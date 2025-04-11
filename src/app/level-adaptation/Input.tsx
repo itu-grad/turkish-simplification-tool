@@ -28,7 +28,7 @@ export default function LevelAdaptationInput({
 
     const onSubmit = (data: LevelAdaptationFormData) => {
         setFormData(data);
-        console.log("Form Data:", data);
+        console.log("Form Data:", formData);
 
         const alternatives = [
             {

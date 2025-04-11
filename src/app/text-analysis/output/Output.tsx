@@ -2,15 +2,14 @@
 
 import SubmitButton from "@/components/SubmitButton";
 import TableWithLevels from "@/components/TableWithLevels";
+import { useTextAnalysisFormStore } from "@/stores/textAnalysisStore";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 export default function TextAnalysisOutputComponent() {
-    const [currentIndex, setCurrentIndex] = useState<number>(0);
-    const [isFading, setIsFading] = useState<boolean>(false);
+    const [hasHydrated, setHasHydrated] = useState(false);
+    const { response, formData, resetFormData } = useTextAnalysisFormStore();
     const router = useRouter();
-    const [level, setLevel] = useState("C2");
     const words = [
         { text: "göz", level: "A2" },
         { text: "köşk", level: "B2" },
@@ -49,6 +48,17 @@ export default function TextAnalysisOutputComponent() {
         { text: "gelecek zaman", level: "B1" },
         { text: "ayrılma hal eki", level: "B1" }
     ];
+
+    useEffect(() => {
+        setHasHydrated(true);
+    }, []);
+
+    useEffect(() => {
+        if (hasHydrated && (!response || response.sentenceLevels.length === 0)) {
+            router.replace("/text-analysis");
+        }
+    }, [hasHydrated, formData, response]);
+
     return (
         <div className="p-8 min-w-[1200px] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
 
@@ -57,7 +67,7 @@ export default function TextAnalysisOutputComponent() {
                     <div
                         className="p-3 bg-button-bg text-secondary-bg rounded-md mr-auto mb-8"
                     >
-                        Seviye: {level}
+                        Seviye: {response.contentLevel}
                     </div>
 
                     <div className="flex flex-row justify-between">
@@ -74,8 +84,6 @@ export default function TextAnalysisOutputComponent() {
                         <select
                             id="coloring"
                             name="coloring"
-                            // value={formData.level}
-                            // onChange={handleChange}
                             className="p-2 border border-input-border rounded-md bg-secondary-bg text-sm text-header focus:outline-gray-500"
                         >
                             <option value="" hidden>Renklendirme</option>
@@ -86,11 +94,7 @@ export default function TextAnalysisOutputComponent() {
                     </div>
 
                     <p className="mt-4 text-paragraph text-sm text-justify">
-                        Sermet Bey, gözünü köşkten alamıyordu. Her tarafında geniş balkonları vardı. Temellerinin üzerine yaslanmış sanılacaktı. Kuluçka yatan beyaz bir Nemse tavuğu gibi yayvandı. Yirmi senedir, çocuğa kavuşalıdan beri hep böyle bir yuva tahayyül ederlerdi. Asabî bir istical ile,
-                        - Niye oturamayız? diye sordu.
-                        - Efendim, bu köşkte peri vardır.
-                        - Ne perisi?
-                        - Bayağı peri! Gece çıkar. Evdekilere rahat vermez.
+                        {formData.content}
                     </p>
                 </div >
 
@@ -106,6 +110,7 @@ export default function TextAnalysisOutputComponent() {
                     text="Tekrar Analiz Et"
                     type="button"
                     onClick={() => {
+                        resetFormData();
                         window.location.href = "/text-analysis#content";
                     }}
                 />

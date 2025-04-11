@@ -155,7 +155,14 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
             <div className="flex flex-col space-y-2">
                 <label className="text-sm font-semibold text-header text-left">Metin İçeriği</label>
                 <textarea
-                    {...register("content", { required: "İçerik gerekli" })}
+                    id="content"
+                    {...register("content", {
+                        required: "Metin içeriği gerekli",
+                        minLength: {
+                            value: 10,
+                            message: "En az 10 karakter girmelisiniz",
+                        },
+                    })}
                     className="p-2 border border-input-border rounded-md h-40 bg-secondary-bg text-header focus:outline-gray-500"
                 />
                 <ErrorMessage message={errors.content?.message} />
