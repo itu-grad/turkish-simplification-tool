@@ -20,6 +20,12 @@
   --color-error-br: #fb2c36;
   --color-error-txt: oklch(0.505 0.213 27.518);
   --color-error-bg: #ffe2e2;
+  --color-level-a1: #9ba7af;
+  --color-level-a2: #077015;
+  --color-level-b1: #0072e4;
+  --color-level-b2: #0b0882;
+  --color-level-c1: #d0cb00;
+  --color-level-c2: #de682c;
 }
 
 @media (prefers-color-scheme: dark) {

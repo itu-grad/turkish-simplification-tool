@@ -73,12 +73,12 @@ export default function TextAnalysisOutputComponent() {
                     <div className="flex flex-row justify-between">
                         <div className="flex flex-row items-center justify-center gap-1 place-self-center rounded-lg border-1 border-gray-400 px-3 py-1 text-sm font-semibold xs:flex-row xs:gap-3">
                             <div className="flex flex-row gap-3 text-center">
-                                <span className="text-[#9ba7af]">A1</span>
-                                <span className="text-[#077015]">A2</span>
-                                <span className="text-[#0072e4]">B1</span>
-                                <span className="text-[#0b0882]">B2</span>
-                                <span className="text-[#d0cb00]">C1</span>
-                                <span className="text-[#de682c]">C2</span>
+                                <span className="text-level-a1">A1</span>
+                                <span className="text-level-a2">A2</span>
+                                <span className="text-level-b1">B1</span>
+                                <span className="text-level-b2">B2</span>
+                                <span className="text-level-c1">C1</span>
+                                <span className="text-level-c2">C2</span>
                             </div>
                         </div>
                         <select
