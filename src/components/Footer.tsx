@@ -1,8 +1,8 @@
 export default function Footer() {
     return (
-        <footer className="bg-gray-900 text-white py-6 text-center">
+        <footer className="bg-footer-bg text-white py-6 text-center">
             <div className="flex flex-col items-center gap-3">
-                <p className="text-lg font-semibold">Türkçe Metin Sadeleştirme Aracı</p>
+                <p className="text-lg">Türkçe Metin Sadeleştirme Aracı</p>
                 <div className="flex gap-6">
                     <a href="https://nlp.itu.edu.tr" target="_blank">
                         <img

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { ClipboardCopy } from "lucide-react";
 import { useTextGenerationFormStore } from "@/stores/textGenerationStore";
+import SubmitButton from "@/components/SubmitButton";
 
 const isFormDataEmpty = (data: any) => {
     return (
@@ -69,10 +70,10 @@ export default function TextGenerationOutputComponent() {
     }
 
     return (
-        <div className="p-8 min-w-[1200px] bg-[#f5f5f5] rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
+        <div className="p-8 min-w-[1200px] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
             <div className="grid grid-cols-3 gap-4 mb-5">
                 <div className="col-span-1"></div>
-                <div className="col-span-1 flex justify-center items-center text-2xl font-medium text-[#1e1e1e]">
+                <div className="col-span-1 flex justify-center items-center text-2xl font-medium text-header">
                     Üretilen Metin
                 </div>
                 <div
@@ -99,7 +100,7 @@ export default function TextGenerationOutputComponent() {
                         </button>
                     </div>
                     <div className="p-6 bg-white rounded-md shadow-sm">
-                        <p className="text-[#1e1e1e] text-justify">
+                        <p className="text-header text-justify">
                             {alternatives[currentIndex].text}
                         </p>
                     </div>
@@ -108,7 +109,7 @@ export default function TextGenerationOutputComponent() {
                         <TableWithLevels title={"Kullanılan Kelimeler"} levelList={alternatives[currentIndex].words} width={0} />
                         <TableWithLevels title={"Kullanılan Gramer Yapıları"} levelList={alternatives[currentIndex].grammar} width={0} />
                     </div>
-                    <div className="text-2xl font-medium text-[#1e1e1e] mt-5">{currentIndex + 1}</div>
+                    <div className="text-2xl font-medium text-header mt-5">{currentIndex + 1}</div>
                 </div>
                 <div className="max-w-[20] flex justify-center items-center">
                     <FaArrowRight
@@ -117,14 +118,16 @@ export default function TextGenerationOutputComponent() {
                     />
                 </div>
             </div>
-            <div className="flex flex-row">
-                <button
-                    className="mt-3 p-3 bg-gray-500 text-white rounded-md transition-all duration-300
-                   hover:scale-105 hover:bg-gray-600 active:scale-95 cursor-pointer ml-auto"
-                    onClick={() => { router.push("/text-generation"); resetFormData() }}
-                >
-                    Tekrar Üret
-                </button>
+            <div className="flex flex-row ml-auto">
+                <SubmitButton
+                    isLoading={false}
+                    text="Tekrar Üret"
+                    type="button"
+                    onClick={() => {
+                        resetFormData();
+                        window.location.href = "/text-generation#content";
+                    }}
+                />
             </div>
         </div>
     );

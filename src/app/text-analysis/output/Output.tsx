@@ -1,5 +1,6 @@
 "use client";
 
+import SubmitButton from "@/components/SubmitButton";
 import TableWithLevels from "@/components/TableWithLevels";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -49,7 +50,7 @@ export default function TextAnalysisOutputComponent() {
         { text: "ayrılma hal eki", level: "B1" }
     ];
     return (
-        <div className="p-8 min-w-[1200px] bg-[#f5f5f5] rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
+        <div className="p-8 min-w-[1200px] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
 
             <div className="flex space-x-6">
                 <div className="w-1/2 bg-white p-6 rounded-lg shadow-md flex flex-col">
@@ -75,7 +76,7 @@ export default function TextAnalysisOutputComponent() {
                             name="coloring"
                             // value={formData.level}
                             // onChange={handleChange}
-                            className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-sm text-[#1e1e1e] focus:outline-gray-500"
+                            className="p-2 border border-gray-300 rounded-md bg-secondary-bg text-sm text-header focus:outline-gray-500"
                         >
                             <option value="" hidden>Renklendirme</option>
                             <option value="word">Kelimeye göre</option>
@@ -84,7 +85,7 @@ export default function TextAnalysisOutputComponent() {
                         </select>
                     </div>
 
-                    <p className="mt-4 text-gray-700 text-sm text-justify">
+                    <p className="mt-4 text-paragraph text-sm text-justify">
                         Sermet Bey, gözünü köşkten alamıyordu. Her tarafında geniş balkonları vardı. Temellerinin üzerine yaslanmış sanılacaktı. Kuluçka yatan beyaz bir Nemse tavuğu gibi yayvandı. Yirmi senedir, çocuğa kavuşalıdan beri hep böyle bir yuva tahayyül ederlerdi. Asabî bir istical ile,
                         - Niye oturamayız? diye sordu.
                         - Efendim, bu köşkte peri vardır.
@@ -99,14 +100,15 @@ export default function TextAnalysisOutputComponent() {
                 </div>
             </div >
 
-            <div className="flex flex-row">
-                <button
-                    className="p-3 bg-gray-500 text-white rounded-md transition-all duration-300
-                   hover:scale-105 hover:bg-gray-600 active:scale-95 cursor-pointer ml-auto"
-                    onClick={() => router.push("/text-analysis")}
-                >
-                    Tekrar Analiz Et
-                </button>
+            <div className="flex flex-row ml-auto">
+                <SubmitButton
+                    isLoading={false}
+                    text="Tekrar Analiz Et"
+                    type="button"
+                    onClick={() => {
+                        window.location.href = "/text-analysis#content";
+                    }}
+                />
             </div>
         </div >
     );

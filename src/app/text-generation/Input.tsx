@@ -1,3 +1,4 @@
+import SubmitButton from "@/components/SubmitButton";
 import { TagInput } from "@/components/TagInput";
 import { TextGenFormData, useTextGenerationFormStore } from "@/stores/textGenerationStore";
 import { useForm } from "react-hook-form";
@@ -106,14 +107,14 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="p-8 min-w-[1200px] bg-[#f5f5f5] rounded-xl shadow-lg flex flex-col space-y-6"
+            className="p-8 min-w-[1200px] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6"
         >
             <div className="grid grid-cols-3 gap-6">
                 <div className="flex flex-col space-y-2">
-                    <label className="text-sm font-semibold text-[#1e1e1e] text-left">Seviye</label>
+                    <label className="text-sm font-semibold text-header text-left">Seviye</label>
                     <select
                         {...register("level", { required: "Seviye gerekli" })}
-                        className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-sm text-[#1e1e1e] focus:outline-gray-500"
+                        className="p-2 border border-gray-300 rounded-md bg-secondary-bg text-sm text-header focus:outline-gray-500"
                     >
                         <option value="a1">A1</option>
                         <option value="a2">A2</option>
@@ -126,7 +127,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                 </div>
 
                 <div className="flex flex-col space-y-2">
-                    <label className="text-sm font-semibold text-[#1e1e1e] text-left">Yaklaşık Kelime Sayısı</label>
+                    <label className="text-sm font-semibold text-header text-left">Yaklaşık Kelime Sayısı</label>
                     <input
                         type="number"
                         {...register("wordCount", {
@@ -134,7 +135,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                             valueAsNumber: true,
                             min: { value: 100, message: "En az 100 olmalı" },
                         })}
-                        className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500"
+                        className="p-2 border border-gray-300 rounded-md bg-secondary-bg text-header focus:outline-gray-500"
                     />
                     {errors.wordCount && (
                         <div className="mt-2 text-sm text-red-700 bg-red-100 p-3 border-l-4 border-red-500 rounded-md shadow-sm">
@@ -144,20 +145,20 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                 </div>
 
                 <div className="flex flex-col space-y-2">
-                    <label className="text-sm font-semibold text-[#1e1e1e] text-left">Tema</label>
+                    <label className="text-sm font-semibold text-header text-left">Tema</label>
                     <input
                         type="text"
                         placeholder="bilim"
-                        className="p-2 border border-gray-300 rounded-md bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500"
+                        className="p-2 border border-gray-300 rounded-md bg-secondary-bg text-header focus:outline-gray-500"
                     />
                 </div>
             </div>
 
             <div className="flex flex-col space-y-2">
-                <label className="text-sm font-semibold text-[#1e1e1e] text-left">Metin İçeriği</label>
+                <label className="text-sm font-semibold text-header text-left">Metin İçeriği</label>
                 <textarea
                     {...register("content", { required: "İçerik gerekli" })}
-                    className="p-2 border border-gray-300 rounded-md h-40 bg-[#fafafa] text-[#1e1e1e] focus:outline-gray-500"
+                    className="p-2 border border-gray-300 rounded-md h-40 bg-secondary-bg text-header focus:outline-gray-500"
                 />
                 {errors.content && (
                     <div className="mt-2 text-sm text-red-700 bg-red-100 p-3 border-l-4 border-red-500 rounded-md shadow-sm">
@@ -189,19 +190,11 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                 <div></div>
 
                 <div className="flex flex-col space-y-2">
-                    <button
+                    <SubmitButton
+                        isLoading={isLoading}
+                        text="Metin Üret"
                         type="submit"
-                        className="mt-6 p-3 bg-gray-500 text-white rounded-md transition-all duration-300 hover:scale-105 hover:bg-gray-600 active:scale-95 cursor-pointer"
-                        disabled={isLoading}
-                    >
-                        {isLoading ? (
-                            <div className="flex items-center justify-center">
-                                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                            </div>
-                        ) : (
-                            "Metin Üret"
-                        )}
-                    </button>
+                    />
                 </div>
             </div>
         </form>
