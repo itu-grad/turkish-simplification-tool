@@ -18,7 +18,7 @@ export default function SubmitButton({
         <button
             type={type}
             onClick={onClick}
-            className="mt-6 p-3 bg-gray-500 text-white rounded-md transition-all duration-300 hover:scale-105 hover:bg-gray-600 active:scale-95 cursor-pointer disabled:opacity-50"
+            className="mt-6 p-3 bg-button-bg text-secondary-bg rounded-md transition-all duration-300 hover:scale-105 hover:bg-gray-600 active:scale-95 cursor-pointer disabled:opacity-50"
             disabled={isLoading}
         >
             {isLoading ? (

@@ -44,7 +44,7 @@ export default function Features() {
                     ></p>
                     <div className="mt-16 flex justify-center">
                         <Link href={feature.link}>
-                            <FaArrowRight className="text-gray-600 text-2xl cursor-pointer hover:text-link" />
+                            <FaArrowRight className="text-arrow-txt text-2xl cursor-pointer hover:text-link" />
                         </Link>
                     </div>
                 </div>

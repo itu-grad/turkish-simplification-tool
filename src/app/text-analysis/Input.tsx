@@ -29,7 +29,7 @@ export default function TextInput({ isLoading, handleAnalyzeText }: Props) {
                     <div className="flex flex-col space-y-2 flex-grow">
                         <textarea
                             id="content"
-                            className="p-2 border border-gray-300 rounded-md bg-secondary-bg text-header focus:outline-gray-500 flex-grow"
+                            className="p-2 border border-input-border rounded-md bg-secondary-bg text-header focus:outline-gray-500 flex-grow"
                             placeholder="Metin giriniz..."
                         />
                     </div>

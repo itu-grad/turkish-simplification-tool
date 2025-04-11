@@ -77,7 +77,7 @@ export default function TextGenerationOutputComponent() {
                     Üretilen Metin
                 </div>
                 <div
-                    className="p-3 bg-gray-500 text-white rounded-md ml-auto"
+                    className="p-3 bg-button-bg text-secondary-bg rounded-md ml-auto"
                 >
                     Seviye: {formData.level.charAt(0).toUpperCase() + formData.level.slice(1)}
                 </div>
@@ -85,7 +85,7 @@ export default function TextGenerationOutputComponent() {
             <div className="flex flex-row gap-3">
                 <div className="max-w-[20] flex justify-center items-center">
                     <FaArrowLeft
-                        className="text-gray-600 text-2xl cursor-pointer hover:text-blue-500"
+                        className="text-arrow-txt text-2xl cursor-pointer hover:text-blue-500"
                         onClick={handlePrevious}
                     />
                 </div>
@@ -113,7 +113,7 @@ export default function TextGenerationOutputComponent() {
                 </div>
                 <div className="max-w-[20] flex justify-center items-center">
                     <FaArrowRight
-                        className="text-gray-600 text-2xl cursor-pointer hover:text-blue-500"
+                        className="text-arrow-txt text-2xl cursor-pointer hover:text-blue-500"
                         onClick={handleNext}
                     />
                 </div>

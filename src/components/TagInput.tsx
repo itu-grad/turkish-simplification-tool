@@ -35,14 +35,14 @@ export const TagInput: React.FC<TagInputProps> = ({ label, placeholder, value, o
             <label htmlFor="tagInput" className="text-sm font-semibold text-header text-left">
                 {label}
             </label>
-            <div className="flex flex-wrap gap-2 p-2 border border-gray-300 rounded-md bg-secondary-bg">
+            <div className="flex flex-wrap gap-2 p-2 border border-input-border rounded-md bg-secondary-bg">
                 {value.map((tag, index) => (
                     <div key={index} className="flex items-center bg-gray-200 text-paragraph px-2 py-1 rounded-md">
                         <span>{tag}</span>
                         <button
                             type="button"
                             onClick={() => removeTag(tag)}
-                            className="ml-2 text-red-500 hover:text-red-700"
+                            className="ml-2 text-error-br hover:text-error-txt"
                         >
                             ✕
                         </button>

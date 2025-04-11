@@ -36,7 +36,7 @@ export default function LevelAdaptationInput({ isLoading, handleGenerateText }: 
                         name="level"
                         value={formData.level}
                         onChange={handleChange}
-                        className="p-2 border border-gray-300 rounded-md bg-secondary-bg text-sm text-header focus:outline-gray-500"
+                        className="p-2 border border-input-border rounded-md bg-secondary-bg text-sm text-header focus:outline-gray-500"
                     >
                         <option value="a1">A1</option>
                         <option value="a2">A2</option>
@@ -60,7 +60,7 @@ export default function LevelAdaptationInput({ isLoading, handleGenerateText }: 
                     name="content"
                     value={formData.content}
                     onChange={handleChange}
-                    className="p-2 border border-gray-300 rounded-md h-40 bg-secondary-bg text-header focus:outline-gray-500"
+                    className="p-2 border border-input-border rounded-md h-40 bg-secondary-bg text-header focus:outline-gray-500"
                 />
             </div>
 

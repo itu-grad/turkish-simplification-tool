@@ -55,7 +55,7 @@ export default function TextAnalysisOutputComponent() {
             <div className="flex space-x-6">
                 <div className="w-1/2 bg-white p-6 rounded-lg shadow-md flex flex-col">
                     <div
-                        className="p-3 bg-gray-500 text-white rounded-md mr-auto mb-8"
+                        className="p-3 bg-button-bg text-secondary-bg rounded-md mr-auto mb-8"
                     >
                         Seviye: {level}
                     </div>
@@ -76,7 +76,7 @@ export default function TextAnalysisOutputComponent() {
                             name="coloring"
                             // value={formData.level}
                             // onChange={handleChange}
-                            className="p-2 border border-gray-300 rounded-md bg-secondary-bg text-sm text-header focus:outline-gray-500"
+                            className="p-2 border border-input-border rounded-md bg-secondary-bg text-sm text-header focus:outline-gray-500"
                         >
                             <option value="" hidden>Renklendirme</option>
                             <option value="word">Kelimeye göre</option>

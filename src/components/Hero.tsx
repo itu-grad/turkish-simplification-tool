@@ -12,7 +12,7 @@ export default function Hero({ scrollToFeatures, scrollToVideo }: HeroProps) {
         <div className="mt-6 flex flex-wrap justify-center gap-4 animate-fadeInDelay">
           <button
             onClick={scrollToFeatures}
-            className="px-6 py-3 bg-gray-800 text-white rounded-lg shadow-md transition-all duration-300 
+            className="px-6 py-3 bg-gray-800 text-secondary-bg rounded-lg shadow-md transition-all duration-300 
                      hover:bg-paragraph hover:scale-105 active:scale-95 cursor-pointer"
           >
             Özellikleri Görün

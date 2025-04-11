@@ -114,7 +114,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                     <label className="text-sm font-semibold text-header text-left">Seviye</label>
                     <select
                         {...register("level", { required: "Seviye gerekli" })}
-                        className="p-2 border border-gray-300 rounded-md bg-secondary-bg text-sm text-header focus:outline-gray-500"
+                        className="p-2 border border-input-border rounded-md bg-secondary-bg text-sm text-header focus:outline-gray-500"
                     >
                         <option value="a1">A1</option>
                         <option value="a2">A2</option>
@@ -123,7 +123,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                         <option value="c1">C1</option>
                         <option value="c2">C2</option>
                     </select>
-                    {errors.level && <p className="text-red-500 text-sm">{errors.level.message}</p>}
+                    {errors.level && <p className="text-error-txt text-sm">{errors.level.message}</p>}
                 </div>
 
                 <div className="flex flex-col space-y-2">
@@ -135,10 +135,10 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                             valueAsNumber: true,
                             min: { value: 100, message: "En az 100 olmalı" },
                         })}
-                        className="p-2 border border-gray-300 rounded-md bg-secondary-bg text-header focus:outline-gray-500"
+                        className="p-2 border border-input-border rounded-md bg-secondary-bg text-header focus:outline-gray-500"
                     />
                     {errors.wordCount && (
-                        <div className="mt-2 text-sm text-red-700 bg-red-100 p-3 border-l-4 border-red-500 rounded-md shadow-sm">
+                        <div className="mt-2 text-sm text-error-txt bg-error-bg p-3 border-l-4 border-error-br rounded-md shadow-sm">
                             {errors.wordCount.message}
                         </div>
                     )}
@@ -149,7 +149,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                     <input
                         type="text"
                         placeholder="bilim"
-                        className="p-2 border border-gray-300 rounded-md bg-secondary-bg text-header focus:outline-gray-500"
+                        className="p-2 border border-input-border rounded-md bg-secondary-bg text-header focus:outline-gray-500"
                     />
                 </div>
             </div>
@@ -158,10 +158,10 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                 <label className="text-sm font-semibold text-header text-left">Metin İçeriği</label>
                 <textarea
                     {...register("content", { required: "İçerik gerekli" })}
-                    className="p-2 border border-gray-300 rounded-md h-40 bg-secondary-bg text-header focus:outline-gray-500"
+                    className="p-2 border border-input-border rounded-md h-40 bg-secondary-bg text-header focus:outline-gray-500"
                 />
                 {errors.content && (
-                    <div className="mt-2 text-sm text-red-700 bg-red-100 p-3 border-l-4 border-red-500 rounded-md shadow-sm">
+                    <div className="mt-2 text-sm text-error-txt bg-error-bg p-3 border-l-4 border-error-br rounded-md shadow-sm">
                         {errors.content.message}
                     </div>
                 )}

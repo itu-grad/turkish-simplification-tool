@@ -55,7 +55,7 @@ export default function LevelAdaptationOutputComponent() {
         <div className="p-8 min-w-[1200] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
             <div className="flex flex-row gap-3">
                 <div
-                    className="mt-6 p-3 bg-gray-500 text-white rounded-md ml-auto"
+                    className="mt-6 p-3 bg-button-bg text-secondary-bg rounded-md ml-auto"
                 >
                     Seviye: {formData?.level}
                 </div>
@@ -86,7 +86,7 @@ export default function LevelAdaptationOutputComponent() {
                                 <div>
                                     <div className="max-w-[20] pt-16 pr-4">
                                         <FaArrowLeft
-                                            className="text-gray-600 text-2xl cursor-pointer hover:text-blue-500"
+                                            className="text-arrow-txt text-2xl cursor-pointer hover:text-blue-500"
                                             onClick={handlePrevious}
                                         />
                                     </div>
@@ -99,7 +99,7 @@ export default function LevelAdaptationOutputComponent() {
                                 <div>
                                     <div className="max-w-[20] pt-16 pl-4">
                                         <FaArrowRight
-                                            className="text-gray-600 text-2xl cursor-pointer hover:text-blue-500"
+                                            className="text-arrow-txt text-2xl cursor-pointer hover:text-blue-500"
                                             onClick={handleNext}
                                         />
                                     </div>
