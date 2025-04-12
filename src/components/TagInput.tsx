@@ -32,17 +32,17 @@ export const TagInput: React.FC<TagInputProps> = ({ label, placeholder, value, o
 
     return (
         <div className="flex flex-col space-y-2">
-            <label htmlFor="tagInput" className="text-sm font-semibold text-[#1e1e1e] text-left">
+            <label htmlFor="tagInput" className="text-sm font-semibold text-header text-left">
                 {label}
             </label>
-            <div className="flex flex-wrap gap-2 p-2 border border-gray-300 rounded-md bg-[#fafafa]">
+            <div className="flex flex-wrap gap-2 p-2 border border-input-border rounded-md bg-secondary-bg">
                 {value.map((tag, index) => (
-                    <div key={index} className="flex items-center bg-gray-200 text-gray-700 px-2 py-1 rounded-md">
+                    <div key={index} className="flex items-center bg-gray-200 text-paragraph px-2 py-1 rounded-md">
                         <span>{tag}</span>
                         <button
                             type="button"
                             onClick={() => removeTag(tag)}
-                            className="ml-2 text-red-500 hover:text-red-700"
+                            className="ml-2 text-error-br hover:text-error-txt"
                         >
                             ✕
                         </button>
@@ -51,7 +51,7 @@ export const TagInput: React.FC<TagInputProps> = ({ label, placeholder, value, o
                 <input
                     type="text"
                     id="tagInput"
-                    className="flex-1 bg-transparent outline-none text-[#1e1e1e]"
+                    className="flex-1 bg-transparent outline-none text-header"
                     placeholder={value.length === 0 ? placeholder : ""}
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}

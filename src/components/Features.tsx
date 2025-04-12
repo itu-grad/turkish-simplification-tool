@@ -31,20 +31,20 @@ const features: Feature[] = [
 
 export default function Features() {
     return (
-        <section className="min-h-screen py-16 bg-gray-100 grid grid-cols-1 md:grid-cols-3 gap-6 px-10 items-center">
+        <section className="min-h-screen py-16 bg-primary-bg grid grid-cols-1 md:grid-cols-3 gap-6 px-10 items-center">
             {features.map((feature, index) => (
                 <div key={index} className="bg-white p-6 max-h-[70vh] shadow-md rounded-lg text-center hover:shadow-xl transition-shadow duration-300">
                     <div className="mb-16 flex justify-center">
                         {feature.icon}
                     </div>
-                    <h3 className="text-xl font-semibold text-[#1e1e1e] mb-10">{feature.title}</h3>
+                    <h3 className="text-xl font-semibold text-header mb-10">{feature.title}</h3>
                     <p
-                        className="text-gray-600 mt-2"
+                        className="text-paragraph mt-2"
                         dangerouslySetInnerHTML={{ __html: feature.desc }}
                     ></p>
                     <div className="mt-16 flex justify-center">
                         <Link href={feature.link}>
-                            <FaArrowRight className="text-gray-600 text-2xl cursor-pointer hover:text-blue-500" />
+                            <FaArrowRight className="text-arrow-txt text-2xl cursor-pointer hover:text-link" />
                         </Link>
                     </div>
                 </div>

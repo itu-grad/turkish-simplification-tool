@@ -5,20 +5,15 @@ interface HeroProps {
 
 export default function Hero({ scrollToFeatures, scrollToVideo }: HeroProps) {
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center text-center bg-gray-200">
-      <h1 className="text-6xl font-bold text-[#1e1e1e]">Metin Sadeleştirme Aracı</h1>
-      <p className="text-2xl text-gray-600">Türkçe Dilini Öğretenlerin Yardımcısı</p>
-      {/* <img
-        src="/hero-illustration.svg"
-        alt="Metin Sadeleştirme"
-        className="mt-8 w-full max-w-md mx-auto animate-fadeIn"
-      /> */}
+    <section className="min-h-screen flex flex-col items-center justify-center text-center bg-primary-bg">
+      <h1 className="text-6xl font-bold text-header">Metin Sadeleştirme Aracı</h1>
+      <p className="text-2xl text-subheader">Türkçe Dilini Öğretenlerin Yardımcısı</p>
       <div className="mt-12 space-x-4">
         <div className="mt-6 flex flex-wrap justify-center gap-4 animate-fadeInDelay">
           <button
             onClick={scrollToFeatures}
-            className="px-6 py-3 bg-gray-800 text-white rounded-lg shadow-md transition-all duration-300 
-                     hover:bg-gray-700 hover:scale-105 active:scale-95 cursor-pointer"
+            className="px-6 py-3 bg-gray-800 text-secondary-bg rounded-lg shadow-md transition-all duration-300 
+                     hover:bg-paragraph hover:scale-105 active:scale-95 cursor-pointer"
           >
             Özellikleri Görün
           </button>

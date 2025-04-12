@@ -29,7 +29,7 @@ export default function Header() {
                                 <li key={item.href}>
                                     <Link
                                         href={item.href}
-                                        className={`relative text-gray-700 hover:text-gray-900 transition-colors duration-300 
+                                        className={`relative text-paragraph hover:text-header transition-colors duration-300 
                                             after:content-[''] after:absolute after:left-0 after:-bottom-1 
                                             after:h-[2px] after:transition-all after:duration-300 
                                             ${isActive ? 'after:w-full after:bg-gray-900' : 'after:w-0 hover:after:w-full after:bg-gray-900'}`}
