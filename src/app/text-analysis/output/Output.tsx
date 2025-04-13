@@ -124,16 +124,21 @@ export default function TextAnalysisOutputComponent() {
                 </div>
             </div >
 
-            <div className="flex flex-row ml-auto">
-                <SubmitButton
-                    isLoading={false}
-                    text="Tekrar Analiz Et"
-                    type="button"
-                    onClick={() => {
-                        resetFormData();
-                        window.location.href = "/text-analysis#content";
-                    }}
-                />
+            <div className="flex flex-row">
+                <div className="mr-auto">
+                    <span className="text-subheader text-sm">Kaynak olarak <em>Yeni İstanbul</em> kullanılmıştır.</span>
+                </div>
+                <div className="ml-auto">
+                    <SubmitButton
+                        isLoading={false}
+                        text="Tekrar Analiz Et"
+                        type="button"
+                        onClick={() => {
+                            resetFormData();
+                            window.location.href = "/text-analysis#content";
+                        }}
+                    />
+                </div>
             </div>
         </div >
     );
