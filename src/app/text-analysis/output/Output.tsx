@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 export default function TextAnalysisOutputComponent() {
     const [hasHydrated, setHasHydrated] = useState(false);
     const { response, formData, resetFormData } = useTextAnalysisFormStore();
-    const [wordLevels, setWordLevels] = useState<Record<string, string>>({});
     const [matchedWords, setMatchedWords] = useState<Record<string, string>>({});
     const [coloringMode, setColoringMode] = useState<string>("");
     const router = useRouter();
@@ -47,24 +46,24 @@ export default function TextAnalysisOutputComponent() {
     }, [hasHydrated, formData, response]);
 
     useEffect(() => {
-        fetch("/api/word-levels")
+        if (formData.content.length === 0) return;
+
+        fetch("/api/word-levels", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ content: formData.content }),
+        })
             .then((res) => res.json())
-            .then((data) => setWordLevels(data));
-    }, []);
+            .then((data) => {
+                setMatchedWords(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching word levels:", error);
+            });
 
-    useEffect(() => {
-        if (Object.keys(wordLevels).length === 0) return;
-
-        const words = formData.content.split(/\s+/).map(w => w.toLowerCase().replace(/[^\wçğıöşü]/g, ''));
-        const result: Record<string, string> = {};
-
-        for (const word of words) {
-            const level = wordLevels[word];
-            result[word] = level;
-        }
-
-        setMatchedWords(result);
-    }, [formData.content, wordLevels]);
+    }, [formData.content]);
 
     return (
         <div className="p-8 min-w-[1200px] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">

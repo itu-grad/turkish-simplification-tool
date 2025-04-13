@@ -1,10 +1,10 @@
 import fs from "fs";
 import path from "path";
 
-let cachedWords: { [word: string]: string } | null = null;
+let wordLevels: { [word: string]: string } | null = null;
 
 export const loadWordLevels = (): { [word: string]: string } => {
-    if (cachedWords) return cachedWords;
+    if (wordLevels) return wordLevels;
 
     const levels = ["A1", "A2", "B1", "B2", "C1"];
     const wordMap: { [word: string]: string } = {};
@@ -19,6 +19,6 @@ export const loadWordLevels = (): { [word: string]: string } => {
         }
     }
 
-    cachedWords = wordMap;
+    wordLevels = wordMap;
     return wordMap;
 };
