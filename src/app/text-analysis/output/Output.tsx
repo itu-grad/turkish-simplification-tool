@@ -6,29 +6,14 @@ import { useTextAnalysisFormStore } from "@/stores/textAnalysisStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+type WordWithLevel = { text: string; level: string };
+
 export default function TextAnalysisOutputComponent() {
     const [hasHydrated, setHasHydrated] = useState(false);
     const { response, formData, resetFormData } = useTextAnalysisFormStore();
+    const [wordLevels, setWordLevels] = useState<Record<string, string>>({});
+    const [matchedWords, setMatchedWords] = useState<WordWithLevel[]>([]);
     const router = useRouter();
-    const words = [
-        { text: "göz", level: "A2" },
-        { text: "köşk", level: "B2" },
-        { text: "taraf", level: "C2" },
-        { text: "temel", level: "A1" },
-        { text: "tavuk", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-    ];
     const rules = [
         { text: "duyulan geçmiş zaman", level: "B2" },
         { text: "görülen geçmiş zaman", level: "C2" },
@@ -58,6 +43,28 @@ export default function TextAnalysisOutputComponent() {
             router.replace("/text-analysis");
         }
     }, [hasHydrated, formData, response]);
+
+    useEffect(() => {
+        fetch("/api/word-levels")
+            .then((res) => res.json())
+            .then((data) => setWordLevels(data));
+    }, []);
+
+    useEffect(() => {
+        if (Object.keys(wordLevels).length === 0) return;
+
+        const words = formData.content.split(/\s+/).map(w => w.toLowerCase().replace(/[^\wçğıöşü]/g, ''));
+        const result: WordWithLevel[] = [];
+
+        for (const word of words) {
+            const level = wordLevels[word];
+            if (level) {
+                result.push({ text: word, level });
+            }
+        }
+
+        setMatchedWords(result);
+    }, [formData.content, wordLevels]);
 
     return (
         <div className="p-8 min-w-[1200px] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
@@ -99,7 +106,7 @@ export default function TextAnalysisOutputComponent() {
                 </div >
 
                 <div className="flex max-h-[50vh] w-1/2 space-x-6 mt-20">
-                    <TableWithLevels title={"Kelimeler"} levelList={words} width={0} />
+                    <TableWithLevels title={"Kelimeler"} levelList={matchedWords} width={0} />
                     <TableWithLevels title={"Gramer Yapıları"} levelList={rules} width={0} />
                 </div>
             </div >
