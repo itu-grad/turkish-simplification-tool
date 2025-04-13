@@ -98,7 +98,7 @@ export default function LevelAdaptationInput({
                 <ErrorMessage message={errors.content?.message} />
             </div>
 
-            <div className="flex flex-col space-y-2">
+            <div className="flex justify-end mt-4">
                 <SubmitButton isLoading={isLoading} text="Uyarla" type="submit" />
             </div>
         </form>

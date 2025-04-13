@@ -50,7 +50,7 @@ export default function LevelAdaptationOutputComponent() {
     };
 
     return (
-        <div className="p-8 min-w-[1200] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
+        <div className="p-8 min-w-[1200px] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
             <div className="flex flex-row gap-3">
                 <div
                     className="mt-6 p-3 bg-button-bg text-secondary-bg rounded-md ml-auto"
