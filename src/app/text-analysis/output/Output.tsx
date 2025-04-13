@@ -6,8 +6,6 @@ import { useTextAnalysisFormStore } from "@/stores/textAnalysisStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-type WordWithLevel = { text: string; level?: string };
-
 export default function TextAnalysisOutputComponent() {
     const [hasHydrated, setHasHydrated] = useState(false);
     const { response, formData, resetFormData } = useTextAnalysisFormStore();
@@ -104,17 +102,17 @@ export default function TextAnalysisOutputComponent() {
                         </select>
                     </div>
 
-                    <p className="mt-4 text-paragraph text-sm text-justify leading-relaxed flex flex-wrap gap-x-1">
-                        {Object.entries(matchedWords).map(([text, level], i) => {
-                            let className = "";
+                    <p className="mt-4 text-paragraph text-sm text-justify">
+                        {formData.content.split(/(\s+)/).map((token, i) => {
+                            const word = token.toLowerCase().replace(/[^\wçğıöşü]/g, '');
+                            const level = matchedWords[word];
+                            const shouldColor = coloringMode === "word" && level;
 
-                            if (coloringMode === "word" && level) {
-                                className = `text-level-${level.toLowerCase()}`;
-                            }
+                            const className = shouldColor ? `text-level-${level.toLowerCase()}` : "";
 
                             return (
                                 <span key={i} className={className}>
-                                    {text}
+                                    {token}
                                 </span>
                             );
                         })}
@@ -141,3 +139,4 @@ export default function TextAnalysisOutputComponent() {
         </div >
     );
 };
+
