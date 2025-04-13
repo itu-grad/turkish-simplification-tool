@@ -6,13 +6,14 @@ import { useTextAnalysisFormStore } from "@/stores/textAnalysisStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-type WordWithLevel = { text: string; level: string };
+type WordWithLevel = { text: string; level?: string };
 
 export default function TextAnalysisOutputComponent() {
     const [hasHydrated, setHasHydrated] = useState(false);
     const { response, formData, resetFormData } = useTextAnalysisFormStore();
     const [wordLevels, setWordLevels] = useState<Record<string, string>>({});
-    const [matchedWords, setMatchedWords] = useState<WordWithLevel[]>([]);
+    const [matchedWords, setMatchedWords] = useState<Record<string, string>>({});
+    const [coloringMode, setColoringMode] = useState<string>("");
     const router = useRouter();
     const rules = [
         { text: "duyulan geçmiş zaman", level: "B2" },
@@ -33,6 +34,9 @@ export default function TextAnalysisOutputComponent() {
         { text: "gelecek zaman", level: "B1" },
         { text: "ayrılma hal eki", level: "B1" }
     ];
+    const ruleRecord: Record<string, string> = Object.fromEntries(
+        rules.map(({ text, level }) => [text, level])
+    );
 
     useEffect(() => {
         setHasHydrated(true);
@@ -54,13 +58,11 @@ export default function TextAnalysisOutputComponent() {
         if (Object.keys(wordLevels).length === 0) return;
 
         const words = formData.content.split(/\s+/).map(w => w.toLowerCase().replace(/[^\wçğıöşü]/g, ''));
-        const result: WordWithLevel[] = [];
+        const result: Record<string, string> = {};
 
         for (const word of words) {
             const level = wordLevels[word];
-            if (level) {
-                result.push({ text: word, level });
-            }
+            result[word] = level;
         }
 
         setMatchedWords(result);
@@ -91,6 +93,8 @@ export default function TextAnalysisOutputComponent() {
                         <select
                             id="coloring"
                             name="coloring"
+                            value={coloringMode}
+                            onChange={(e) => setColoringMode(e.target.value)}
                             className="p-2 border border-input-border rounded-md bg-secondary-bg text-sm text-header focus:outline-gray-500"
                         >
                             <option value="" hidden>Renklendirme</option>
@@ -100,14 +104,26 @@ export default function TextAnalysisOutputComponent() {
                         </select>
                     </div>
 
-                    <p className="mt-4 text-paragraph text-sm text-justify">
-                        {formData.content}
+                    <p className="mt-4 text-paragraph text-sm text-justify leading-relaxed flex flex-wrap gap-x-1">
+                        {Object.entries(matchedWords).map(([text, level], i) => {
+                            let className = "";
+
+                            if (coloringMode === "word" && level) {
+                                className = `text-level-${level.toLowerCase()}`;
+                            }
+
+                            return (
+                                <span key={i} className={className}>
+                                    {text}
+                                </span>
+                            );
+                        })}
                     </p>
                 </div >
 
                 <div className="flex max-h-[50vh] w-1/2 space-x-6 mt-20">
                     <TableWithLevels title={"Kelimeler"} levelList={matchedWords} width={0} />
-                    <TableWithLevels title={"Gramer Yapıları"} levelList={rules} width={0} />
+                    <TableWithLevels title={"Gramer Yapıları"} levelList={ruleRecord} width={0} />
                 </div>
             </div >
 
