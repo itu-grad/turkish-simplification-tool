@@ -1,10 +1,12 @@
 "use client";
 
+import { handleDownloadExcel } from "@/app/lib/handleDownloadExcel";
 import SubmitButton from "@/components/SubmitButton";
 import TableWithLevels from "@/components/TableWithLevels";
-import { TextAnalysisResponse, useTextAnalysisFormStore } from "@/stores/textAnalysisStore";
+import { useTextAnalysisFormStore } from "@/stores/textAnalysisStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AiFillFileExcel } from "react-icons/ai";
 
 export default function TextAnalysisOutputComponent() {
     const [hasHydrated, setHasHydrated] = useState(false);
@@ -13,6 +15,7 @@ export default function TextAnalysisOutputComponent() {
     const [matchedSentences, setMatchedSentences] = useState<string[]>([]);
     const [matchedGrammars, setGrammars] = useState<Record<string, string>>({});
     const [coloringMode, setColoringMode] = useState<string>("");
+    const [excelLoading, setExcelLoading] = useState<boolean>(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -130,7 +133,24 @@ export default function TextAnalysisOutputComponent() {
                 <div className="mr-auto">
                     <span className="text-subheader text-sm">Kaynak olarak <em>Yeni İstanbul</em> kullanılmıştır.</span>
                 </div>
-                <div className="ml-auto">
+                <div className="ml-auto flex gap-4">
+
+                    <button
+                        onClick={() =>
+                            handleDownloadExcel(matchedWords, matchedGrammars, formData.content, setExcelLoading)
+                        }
+                        className="mt-6 p-3 w-52 flex items-center justify-center gap-2 bg-green-700 text-white rounded-md transition-all duration-300 hover:scale-105 hover:bg-green-600 active:scale-95 cursor-pointer disabled:opacity-50"
+                        disabled={excelLoading}
+                    >
+                        {excelLoading ? (
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                        ) : (
+                            <>
+                                <AiFillFileExcel className="text-white text-lg" />
+                                <span className="font-medium">Tablo Olarak İndir</span>
+                            </>
+                        )}
+                    </button>
                     <SubmitButton
                         isLoading={false}
                         text="Tekrar Analiz Et"
