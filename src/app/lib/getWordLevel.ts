@@ -15,7 +15,7 @@ export const getWordLevel = async (word: string): Promise<string | undefined> =>
         });
 
         const data = await response.json();
-        console.log("Stemmed Data:", data);
+        // console.log("Stemmed Data:", data);
 
         const results = data.results || [];
         const wordLevels = loadWordLevels();
@@ -28,13 +28,13 @@ export const getWordLevel = async (word: string): Promise<string | undefined> =>
             const stems: string[] = result.stems || [];
             for (const stem of stems) {
                 if (wordLevels[stem]) {
-                    console.log("Matched stem:", stem);
+                    // console.log("Matched stem:", stem);
                     return wordLevels[stem];
                 }
             }
         }
 
-        console.warn("No matching stem found in word levels.");
+        // console.warn("No matching stem found in word levels.");
         return undefined;
 
     } catch (error) {

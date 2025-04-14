@@ -2,7 +2,7 @@
 
 import SubmitButton from "@/components/SubmitButton";
 import TableWithLevels from "@/components/TableWithLevels";
-import { useTextAnalysisFormStore } from "@/stores/textAnalysisStore";
+import { TextAnalysisResponse, useTextAnalysisFormStore } from "@/stores/textAnalysisStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -10,30 +10,10 @@ export default function TextAnalysisOutputComponent() {
     const [hasHydrated, setHasHydrated] = useState(false);
     const { response, formData, resetFormData } = useTextAnalysisFormStore();
     const [matchedWords, setMatchedWords] = useState<Record<string, string>>({});
+    const [matchedSentences, setMatchedSentences] = useState<string[]>([]);
+    const [matchedGrammars, setGrammars] = useState<Record<string, string>>({});
     const [coloringMode, setColoringMode] = useState<string>("");
     const router = useRouter();
-    const rules = [
-        { text: "duyulan geçmiş zaman", level: "B2" },
-        { text: "görülen geçmiş zaman", level: "C2" },
-        { text: "sıfat fiil", level: "C2" },
-        { text: "olumsuzluk eki", level: "A2" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "ayrılma hal eki", level: "B1" }
-    ];
-    const ruleRecord: Record<string, string> = Object.fromEntries(
-        rules.map(({ text, level }) => [text, level])
-    );
 
     useEffect(() => {
         setHasHydrated(true);
@@ -47,6 +27,11 @@ export default function TextAnalysisOutputComponent() {
 
     useEffect(() => {
         if (formData.content.length === 0) return;
+
+        setMatchedSentences(response.sentenceLevels);
+        setGrammars(Object.fromEntries(
+            response.grammarLevels.map(({ text, level }) => [text, level])
+        ));
 
         fetch("/api/word-levels", {
             method: "POST",
@@ -102,25 +87,42 @@ export default function TextAnalysisOutputComponent() {
                     </div>
 
                     <p className="mt-4 text-paragraph text-sm text-justify">
-                        {formData.content.split(/(\s+)/).map((token, i) => {
-                            const word = token.toLowerCase().replace(/[^\wçğıöşü]/g, '');
-                            const level = matchedWords[word];
-                            const shouldColor = coloringMode === "word" && level;
-
-                            const className = shouldColor ? `text-level-${level.toLowerCase()}` : "";
-
-                            return (
-                                <span key={i} className={className}>
-                                    {token}
-                                </span>
-                            );
-                        })}
+                        {formData.content
+                            .match(/[^.!?]+[.!?]?/g)
+                            ?.map((sentence, idx) => {
+                                const sentenceLevel = matchedSentences?.[idx]?.toLowerCase();
+                                const sentenceClass =
+                                    coloringMode === "sentence" && sentenceLevel
+                                        ? `text-level-${sentenceLevel}`
+                                        : "";
+                                if (coloringMode === "word") {
+                                    return (
+                                        <span key={idx}>
+                                            {sentence.split(/(\s+)/).map((token, i) => {
+                                                const word = token.toLowerCase().replace(/[^\wçğıöşü]/g, "");
+                                                const level = matchedWords[word];
+                                                const className = level ? `text-level-${level.toLowerCase()}` : "";
+                                                return (
+                                                    <span key={i} className={className}>
+                                                        {token}
+                                                    </span>
+                                                );
+                                            })}
+                                        </span>
+                                    );
+                                }
+                                return (
+                                    <span key={idx} className={sentenceClass}>
+                                        {sentence}
+                                    </span>
+                                );
+                            })}
                     </p>
                 </div >
 
                 <div className="flex max-h-[50vh] w-1/2 space-x-6 mt-20">
                     <TableWithLevels title={"Kelimeler"} levelList={matchedWords} width={0} />
-                    <TableWithLevels title={"Gramer Yapıları"} levelList={ruleRecord} width={0} />
+                    <TableWithLevels title={"Gramer Yapıları"} levelList={matchedGrammars} width={0} />
                 </div>
             </div >
 
