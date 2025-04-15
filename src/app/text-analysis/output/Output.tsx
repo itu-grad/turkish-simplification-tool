@@ -1,53 +1,22 @@
 "use client";
 
+import { handleDownloadExcel } from "@/app/lib/handleDownloadExcel";
 import SubmitButton from "@/components/SubmitButton";
 import TableWithLevels from "@/components/TableWithLevels";
 import { useTextAnalysisFormStore } from "@/stores/textAnalysisStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AiFillFileExcel } from "react-icons/ai";
 
 export default function TextAnalysisOutputComponent() {
     const [hasHydrated, setHasHydrated] = useState(false);
     const { response, formData, resetFormData } = useTextAnalysisFormStore();
+    const [matchedWords, setMatchedWords] = useState<Record<string, string>>({});
+    const [matchedSentences, setMatchedSentences] = useState<string[]>([]);
+    const [matchedGrammars, setGrammars] = useState<Record<string, string>>({});
+    const [coloringMode, setColoringMode] = useState<string>("");
+    const [excelLoading, setExcelLoading] = useState<boolean>(false);
     const router = useRouter();
-    const words = [
-        { text: "göz", level: "A2" },
-        { text: "köşk", level: "B2" },
-        { text: "taraf", level: "C2" },
-        { text: "temel", level: "A1" },
-        { text: "tavuk", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-        { text: "peri", level: "A1" },
-    ];
-    const rules = [
-        { text: "duyulan geçmiş zaman", level: "B2" },
-        { text: "görülen geçmiş zaman", level: "C2" },
-        { text: "sıfat fiil", level: "C2" },
-        { text: "olumsuzluk eki", level: "A2" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "gelecek zaman", level: "B1" },
-        { text: "ayrılma hal eki", level: "B1" }
-    ];
 
     useEffect(() => {
         setHasHydrated(true);
@@ -58,6 +27,31 @@ export default function TextAnalysisOutputComponent() {
             router.replace("/text-analysis");
         }
     }, [hasHydrated, formData, response]);
+
+    useEffect(() => {
+        if (formData.content.length === 0) return;
+
+        setMatchedSentences(response.sentenceLevels);
+        setGrammars(Object.fromEntries(
+            response.grammarLevels.map(({ text, level }) => [text, level])
+        ));
+
+        fetch("/api/word-levels", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ content: formData.content }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                setMatchedWords(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching word levels:", error);
+            });
+
+    }, [formData.content]);
 
     return (
         <div className="p-8 min-w-[1200px] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
@@ -84,6 +78,8 @@ export default function TextAnalysisOutputComponent() {
                         <select
                             id="coloring"
                             name="coloring"
+                            value={coloringMode}
+                            onChange={(e) => setColoringMode(e.target.value)}
                             className="p-2 border border-input-border rounded-md bg-secondary-bg text-sm text-header focus:outline-gray-500"
                         >
                             <option value="" hidden>Renklendirme</option>
@@ -94,27 +90,79 @@ export default function TextAnalysisOutputComponent() {
                     </div>
 
                     <p className="mt-4 text-paragraph text-sm text-justify">
-                        {formData.content}
+                        {formData.content
+                            .match(/[^.!?]+[.!?]?/g)
+                            ?.map((sentence, idx) => {
+                                const sentenceLevel = matchedSentences?.[idx]?.toLowerCase();
+                                const sentenceClass =
+                                    coloringMode === "sentence" && sentenceLevel
+                                        ? `text-level-${sentenceLevel}`
+                                        : "";
+                                if (coloringMode === "word") {
+                                    return (
+                                        <span key={idx}>
+                                            {sentence.split(/(\s+)/).map((token, i) => {
+                                                const word = token.toLowerCase().replace(/[^\wçğıöşü]/g, "");
+                                                const level = matchedWords[word];
+                                                const className = level ? `text-level-${level.toLowerCase()}` : "";
+                                                return (
+                                                    <span key={i} className={className}>
+                                                        {token}
+                                                    </span>
+                                                );
+                                            })}
+                                        </span>
+                                    );
+                                }
+                                return (
+                                    <span key={idx} className={sentenceClass}>
+                                        {sentence}
+                                    </span>
+                                );
+                            })}
                     </p>
                 </div >
 
                 <div className="flex max-h-[50vh] w-1/2 space-x-6 mt-20">
-                    <TableWithLevels title={"Kelimeler"} levelList={words} width={0} />
-                    <TableWithLevels title={"Gramer Yapıları"} levelList={rules} width={0} />
+                    <TableWithLevels title={"Kelimeler"} levelList={matchedWords} width={0} />
+                    <TableWithLevels title={"Gramer Yapıları"} levelList={matchedGrammars} width={0} />
                 </div>
             </div >
 
-            <div className="flex flex-row ml-auto">
-                <SubmitButton
-                    isLoading={false}
-                    text="Tekrar Analiz Et"
-                    type="button"
-                    onClick={() => {
-                        resetFormData();
-                        window.location.href = "/text-analysis#content";
-                    }}
-                />
+            <div className="flex flex-row">
+                <div className="mr-auto">
+                    <span className="text-subheader text-sm">Kaynak olarak <em>Yeni İstanbul</em> kullanılmıştır.</span>
+                </div>
+                <div className="ml-auto flex gap-4">
+
+                    <button
+                        onClick={() =>
+                            handleDownloadExcel(matchedWords, matchedGrammars, formData.content, setExcelLoading)
+                        }
+                        className="mt-6 p-3 w-52 flex items-center justify-center gap-2 bg-green-700 text-white rounded-md transition-all duration-300 hover:scale-105 hover:bg-green-600 active:scale-95 cursor-pointer disabled:opacity-50"
+                        disabled={excelLoading}
+                    >
+                        {excelLoading ? (
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                        ) : (
+                            <>
+                                <AiFillFileExcel className="text-white text-lg" />
+                                <span className="font-medium">Tablo Olarak İndir</span>
+                            </>
+                        )}
+                    </button>
+                    <SubmitButton
+                        isLoading={false}
+                        text="Tekrar Analiz Et"
+                        type="button"
+                        onClick={() => {
+                            resetFormData();
+                            window.location.href = "/text-analysis#content";
+                        }}
+                    />
+                </div>
             </div>
         </div >
     );
 };
+

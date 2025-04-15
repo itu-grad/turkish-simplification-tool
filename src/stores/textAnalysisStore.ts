@@ -5,17 +5,18 @@ export type TextAnalysisFormData = {
     content: string;
 };
 
-type Response = {
+export type TextAnalysisResponse = {
     contentLevel: string;
     sentenceLevels: string[];
+    grammarLevels: { text: string, level: string }[];
 };
 
 type Store = {
     formData: TextAnalysisFormData;
     setFormData: (data: TextAnalysisFormData) => void;
     resetFormData: () => void;
-    response: Response;
-    setResponse: (data: Response) => void;
+    response: TextAnalysisResponse;
+    setResponse: (data: TextAnalysisResponse) => void;
 };
 
 export const useTextAnalysisFormStore = create<Store>()(
@@ -33,13 +34,15 @@ export const useTextAnalysisFormStore = create<Store>()(
                     response: {
                         contentLevel: "",
                         sentenceLevels: [],
+                        grammarLevels: []
                     },
                 }),
             response: {
                 contentLevel: "",
                 sentenceLevels: [],
+                grammarLevels: []
             },
-            setResponse: (res: Response) => set({ response: res }),
+            setResponse: (res: TextAnalysisResponse) => set({ response: res }),
         }),
         {
             name: "text-analysis-form",

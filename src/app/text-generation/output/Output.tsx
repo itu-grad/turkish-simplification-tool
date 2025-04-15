@@ -106,8 +106,12 @@ export default function TextGenerationOutputComponent() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-6 mt-10">
-                        <TableWithLevels title={"Kullanılan Kelimeler"} levelList={alternatives[currentIndex].words} width={0} />
-                        <TableWithLevels title={"Kullanılan Gramer Yapıları"} levelList={alternatives[currentIndex].grammar} width={0} />
+                        <TableWithLevels title={"Kullanılan Kelimeler"} levelList={
+                            Object.fromEntries(alternatives[currentIndex].words.map(w => [w.text, w.level]))}
+                            width={0} />
+                        <TableWithLevels title={"Kullanılan Gramer Yapıları"} levelList={
+                            Object.fromEntries(alternatives[currentIndex].grammar.map(w => [w.text, w.level]))}
+                            width={0} />
                     </div>
                     <div className="text-2xl font-medium text-header mt-5">{currentIndex + 1}</div>
                 </div>
@@ -118,16 +122,21 @@ export default function TextGenerationOutputComponent() {
                     />
                 </div>
             </div>
-            <div className="flex flex-row ml-auto">
-                <SubmitButton
-                    isLoading={false}
-                    text="Tekrar Üret"
-                    type="button"
-                    onClick={() => {
-                        resetFormData();
-                        window.location.href = "/text-generation#content";
-                    }}
-                />
+            <div className="flex flex-row">
+                <div className="mr-auto">
+                    <span className="text-subheader text-sm">Kaynak olarak <em>Yeni İstanbul</em> kullanılmıştır.</span>
+                </div>
+                <div className="ml-auto">
+                    <SubmitButton
+                        isLoading={false}
+                        text="Tekrar Analiz Et"
+                        type="button"
+                        onClick={() => {
+                            resetFormData();
+                            window.location.href = "/text-analysis#content";
+                        }}
+                    />
+                </div>
             </div>
         </div>
     );
