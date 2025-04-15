@@ -1,8 +1,10 @@
+import { AutocompleteTagInput } from "@/components/AutocompleteTagInput";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import SubmitButton from "@/components/SubmitButton";
 import { TagInput } from "@/components/TagInput";
 import { TextGenFormData, useTextGenerationFormStore } from "@/stores/textGenerationStore";
 import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 
 interface Props {
     isLoading: boolean;
@@ -23,6 +25,15 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
     } = useForm<TextGenFormData>({
         defaultValues: formData,
     });
+
+    const [topics, setTopics] = useState<string[]>([]);
+    useEffect(() => {
+        fetch('/api/topics')
+            .then((res) => res.json())
+            .then((data) => {
+                setTopics(data.topics.map((t: string) => t.toLowerCase()));
+            })
+    }, []);
 
     const handleAddTag = (tags: string[], type: "targetWords" | "targetGrammar") => {
         if (tags) {
@@ -180,11 +191,12 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                 </div>
 
                 <div className="flex flex-col space-y-2">
-                    <TagInput
+                    <AutocompleteTagInput
                         label="Hedef Gramer Yapıları"
                         placeholder="geçmiş zaman, sıfat fiil"
                         value={formData.targetGrammar}
                         onChange={(tags) => handleAddTag(tags, "targetGrammar")}
+                        topics={topics}
                     />
                 </div>
 

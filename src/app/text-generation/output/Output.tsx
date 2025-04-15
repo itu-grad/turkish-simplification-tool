@@ -133,7 +133,7 @@ export default function TextGenerationOutputComponent() {
                         type="button"
                         onClick={() => {
                             resetFormData();
-                            window.location.href = "/text-analysis#content";
+                            window.location.href = "/text-generation#content";
                         }}
                     />
                 </div>
