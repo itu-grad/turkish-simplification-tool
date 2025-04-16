@@ -1,0 +1,21 @@
+Emir Kipi
+İstek Kipi
+İsimden İsim/Sıfat Türeten Yapım Ekleri
+Belirli Geçmiş Zaman
+İsim Cümlelerinde Belirli Geçmiş Zaman
+Neden-Sonuç Bağlaçları
+Edat/Bağlaç
+Gelecek Zaman
+İsim Cümlelerinde Gelecek Zaman
+Karşılaştırma Edatları
+Belirsiz Geçmiş Zaman
+Pekiştirme Sıfatları
+Küçültme Ekleri
+Doğrudan Aktarım Bildirimi
+Sıralama/Seçenek Bağlaçları
+Geniş Zaman
+Geniş Zamanın Farklı Kullanım Alanları
+Bildirme Eki
+Yeterlilik Fiili
+Yeterlilik Fiilinin İşlevleri
+Zarf-Fiil Ekleri

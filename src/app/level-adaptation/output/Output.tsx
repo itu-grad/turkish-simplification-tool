@@ -91,7 +91,7 @@ export default function LevelAdaptationOutputComponent() {
                                 </div>
                                 <div className="flex flex-col">
                                     <div className={`transition-opacity duration-300 ${isFading ? "opacity-0" : "opacity-100"}`}>
-                                        <p className="text-header text-justify flex-1">{alternatives[currentIndex].text}</p>
+                                        <p className="text-header text-justify flex-1">{alternatives.length ? alternatives[currentIndex].text : ""}</p>
                                     </div>
                                 </div>
                                 <div>
@@ -114,11 +114,11 @@ export default function LevelAdaptationOutputComponent() {
                 <div className="ml-auto">
                     <SubmitButton
                         isLoading={false}
-                        text="Tekrar Analiz Et"
+                        text="Tekrar Uyarla"
                         type="button"
                         onClick={() => {
                             resetFormData();
-                            window.location.href = "/text-analysis#content";
+                            window.location.href = "/level-adaptation#content";
                         }}
                     />
                 </div>
