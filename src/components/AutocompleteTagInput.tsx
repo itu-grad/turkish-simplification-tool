@@ -44,9 +44,16 @@ export const AutocompleteTagInput: React.FC<AutocompleteTagInputProps> = ({
         setHighlightIndex(0);
     }, [input, value, topics]);
 
+    const formatTag = (tag: string) =>
+        tag
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
+
     const addTag = (tag: string) => {
-        if (tag && !value.includes(tag)) {
-            onChange([...value, tag]);
+        const formatted = formatTag(tag);
+        if (formatted && !value.includes(formatted)) {
+            onChange([...value, formatted]);
         }
         setInput('');
         setShowSuggestions(false);
@@ -123,7 +130,7 @@ export const AutocompleteTagInput: React.FC<AutocompleteTagInputProps> = ({
                                 <li
                                     key={`${suggestion}-${i}`}
                                     onClick={() => addTag(suggestion)}
-                                    className={`px-4 py-2 cursor-pointer ${i === highlightIndex
+                                    className={`px-4 py-2 cursor-pointer text-left capitalize ${i === highlightIndex
                                         ? 'bg-button-hover-bg text-secondary-bg'
                                         : 'hover:bg-button-bg hover:text-secondary-bg text-paragraph'
                                         }`}
