@@ -1,12 +1,13 @@
 "use client";
 
-import TableWithLevels from "@/components/TableWithLevels";
+// import TableWithLevels from "@/components/TableWithLevels";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { ClipboardCopy } from "lucide-react";
 import { useTextGenerationFormStore } from "@/stores/textGenerationStore";
 import SubmitButton from "@/components/SubmitButton";
+import { highlightTargetWords } from "@/app/lib/highlightTargetWords";
 
 const isFormDataEmpty = (data: any) => {
     return (
@@ -101,18 +102,23 @@ export default function TextGenerationOutputComponent() {
                     </div>
                     <div className="p-6 bg-white rounded-md shadow-sm">
                         <p className="text-header text-justify">
-                            {alternatives[currentIndex].text}
+                            {
+                                highlightTargetWords(
+                                    alternatives[currentIndex].text,
+                                    formData.targetWords
+                                )
+                            }
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-6 mt-10">
+                    {/* <div className="grid grid-cols-2 gap-6 mt-10">
                         <TableWithLevels title={"Kullanılan Kelimeler"} levelList={
                             Object.fromEntries(alternatives[currentIndex].words.map(w => [w.text, w.level]))}
                             width={0} />
                         <TableWithLevels title={"Kullanılan Gramer Yapıları"} levelList={
                             Object.fromEntries(alternatives[currentIndex].grammar.map(w => [w.text, w.level]))}
                             width={0} />
-                    </div>
+                    </div> */}
                     <div className="text-2xl font-medium text-header mt-5">{currentIndex + 1}</div>
                 </div>
                 <div className="max-w-[20] flex justify-center items-center">
