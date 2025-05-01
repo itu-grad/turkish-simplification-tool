@@ -1,44 +1,89 @@
+import { callPipeline } from './callPipeline';
 import { loadWordLevels } from './loadWordLevels';
 
-export const getWordLevel = async (word: string): Promise<string | undefined> => {
+const formatWord = (word: string): string => {
+    return word.toLowerCase().replace(/[^\wçğıöşü]/g, '');
+};
+
+const getZemberekStemData = async (word: string, zemberekUrl: string): Promise<any> => {
     const formData = new URLSearchParams();
     formData.append("word", word);
     formData.append("show_input", "1");
 
-    try {
-        const response = await fetch("http://localhost:4567/stems", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-            },
-            body: formData.toString(),
-        });
+    const response = await fetch(zemberekUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+        },
+        body: formData.toString(),
+    });
 
-        const data = await response.json();
-        // console.log("Stemmed Data:", JSON.stringify(data));
+    return await response.json();
+};
 
-        const results = data.results || [];
-        const wordLevels = loadWordLevels();
+const processZemberekResponse = (
+    data: any,
+    wordLevels: Record<string, string>,
+    wordLevelMap: Record<string, string>,
+    word: string
+): boolean => {
+    const results = data.results || [];
+    if (results.length === 0) {
+        return false;
+    }
 
-        if (results.length === 0) {
-            return undefined;
-        }
-
-        for (const result of results) {
-            const stems: string[] = result.stems || [];
-            for (const stem of stems) {
-                if (wordLevels[stem]) {
-                    // console.log("Matched stem:", stem);
-                    return wordLevels[stem];
-                }
+    let stemFound = false;
+    for (const result of results) {
+        const stems: string[] = result.stems || [];
+        for (const stem of stems) {
+            if (wordLevels[stem]) {
+                wordLevelMap[word] = wordLevels[stem];
+                stemFound = true;
+                break;
             }
         }
+        if (stemFound) {
+            break;
+        }
+    }
+    return stemFound;
+};
 
-        // console.warn("No matching stem found in word levels.");
-        return undefined;
+const processToolApiResponse = (data: string, wordLevels: Record<string, string>, wordLevelMap: Record<string, string>) => {
+    data.split('\n').forEach(line => {
+        const columns = line.split('\t');
+        const stem = columns[2];
+        const word = formatWord(columns[1]);
+        if (wordLevels[stem]) {
+            wordLevelMap[word] = wordLevels[stem];
+        }
+    });
+};
 
+export const getWordLevel = async (content: string): Promise<Record<string, string>> => {
+    const wordLevelMap: Record<string, string> = {};
+    try {
+        const wordLevels = loadWordLevels();
+        const zemberekUrl = process.env.ZEMBEREK_URL;
+        const toolsUrl = process.env.API_URL;
+        const useZemberek = process.env.USE_ZEMBEREK === 'true';
+
+        if (useZemberek && zemberekUrl) {
+            const words = content.split(/\s+/).map(formatWord);
+            for (const word of words) {
+                const data = await getZemberekStemData(word, zemberekUrl);
+                if (!processZemberekResponse(data, wordLevels, wordLevelMap, word)) {
+                    continue;
+                }
+            }
+        } else if (toolsUrl) {
+            const data = await callPipeline({ input: content });
+            processToolApiResponse(data, wordLevels, wordLevelMap);
+        }
+
+        return wordLevelMap;
     } catch (error) {
         console.error("Error fetching word levels:", error);
-        return undefined;
+        return wordLevelMap;
     }
 };

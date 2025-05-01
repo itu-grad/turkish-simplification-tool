@@ -12,18 +12,7 @@ export async function POST(req: Request) {
             });
         }
 
-        const words = content
-            .split(/\s+/)
-            .map((word: string) => word.toLowerCase().replace(/[^\wçğıöşü]/g, ''));
-
-        const wordLevelMap: Record<string, string> = {};
-
-        for (const word of words) {
-            const level = await getWordLevel(word);
-            if (level) {
-                wordLevelMap[word] = level;
-            }
-        }
+        const wordLevelMap: Record<string, string> = await getWordLevel(content);
 
         return new Response(JSON.stringify(wordLevelMap), {
             status: 200,
