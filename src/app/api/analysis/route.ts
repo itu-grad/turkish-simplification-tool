@@ -19,7 +19,7 @@ export async function POST(req: Request) {
                 "C1",
                 "C1",
             ],
-            grammarLevels: [
+            grammarLevels: [  // not used
                 { text: "duyulan geçmiş zaman", level: "B2" },
                 { text: "görülen geçmiş zaman", level: "C2" },
                 { text: "sıfat fiil", level: "C2" },
@@ -52,9 +52,9 @@ export async function POST(req: Request) {
     }
 }
 
-export async function GET(request: Request) {
-  const result = await callPipeline({
-    input: "Benim adım Elif. İstanbul’da yaşıyorum. Sabah kahvaltı yaparım, sonra okula giderim. Okulda Türkçe, matematik ve müzik dersleri var. Okuldan sonra arkadaşlarımla oyun oynarım.",
-  });
-  return new Response(result);
-}
+// export async function GET(request: Request) {
+//   const result = await callPipeline({
+//     input: "araba giden benim.",
+//   });
+//   return new Response(result);
+// }

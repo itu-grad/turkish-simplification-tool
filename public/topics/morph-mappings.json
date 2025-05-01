@@ -1,0 +1,129 @@
+{
+    "mappings": [
+        {
+            "tag": "Reflex",
+            "topic": "Dönüşlülük Zamiri",
+            "level": "A1"
+        },
+        {
+            "tag": "A1sg",
+            "topic": "Şahıs Ekleri",
+            "level": "A1"
+        },
+        {
+            "tag": "A3pl",
+            "topic": "Şahıs Ekleri",
+            "level": "A1"
+        },
+        {
+            "tag": "P1sg",
+            "topic": "İyelik Ekleri",
+            "level": "A1"
+        },
+        {
+            "tag": "P3pl",
+            "topic": "İyelik Ekleri",
+            "level": "A1"
+        },
+        {
+            "tag": "Loc",
+            "topic": "Bulunma Durumu Eki",
+            "level": "A1"
+        },
+        {
+            "tag": "Dat",
+            "topic": "Yönelme Durumu Eki",
+            "level": "A1"
+        },
+        {
+            "tag": "Abl",
+            "topic": "Uzaklaşma Durumu Eki",
+            "level": "A1"
+        },
+        {
+            "tag": "Ins",
+            "topic": "Vasıta/Birliktelik Eki",
+            "level": "A1"
+        },
+        {
+            "tag": "Gen",
+            "topic": "İlgi Eki",
+            "level": "A1"
+        },
+        {
+            "tag": "Adv",
+            "topic": "Zaman Zarf-Fiilleri",
+            "level": "A1"
+        },
+        {
+            "tag": "Pres",
+            "topic": "Şimdiki Zaman",
+            "level": "A1"
+        },
+        {
+            "tag": "Prog1",
+            "topic": "Şimdiki Zaman",
+            "level": "A1"
+        },
+        {
+            "tag": "Aor",
+            "topic": "Geniş Zaman",
+            "level": "A2"
+        },
+        {
+            "tag": "Fut",
+            "topic": "Gelecek Zaman",
+            "level": "A2"
+        },
+        {
+            "tag": "Past",
+            "topic": "Belirli Geçmiş Zaman",
+            "level": "A2"
+        },
+        {
+            "tag": "Imp",
+            "topic": "Emir Kipi",
+            "level": "A2"
+        },
+        {
+            "tag": "Cond",
+            "topic": "Dilek-Şart Kipi",
+            "level": "B1"
+        },
+        {
+            "tag": "Nec",
+            "topic": "Gereklilik Kipi",
+            "level": "B1"
+        },
+        {
+            "tag": "Pass",
+            "topic": "Edilgenlik Fiilleri",
+            "level": "B2"
+        },
+        {
+            "tag": "Caus",
+            "topic": "Ettirgenlik Fiilleri",
+            "level": "B2"
+        },
+        {
+            "tag": "PresPart",
+            "topic": "Sıfat-Fiil Ekleri",
+            "level": "B2"
+        },
+        {
+            "tag": "PastPart",
+            "topic": "Sıfat-Fiil Ekleri",
+            "level": "B2"
+        },
+        {
+            "tag": "Neg",
+            "topic": "Olumsuzluk Edatı",
+            "level": "C1"
+        },
+        {
+            "tag": "Conj",
+            "topic": "Bağlaç İşlevli 'ki'",
+            "level": "C1"
+        }
+    ]
+}
