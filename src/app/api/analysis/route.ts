@@ -1,3 +1,5 @@
+import { callPipeline } from "@/app/lib/callPipeline";
+
 export async function POST(req: Request) {
     try {
         const body = await req.json();
@@ -48,4 +50,11 @@ export async function POST(req: Request) {
             headers: { 'Content-Type': 'application/json' },
         });
     }
+}
+
+export async function GET(request: Request) {
+  const result = await callPipeline({
+    input: "Benim adım Elif. İstanbul’da yaşıyorum. Sabah kahvaltı yaparım, sonra okula giderim. Okulda Türkçe, matematik ve müzik dersleri var. Okuldan sonra arkadaşlarımla oyun oynarım.",
+  });
+  return new Response(result);
 }

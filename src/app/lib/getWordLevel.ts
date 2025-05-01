@@ -15,7 +15,7 @@ export const getWordLevel = async (word: string): Promise<string | undefined> =>
         });
 
         const data = await response.json();
-        // console.log("Stemmed Data:", data);
+        // console.log("Stemmed Data:", JSON.stringify(data));
 
         const results = data.results || [];
         const wordLevels = loadWordLevels();
