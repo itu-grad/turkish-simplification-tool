@@ -2,12 +2,11 @@
 
 // import TableWithLevels from "@/components/TableWithLevels";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { JSX, SetStateAction, useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { ClipboardCopy } from "lucide-react";
 import { useTextGenerationFormStore } from "@/stores/textGenerationStore";
 import SubmitButton from "@/components/SubmitButton";
-import { highlightTargetWords } from "@/app/lib/highlightTargetWords";
 
 const isFormDataEmpty = (data: any) => {
     return (
@@ -28,6 +27,9 @@ export default function TextGenerationOutputComponent() {
     const router = useRouter();
     const { alternatives, formData, resetFormData } = useTextGenerationFormStore();
 
+    const [targetStems, setTargetStems] = useState<{ original: string; cleaned: string; stem: string }[]>([]);
+    const [highlightedText, setHighlightedText] = useState<(string | JSX.Element)[]>([]);
+
     useEffect(() => {
         setHasHydrated(true);
     }, []);
@@ -37,6 +39,71 @@ export default function TextGenerationOutputComponent() {
             router.replace("/text-generation");
         }
     }, [hasHydrated, formData, alternatives]);
+
+
+    useEffect(() => {
+        const fetchStems = async () => {
+            const response = await fetch("/api/stemming", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content: formData.targetWords.join(' ') }),
+            });
+            const stems = await response.json();
+            setTargetStems(stems);
+        };
+        fetchStems();
+    }, [formData.targetWords]);
+
+    useEffect(() => {
+        if (!targetStems.length) return;
+
+        const text = alternatives[currentIndex].text;
+        const parts: (string | JSX.Element)[] = [];
+        let lastIndex = 0;
+
+        const targetStemSet = new Set(targetStems.map(w => w.stem));
+        const targetOriginalSet = new Set(targetStems.map(w => w.original));
+
+        const fetchStems = async () => {
+            const response = await fetch("/api/stemming", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content: text }),
+            });
+            const wordStems = await response.json();
+            for (const wordData of wordStems) {
+                const { original, stem } = wordData;
+
+                const matchIndex = text.indexOf(original, lastIndex);
+                if (matchIndex === -1) continue;
+
+                if (lastIndex < matchIndex) {
+                    parts.push(text.slice(lastIndex, matchIndex));
+                }
+
+                if (targetStemSet.has(stem) || targetOriginalSet.has(original)) {
+                    parts.push(
+                        <span
+                            key={matchIndex}
+                            className="bg-yellow-300 text-black font-medium px-1 rounded"
+                        >
+                            {original}
+                        </span>
+                    );
+                } else {
+                    parts.push(original);
+                }
+
+                lastIndex = matchIndex + original.length;
+            }
+
+            if (lastIndex < text.length) {
+                parts.push(text.slice(lastIndex));
+            }
+            setHighlightedText(parts);
+        };
+        fetchStems();
+    }, [targetStems, alternatives, currentIndex]);
 
     const handleCopy = () => {
         navigator.clipboard.writeText(alternatives[currentIndex].text);
@@ -102,12 +169,7 @@ export default function TextGenerationOutputComponent() {
                     </div>
                     <div className="p-6 bg-white rounded-md shadow-sm">
                         <p className="text-header text-justify">
-                            {
-                                highlightTargetWords(
-                                    alternatives[currentIndex].text,
-                                    formData.targetWords
-                                )
-                            }
+                            {highlightedText.length > 0 ? highlightedText : alternatives[currentIndex].text}
                         </p>
                     </div>
 
