@@ -1,6 +1,7 @@
 import { ErrorMessage } from "@/components/ErrorMessage";
 import SubmitButton from "@/components/SubmitButton";
 import { TextAnalysisFormData, TextAnalysisResponse, useTextAnalysisFormStore } from "@/stores/textAnalysisStore";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 
 interface Props {
@@ -16,9 +17,12 @@ export default function TextInput({ isLoading, handleAnalyzeText }: Props) {
         register,
         handleSubmit,
         formState: { errors },
+        setValue,
     } = useForm<TextAnalysisFormData>({
         defaultValues: formData,
     });
+
+    const previousExampleIndex = useRef<number | null>(null);
 
     const onSubmit = async (data: TextAnalysisFormData) => {
         setFormData(data);
@@ -39,6 +43,16 @@ export default function TextInput({ isLoading, handleAnalyzeText }: Props) {
         } catch (error) {
             console.error("Error fetching analysis response:", error);
         }
+    };
+
+    const onGenerateExample = async () => {
+        const response = await fetch(`/api/analysis/generate-example?prev=${previousExampleIndex.current ?? -1}`, {
+            method: "GET",
+        });
+        const data = await response.json();
+        setValue("content", data.content);
+        setFormData({ content: data.content });
+        previousExampleIndex.current = data.index;
     };
 
     return (
@@ -63,7 +77,13 @@ export default function TextInput({ isLoading, handleAnalyzeText }: Props) {
                         />
                         <ErrorMessage message={errors.content?.message} />
                     </div>
-                    <div className="flex justify-end mt-4">
+                    <div className="flex justify-end mt-4 space-x-4">
+                        <SubmitButton
+                            isLoading={false}
+                            text="Örnek Metin Ver"
+                            type="button"
+                            onClick={onGenerateExample}
+                        />
                         <SubmitButton
                             isLoading={isLoading}
                             text="Analiz Et"
