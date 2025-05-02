@@ -32,11 +32,11 @@ export default function TextAnalysisOutputComponent() {
         if (formData.content.length === 0) return;
 
         setMatchedSentences(response.sentenceLevels);
-        setGrammars(Object.fromEntries(
-            response.grammarLevels.map(({ text, level }) => [text, level])
-        ));
+        // setGrammars(Object.fromEntries(
+        //     response.grammarLevels.map(({ text, level }) => [text, level])
+        // ));
 
-        fetch("/api/word-levels", {
+        fetch("/api/word-topic-levels", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -45,7 +45,8 @@ export default function TextAnalysisOutputComponent() {
         })
             .then((res) => res.json())
             .then((data) => {
-                setMatchedWords(data);
+                setMatchedWords(data[0]);
+                setGrammars(data[1]);
             })
             .catch((error) => {
                 console.error("Error fetching word levels:", error);

@@ -1,4 +1,4 @@
-import { getWordLevel } from "@/app/lib/getWordLevel";
+import { getWordTopicLevel } from "@/app/lib/getWordTopicLevel";
 
 export async function POST(req: Request) {
     try {
@@ -12,20 +12,11 @@ export async function POST(req: Request) {
             });
         }
 
-        const words = content
-            .split(/\s+/)
-            .map((word: string) => word.toLowerCase().replace(/[^\wçğıöşü]/g, ''));
+        let wordLevelMap: Record<string, string>;
+        let topicLevelMap: Record<string, string>;
+        [wordLevelMap, topicLevelMap] = await getWordTopicLevel(content);
 
-        const wordLevelMap: Record<string, string> = {};
-
-        for (const word of words) {
-            const level = await getWordLevel(word);
-            if (level) {
-                wordLevelMap[word] = level;
-            }
-        }
-
-        return new Response(JSON.stringify(wordLevelMap), {
+        return new Response(JSON.stringify([wordLevelMap, topicLevelMap]), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },
         });
