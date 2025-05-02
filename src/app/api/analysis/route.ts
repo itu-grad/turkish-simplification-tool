@@ -1,4 +1,4 @@
-import { callPipeline } from "@/app/lib/callPipeline";
+import { getToolData } from "@/app/lib/nlpTool";
 
 export async function POST(req: Request) {
     try {
@@ -52,9 +52,9 @@ export async function POST(req: Request) {
     }
 }
 
-// export async function GET(request: Request) {
-//   const result = await callPipeline({
-//     input: "araba giden benim.",
-//   });
-//   return new Response(result);
-// }
+export async function GET(request: Request) {
+    const result = await getToolData({
+        input: "Sürdürülebilir kalkınma, çevresel, ekonomik ve sosyal dengenin korunması anlamına gelir. Bu dengenin sağlanabilmesi için hem devletlerin hem bireylerin sorumluluk alması gerekmektedir. Geri dönüşüm yapmak, enerji tasarrufuna dikkat etmek ve doğaya zarar vermeyen ürünleri tercih etmek, bireysel olarak atılabilecek önemli adımlardandır.",
+    });
+    return new Response(result);
+}

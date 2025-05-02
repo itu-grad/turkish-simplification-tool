@@ -1,7 +1,7 @@
 {
     "mappings": [
         {
-            "tag": "Reflex",
+            "tag": "Pron,Reflex",
             "topic": "Dönüşlülük Zamiri",
             "level": "A1"
         },
@@ -114,6 +114,11 @@
             "tag": "PastPart",
             "topic": "Sıfat-Fiil Ekleri",
             "level": "B2"
+        },
+        {
+            "tag": "Zero→Verb",
+            "topic": "İsim Cümleleri",
+            "level": "A1"
         }
     ]
 }
