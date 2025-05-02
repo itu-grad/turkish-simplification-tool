@@ -73,9 +73,10 @@ export const processToolApiResponse = (
             wordLevelMap[word] = wordLevels[stem];
         }
 
+        const firstTag = [columns[3], columns[4]].join(',');
         const morphTags = columns[5]?.split('|') ?? [];
 
-        tags.push(...[columns[4], ...morphTags].filter(Boolean));
+        tags.push(...[firstTag, ...morphTags].filter(Boolean));
         // console.log('Tags', tags);
     });
     return Array.from(new Set(tags));

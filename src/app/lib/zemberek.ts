@@ -35,7 +35,6 @@ const extractTags = (analysis: string): string[] => {
             }
         }
     }
-    console.log(tags);
     return Array.from(tags);
 };
 
