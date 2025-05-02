@@ -1,4 +1,4 @@
-import { getWordTopicLevel } from "@/app/lib/getWordTopicLevel";
+import { getWordTopicLevel } from "@/app/lib/fetchers/getWordTopicLevel";
 
 export async function POST(req: Request) {
     try {
@@ -12,16 +12,14 @@ export async function POST(req: Request) {
             });
         }
 
-        let wordLevelMap: Record<string, string>;
-        let topicLevelMap: Record<string, string>;
-        [wordLevelMap, topicLevelMap] = await getWordTopicLevel(content);
+        const [wordLevelMap, topicLevelMap] = await getWordTopicLevel(content);
 
         return new Response(JSON.stringify([wordLevelMap, topicLevelMap]), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },
         });
     } catch (error) {
-        return new Response(JSON.stringify({ error: 'Invalid request' }), {
+        return new Response(JSON.stringify({ error: error }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },
         });

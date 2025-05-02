@@ -1,14 +1,17 @@
+import Image from "next/image";
+
 export default function About() {
     return (
         <section className="min-h-screen py-16 px-10 bg-secondary-bg flex flex-col items-center">
             <h2 className="text-3xl font-semibold text-center mb-6 text-header">
                 Hakkımızda
             </h2>
-            <div className="w-full max-w-3xl h-90 overflow-hidden rounded-lg shadow-lg mb-6">
-                <img
+            <div className="relative w-full max-w-3xl h-[360px] overflow-hidden rounded-lg shadow-lg mb-6">
+                <Image
                     src="/about-image.png"
                     alt="İTÜ DDİ Ekibi"
-                    className="w-full h-full object-cover object-center"
+                    fill
+                    className="object-cover object-center"
                 />
             </div>
             <p className="text-paragraph text-justify max-w-4xl mx-auto leading-relaxed">

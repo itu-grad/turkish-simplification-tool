@@ -1,4 +1,4 @@
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/components/layout/PageLayout";
 import TextAnalysisOutputComponent from "./Output";
 
 export default function TextAnalysisOutput() {

@@ -1,9 +1,9 @@
 "use client";
 
-import Hero from "@/components/Hero";
-import About from "@/components/About";
-import Features from "@/components/Features";
-import Video from "@/components/Video";
+import Hero from "@/components/home/Hero";
+import About from "@/components/home/About";
+import Features from "@/components/home/Features";
+import Video from "@/components/home/Video";
 import { useRef } from "react";
 
 export default function Home() {

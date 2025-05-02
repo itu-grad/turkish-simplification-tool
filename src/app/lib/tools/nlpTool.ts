@@ -1,4 +1,4 @@
-import { formatWord } from "./utils";
+import { formatWord } from "../utils";
 
 export enum NlpTool {
     Ner = "ner",

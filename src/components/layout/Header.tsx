@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
@@ -15,12 +16,19 @@ export default function Header() {
     return (
         <header className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
             <div className="container mx-auto flex justify-between items-center h-16 px-10">
+
                 <div className="flex items-center">
                     <Link href="/">
-                        <img src="/logo.png" alt="Logo" className="h-10" />
+                        <Image
+                            src="/logo.png"
+                            alt="Logo"
+                            width={160}
+                            height={160}
+                            className="h-10 w-auto"
+                            layout="intrinsic"
+                        />
                     </Link>
                 </div>
-
                 <nav>
                     <ul className="flex space-x-30">
                         {navItems.map((item) => {

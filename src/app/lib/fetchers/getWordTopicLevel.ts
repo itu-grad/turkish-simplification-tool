@@ -1,7 +1,7 @@
-import { loadTagLevels, TagLevels } from './loadTagLevels';
-import { loadWordLevels } from './loadWordLevels';
-import { getToolData, processToolApiResponse } from './nlpTool';
-import { getZemberekData, processZemberekResponse } from './zemberek';
+import { loadTagLevels, TagLevels } from '../loaders/loadTagLevels';
+import { loadWordLevels } from '../loaders/loadWordLevels';
+import { getToolData, processToolApiResponse } from '../tools/nlpTool';
+import { getZemberekData, processZemberekResponse } from '../tools/zemberek';
 
 const setTopicLevels = (tags: string[], tagLevels: TagLevels, topicLevelMap: Record<string, string>) => {
     for (const tag of tags) {

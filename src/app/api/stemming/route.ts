@@ -1,4 +1,4 @@
-import { getWordStem } from "@/app/lib/getWordStem";
+import { getWordStem } from "@/app/lib/fetchers/getWordStem";
 
 export async function POST(req: Request) {
     try {
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
             headers: { 'Content-Type': 'application/json' },
         });
     } catch (error) {
-        return new Response(JSON.stringify({ error: 'Invalid request' }), {
+        return new Response(JSON.stringify({ error: error }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },
         });

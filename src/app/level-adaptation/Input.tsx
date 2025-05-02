@@ -1,5 +1,5 @@
-import { ErrorMessage } from "@/components/ErrorMessage";
-import SubmitButton from "@/components/SubmitButton";
+import { ErrorMessage } from "@/components/form/ErrorMessage";
+import SubmitButton from "@/components/form/SubmitButton";
 import {
     LevelAdaptationFormData,
     useLevelAdaptationFormStore,

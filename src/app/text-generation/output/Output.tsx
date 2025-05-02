@@ -2,13 +2,13 @@
 
 // import TableWithLevels from "@/components/TableWithLevels";
 import { useRouter } from "next/navigation";
-import { JSX, SetStateAction, useEffect, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { ClipboardCopy } from "lucide-react";
-import { useTextGenerationFormStore } from "@/stores/textGenerationStore";
-import SubmitButton from "@/components/SubmitButton";
+import { TextGenFormData, useTextGenerationFormStore } from "@/stores/textGenerationStore";
+import SubmitButton from "@/components/form/SubmitButton";
 
-const isFormDataEmpty = (data: any) => {
+const isFormDataEmpty = (data: TextGenFormData) => {
     return (
         !data?.wordCount &&
         !data?.theme &&
@@ -38,7 +38,7 @@ export default function TextGenerationOutputComponent() {
         if (hasHydrated && (isFormDataEmpty(formData) || !alternatives || alternatives.length === 0)) {
             router.replace("/text-generation");
         }
-    }, [hasHydrated, formData, alternatives]);
+    }, [hasHydrated, formData, alternatives, router]);
 
 
     useEffect(() => {

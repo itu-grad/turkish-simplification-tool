@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import TextGenerationInput from "./Input";
 import { useRouter } from "next/navigation";
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/components/layout/PageLayout";
 
 export default function TextGeneration() {
     const [isLoading, setIsLoading] = useState(false);

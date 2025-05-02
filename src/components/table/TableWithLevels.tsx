@@ -1,10 +1,9 @@
 interface Props {
     title: string;
     levelList: Record<string, string>;
-    width: number;
 }
 
-export default function TableWithLevels({ title, levelList, width }: Props) {
+export default function TableWithLevels({ title, levelList }: Props) {
     const isEmpty = Object.keys(levelList).length === 0;
 
     return (

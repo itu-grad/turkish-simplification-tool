@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import LevelAdaptationInput from "./Input";
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/components/layout/PageLayout";
 
 export default function LevelAdaptation() {
     const [isLoading, setIsLoading] = useState(false);

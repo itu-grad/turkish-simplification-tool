@@ -1,8 +1,8 @@
 "use client";
 
-import { handleDownloadExcel } from "@/app/lib/handleDownloadExcel";
-import SubmitButton from "@/components/SubmitButton";
-import TableWithLevels from "@/components/TableWithLevels";
+import { handleDownloadExcel } from "@/app/lib/export/handleDownloadExcel";
+import SubmitButton from "@/components/form/SubmitButton";
+import TableWithLevels from "@/components/table/TableWithLevels";
 import { useTextAnalysisFormStore } from "@/stores/textAnalysisStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -26,7 +26,7 @@ export default function TextAnalysisOutputComponent() {
         if (hasHydrated && (!response || response.sentenceLevels.length === 0)) {
             router.replace("/text-analysis");
         }
-    }, [hasHydrated, formData, response]);
+    }, [hasHydrated, formData, response, router]);
 
     useEffect(() => {
         if (formData.content.length === 0) return;
@@ -52,7 +52,7 @@ export default function TextAnalysisOutputComponent() {
                 console.error("Error fetching word levels:", error);
             });
 
-    }, [formData.content]);
+    }, [formData.content, response.sentenceLevels]);
 
     return (
         <div className="p-8 min-w-[1200px] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
@@ -125,8 +125,8 @@ export default function TextAnalysisOutputComponent() {
                 </div >
 
                 <div className="flex max-h-[50vh] w-1/2 space-x-6 mt-20">
-                    <TableWithLevels title={"Kelimeler"} levelList={matchedWords} width={0} />
-                    <TableWithLevels title={"Gramer Yapıları"} levelList={matchedGrammars} width={0} />
+                    <TableWithLevels title={"Kelimeler"} levelList={matchedWords} />
+                    <TableWithLevels title={"Gramer Yapıları"} levelList={matchedGrammars} />
                 </div>
             </div >
 

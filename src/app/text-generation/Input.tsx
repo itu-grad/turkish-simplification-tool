@@ -1,7 +1,7 @@
-import { AutocompleteTagInput } from "@/components/AutocompleteTagInput";
-import { ErrorMessage } from "@/components/ErrorMessage";
-import SubmitButton from "@/components/SubmitButton";
-import { TagInput } from "@/components/TagInput";
+import { AutocompleteTagInput } from "@/components/form/AutocompleteTagInput";
+import { ErrorMessage } from "@/components/form/ErrorMessage";
+import SubmitButton from "@/components/form/SubmitButton";
+import { TagInput } from "@/components/form/TagInput";
 import { TextGenFormData, useTextGenerationFormStore } from "@/stores/textGenerationStore";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";

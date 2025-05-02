@@ -1,6 +1,6 @@
-import { formatWord } from "./utils";
+import { formatWord, ZemberekResponse } from "../utils";
 
-export const getZemberekData = async (content: string, zemberekUrl: string): Promise<any> => {
+export const getZemberekData = async (content: string, zemberekUrl: string): Promise<ZemberekResponse[]> => {
     const formData = new URLSearchParams();
     formData.append("sentence", content);
 
@@ -39,7 +39,7 @@ const extractTags = (analysis: string): string[] => {
 };
 
 export const processZemberekResponse = (
-    data: { input: string, normalizedInput: string, pos: string, analysis: string, morphemesLexical: string }[],
+    data: ZemberekResponse[],
     wordLevels: Record<string, string>,
     wordLevelMap: Record<string, string>,
 ): string[] | undefined => {

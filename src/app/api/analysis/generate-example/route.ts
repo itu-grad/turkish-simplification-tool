@@ -26,7 +26,7 @@ export async function GET(req: Request) {
             }
         );
     } catch (error) {
-        return new Response(JSON.stringify({ error: 'Invalid request' }), {
+        return new Response(JSON.stringify({ error: error }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },
         });

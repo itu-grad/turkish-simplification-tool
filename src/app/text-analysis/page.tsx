@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import TextAnalysisInput from "./Input";
 import { useRouter } from "next/navigation";
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/components/layout/PageLayout";
 
 export default function TextAnalysis() {
     const [isLoading, setIsLoading] = useState(false);

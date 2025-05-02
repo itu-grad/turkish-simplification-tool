@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { ClipboardCopy } from "lucide-react";
-import SubmitButton from "@/components/SubmitButton";
+import SubmitButton from "@/components/form/SubmitButton";
 import { useLevelAdaptationFormStore } from "@/stores/levelAdaptationStore";
 
 export default function LevelAdaptationOutputComponent() {
@@ -23,7 +23,7 @@ export default function LevelAdaptationOutputComponent() {
         if (hasHydrated && (!alternatives || alternatives.length === 0)) {
             router.replace("/level-adaptation");
         }
-    }, [hasHydrated, formData, alternatives]);
+    }, [hasHydrated, formData, alternatives, router]);
 
     const handleCopy = () => {
         navigator.clipboard.writeText(alternatives[currentIndex].text);
