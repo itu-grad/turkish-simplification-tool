@@ -11,7 +11,6 @@ export async function POST(req: Request) {
             });
         }
         const words = await getWordStems(content);
-        console.log(words);
         return new Response(JSON.stringify(words), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },
