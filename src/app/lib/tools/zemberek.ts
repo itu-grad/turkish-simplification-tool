@@ -1,4 +1,4 @@
-import { formatWord, ZemberekResponse } from "../utils";
+import { formatWord, isAlphabetic, ZemberekResponse, ZemberekWord } from "../utils";
 
 export const getZemberekData = async (content: string, zemberekUrl: string): Promise<ZemberekResponse[]> => {
     const formData = new URLSearchParams();
@@ -59,4 +59,22 @@ export const processZemberekResponse = (
         tags.push(...extractTags(analysis));
     }
     return tags;
+};
+
+export const processZemberekResponseStems = (data: ZemberekResponse[]): ZemberekWord[] | undefined => {
+    if (data.length === 0) {
+        return undefined;
+    }
+    const words: { original: string; cleaned: string; stem: string }[] = [];
+    for (const result of data) {
+        const analysis = result.analysis;
+        const stemRegex = /\[([^\]:]+):/;
+        const stemMatch = analysis.match(stemRegex);
+        const stem = stemMatch ? stemMatch[1] : null;
+        const word = formatWord(result.input);
+        if (stem && isAlphabetic(word)) {
+            words.push({ original: result.input, cleaned: word, stem: stem });
+        }
+    }
+    return words;
 };

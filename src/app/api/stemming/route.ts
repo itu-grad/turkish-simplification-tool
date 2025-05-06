@@ -1,30 +1,17 @@
-import { getWordStem } from "@/app/lib/fetchers/getWordStem";
+import { getWordStems } from "@/app/lib/fetchers/getWordStems";
 
 export async function POST(req: Request) {
     try {
         const body = await req.json();
         const { content } = body;
-
-        const result: { original: string; cleaned: string; stem: string }[] = [];
-
-        if (content) {
-            const words = content.split(/\s+/);
-
-            for (const original of words) {
-                const cleaned = original
-                    .toLowerCase()
-                    .replace(/[^\wçğıöşü]/g, '');
-
-                if (!cleaned) continue;
-
-                const stem = await getWordStem(cleaned);
-                if (stem) {
-                    result.push({ original, cleaned, stem });
-                }
-            }
+        if (!content) {
+            return new Response('Bad content', {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' },
+            });
         }
-
-        return new Response(JSON.stringify(result), {
+        const words = await getWordStems(content);
+        return new Response(JSON.stringify(words), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },
         });
