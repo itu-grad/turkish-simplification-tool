@@ -73,7 +73,7 @@ export const processZemberekResponseStems = (data: ZemberekResponse[]): Zemberek
         const stem = stemMatch ? stemMatch[1] : null;
         const word = formatWord(result.input);
         if (stem && isAlphabetic(word)) {
-            words.push({ original: result.input, cleaned: word, stem: stem });
+            words.push({ original: result.input, cleaned: word, stem: formatWord(stem) });
         }
     }
     return words;

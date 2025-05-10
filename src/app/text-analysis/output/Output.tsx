@@ -16,6 +16,8 @@ export default function TextAnalysisOutputComponent() {
     const [matchedGrammars, setGrammars] = useState<Record<string, string>>({});
     const [coloringMode, setColoringMode] = useState<string>("");
     const [excelLoading, setExcelLoading] = useState<boolean>(false);
+    const [selectedSource, setSelectedSource] = useState<"yeni-istanbul" | "yeni-hitit">("yeni-istanbul");
+
     const router = useRouter();
 
     useEffect(() => {
@@ -56,6 +58,60 @@ export default function TextAnalysisOutputComponent() {
 
     return (
         <div className="p-8 min-w-[1200px] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
+            {/* <div className="flex justify-end w-full mb-4">
+                <div className="flex gap-2">
+                    <button
+                        onClick={() => setSelectedSource("yeni-istanbul")}
+                        className={`px-4 py-2 rounded-md text-sm font-medium border transition-all
+                            ${selectedSource === "yeni-istanbul"
+                                ? "bg-button-bg text-white"
+                                : "bg-white border-gray-300 text-gray-700 hover:bg-gray-100"}`}
+                    >
+                        Yeni İstanbul
+                    </button>
+                    <button
+                        onClick={() => setSelectedSource("yeni-hitit")}
+                        className={`px-4 py-2 rounded-md text-sm font-medium border transition-all
+                            ${selectedSource === "yeni-hitit"
+                                ? "bg-button-bg text-white"
+                                : "bg-white border-gray-300 text-gray-700 hover:bg-gray-100"}`}
+                    >
+                        Yeni Hitit
+                    </button>
+                </div>
+            </div> */}
+
+            <div className="flex justify-end w-full mb-4">
+                <div className="flex flex-col gap-4">
+                    {[
+                        { id: "yeni-istanbul", label: "Yeni İstanbul" },
+                        { id: "yeni-hitit", label: "Yeni Hitit" },
+                    ].map((option) => (
+                        <label key={option.id} className="flex items-center cursor-pointer gap-2 text-sm text-header">
+                            <span
+                                className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${selectedSource === option.id
+                                    ? "border-button-hover-bg"
+                                    : "border-button-bg"
+                                    }`}
+                            >
+                                {selectedSource === option.id && (
+                                    <span className="w-2 h-2 rounded-full bg-button-hover-bg"></span>
+                                )}
+                            </span>
+                            <input
+                                type="radio"
+                                name="source"
+                                value={option.id}
+                                checked={selectedSource === option.id}
+                                onChange={() => setSelectedSource(option.id as "yeni-istanbul" | "yeni-hitit")}
+                                className="hidden"
+                            />
+                            {option.label}
+                        </label>
+                    ))}
+                </div>
+            </div>
+
 
             <div className="flex space-x-6">
                 <div className="w-1/2 bg-white p-6 rounded-lg shadow-md flex flex-col">
@@ -132,7 +188,9 @@ export default function TextAnalysisOutputComponent() {
 
             <div className="flex flex-row">
                 <div className="mr-auto">
-                    <span className="text-subheader text-sm">Kaynak olarak <em>Yeni İstanbul</em> kullanılmıştır.</span>
+                    <span className="text-subheader text-sm">
+                        Kaynak olarak <em>{selectedSource === "yeni-istanbul" ? "Yeni İstanbul" : "Yeni Hitit"}</em> kullanılmıştır.
+                    </span>
                 </div>
                 <div className="ml-auto flex gap-4">
 
