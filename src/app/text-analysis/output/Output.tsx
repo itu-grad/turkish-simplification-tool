@@ -59,10 +59,6 @@ export default function TextAnalysisOutputComponent() {
 
     }, [formData.content, response.sentenceLevels, selectedSource]);
 
-    useEffect(() => {
-        console.log("Selected source changed to:", selectedSource);
-    }, [selectedSource]);
-
     return (
         <div className="p-8 min-w-[1200px] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
             <div className="w-full flex justify-end mb-4">
