@@ -55,7 +55,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
         console.log("Form Data:", fullData);
         const alternatives = [  // assume it is the response from the api
             {
-                text: "Sehrin en önemli yerlerinden birisi de çöplükleridir. Çöplükler şehirler için gereklidir evet ama bu kadar önemli olduklarını hiç düşündünüz mü?",
+                text: "Şehrin en önemli yerlerinden birisi de çöplükleridir. Çöplükler şehirler için gereklidir evet ama bu kadar önemli olduklarını hiç düşündünüz mü?",
                 words: [
                     { text: "göz", level: "A2" },
                     { text: "köşk", level: "B2" },

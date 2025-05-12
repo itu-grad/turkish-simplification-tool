@@ -3,7 +3,7 @@ import { getWordTopicLevel } from "@/app/lib/fetchers/getWordTopicLevel";
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { content } = body;
+        const { content, wordLevelSource } = body;
 
         if (!content) {
             return new Response(JSON.stringify({ error: 'No content provided' }), {
@@ -12,7 +12,7 @@ export async function POST(req: Request) {
             });
         }
 
-        const [wordLevelMap, topicLevelMap] = await getWordTopicLevel(content);
+        const [wordLevelMap, topicLevelMap] = await getWordTopicLevel(content, wordLevelSource);
 
         return new Response(JSON.stringify([wordLevelMap, topicLevelMap]), {
             status: 200,

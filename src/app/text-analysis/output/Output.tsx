@@ -16,6 +16,8 @@ export default function TextAnalysisOutputComponent() {
     const [matchedGrammars, setGrammars] = useState<Record<string, string>>({});
     const [coloringMode, setColoringMode] = useState<string>("");
     const [excelLoading, setExcelLoading] = useState<boolean>(false);
+    const [selectedSource, setSelectedSource] = useState<"yeni-istanbul" | "yeni-hitit">("yeni-istanbul");
+
     const router = useRouter();
 
     useEffect(() => {
@@ -41,7 +43,10 @@ export default function TextAnalysisOutputComponent() {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ content: formData.content }),
+            body: JSON.stringify({
+                content: formData.content,
+                wordLevelSource: selectedSource,
+            }),
         })
             .then((res) => res.json())
             .then((data) => {
@@ -52,10 +57,31 @@ export default function TextAnalysisOutputComponent() {
                 console.error("Error fetching word levels:", error);
             });
 
-    }, [formData.content, response.sentenceLevels]);
+    }, [formData.content, response.sentenceLevels, selectedSource]);
 
     return (
         <div className="p-8 min-w-[1200px] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
+            <div className="w-full flex justify-end mb-4">
+                <div className="flex items-center gap-2">
+                    <div className="relative flex bg-toggle-bg rounded-full p-1">
+                        {["yeni-istanbul", "yeni-hitit"].map((option) => (
+                            <button
+                                key={option}
+                                onClick={() =>
+                                    setSelectedSource(option as "yeni-istanbul" | "yeni-hitit")
+                                }
+                                className={`px-4 py-1 rounded-full text-sm transition-colors duration-200 ${selectedSource === option
+                                    ? "bg-button-hover-bg text-white"
+                                    : "text-header"
+                                    }`}
+                            >
+                                {option === "yeni-istanbul" ? "Yeni İstanbul" : "Yeni Hitit"}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
 
             <div className="flex space-x-6">
                 <div className="w-1/2 bg-white p-6 rounded-lg shadow-md flex flex-col">
@@ -132,7 +158,9 @@ export default function TextAnalysisOutputComponent() {
 
             <div className="flex flex-row">
                 <div className="mr-auto">
-                    <span className="text-subheader text-sm">Kaynak olarak <em>Yeni İstanbul</em> kullanılmıştır.</span>
+                    <span className="text-subheader text-sm">
+                        Kaynak olarak <em>{selectedSource === "yeni-istanbul" ? "Yeni İstanbul" : "Yeni Hitit"}</em> kullanılmıştır.
+                    </span>
                 </div>
                 <div className="ml-auto flex gap-4">
 
