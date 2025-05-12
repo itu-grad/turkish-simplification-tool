@@ -43,7 +43,10 @@ export default function TextAnalysisOutputComponent() {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ content: formData.content }),
+            body: JSON.stringify({
+                content: formData.content,
+                wordLevelSource: selectedSource,
+            }),
         })
             .then((res) => res.json())
             .then((data) => {
@@ -54,61 +57,32 @@ export default function TextAnalysisOutputComponent() {
                 console.error("Error fetching word levels:", error);
             });
 
-    }, [formData.content, response.sentenceLevels]);
+    }, [formData.content, response.sentenceLevels, selectedSource]);
+
+    useEffect(() => {
+        console.log("Selected source changed to:", selectedSource);
+    }, [selectedSource]);
 
     return (
         <div className="p-8 min-w-[1200px] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
-            {/* <div className="flex justify-end w-full mb-4">
-                <div className="flex gap-2">
-                    <button
-                        onClick={() => setSelectedSource("yeni-istanbul")}
-                        className={`px-4 py-2 rounded-md text-sm font-medium border transition-all
-                            ${selectedSource === "yeni-istanbul"
-                                ? "bg-button-bg text-white"
-                                : "bg-white border-gray-300 text-gray-700 hover:bg-gray-100"}`}
-                    >
-                        Yeni İstanbul
-                    </button>
-                    <button
-                        onClick={() => setSelectedSource("yeni-hitit")}
-                        className={`px-4 py-2 rounded-md text-sm font-medium border transition-all
-                            ${selectedSource === "yeni-hitit"
-                                ? "bg-button-bg text-white"
-                                : "bg-white border-gray-300 text-gray-700 hover:bg-gray-100"}`}
-                    >
-                        Yeni Hitit
-                    </button>
-                </div>
-            </div> */}
-
-            <div className="flex justify-end w-full mb-4">
-                <div className="flex flex-col gap-4">
-                    {[
-                        { id: "yeni-istanbul", label: "Yeni İstanbul" },
-                        { id: "yeni-hitit", label: "Yeni Hitit" },
-                    ].map((option) => (
-                        <label key={option.id} className="flex items-center cursor-pointer gap-2 text-sm text-header">
-                            <span
-                                className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${selectedSource === option.id
-                                    ? "border-button-hover-bg"
-                                    : "border-button-bg"
+            <div className="w-full flex justify-end mb-4">
+                <div className="flex items-center gap-2">
+                    <div className="relative flex bg-toggle-bg rounded-full p-1">
+                        {["yeni-istanbul", "yeni-hitit"].map((option) => (
+                            <button
+                                key={option}
+                                onClick={() =>
+                                    setSelectedSource(option as "yeni-istanbul" | "yeni-hitit")
+                                }
+                                className={`px-4 py-1 rounded-full text-sm transition-colors duration-200 ${selectedSource === option
+                                    ? "bg-button-hover-bg text-white"
+                                    : "text-header"
                                     }`}
                             >
-                                {selectedSource === option.id && (
-                                    <span className="w-2 h-2 rounded-full bg-button-hover-bg"></span>
-                                )}
-                            </span>
-                            <input
-                                type="radio"
-                                name="source"
-                                value={option.id}
-                                checked={selectedSource === option.id}
-                                onChange={() => setSelectedSource(option.id as "yeni-istanbul" | "yeni-hitit")}
-                                className="hidden"
-                            />
-                            {option.label}
-                        </label>
-                    ))}
+                                {option === "yeni-istanbul" ? "Yeni İstanbul" : "Yeni Hitit"}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
 
