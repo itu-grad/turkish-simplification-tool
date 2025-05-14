@@ -5,7 +5,6 @@ let wordLevelsCache: { [key in "yeni-istanbul" | "yeni-hitit"]?: { [word: string
 
 export const loadWordLevels = (wordLevelSource: "yeni-istanbul" | "yeni-hitit"): { [word: string]: string } => {
     if (wordLevelsCache[wordLevelSource]) return wordLevelsCache[wordLevelSource]!;
-    console.log("loadWordLevels", wordLevelSource);
 
     const levels = ["A1", "A2", "B1", "B2", "C1"];
     const wordMap: { [word: string]: string } = {};

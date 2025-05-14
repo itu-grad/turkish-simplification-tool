@@ -15,7 +15,6 @@ const setTopicLevels = (tags: string[], tagLevels: TagLevels, topicLevelMap: Rec
 export const getWordTopicLevel = async (content: string, wordLevelSource: "yeni-istanbul" | "yeni-hitit"): Promise<[Record<string, string>, Record<string, string>]> => {
     const wordLevelMap: Record<string, string> = {};
     const topicLevelMap: Record<string, string> = {};
-    console.log("getWordTopicLevel", wordLevelSource);
     try {
         const wordLevels = loadWordLevels(wordLevelSource);
         const tagLevels = loadTagLevels();
