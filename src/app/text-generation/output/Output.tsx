@@ -42,11 +42,14 @@ export default function TextGenerationOutputComponent() {
 
 
     useEffect(() => {
+        const content = formData.targetWords.join(' ').trim();
+        if (!content) return;
+
         const fetchStems = async () => {
             const response = await fetch("/api/stemming", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ content: formData.targetWords.join(' ') }),
+                body: JSON.stringify({ content: content }),
             });
             const stems = await response.json();
             setTargetStems(stems);
