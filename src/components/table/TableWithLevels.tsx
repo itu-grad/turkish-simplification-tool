@@ -1,9 +1,10 @@
 interface Props {
     title: string;
     levelList: Record<string, string>;
+    isLoading?: boolean;
 }
 
-export default function TableWithLevels({ title, levelList }: Props) {
+export default function TableWithLevels({ title, levelList, isLoading = false }: Props) {
     const isEmpty = Object.keys(levelList).length === 0;
 
     return (
@@ -11,10 +12,12 @@ export default function TableWithLevels({ title, levelList }: Props) {
             <h3 className="font-semibold mb-2 text-header">{title}</h3>
             <div className="flex-1 bg-white p-4 rounded-lg shadow-md">
                 <div className="max-h-[40vh] overflow-y-scroll">
-                    {isEmpty ? (
+                    {isLoading ? (
                         <div className="flex items-center justify-center">
                             <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-subheader"></div>
                         </div>
+                    ) : isEmpty ? (
+                        <div className="text-center text-subheader py-4">Veri bulunamadı.</div>
                     ) : (
                         Object.entries(levelList).map(([word, level], index) =>
                             level ? (
