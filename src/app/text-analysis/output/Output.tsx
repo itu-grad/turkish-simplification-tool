@@ -14,6 +14,8 @@ export default function TextAnalysisOutputComponent() {
     const [matchedWords, setMatchedWords] = useState<Record<string, string>>({});
     const [matchedSentences, setMatchedSentences] = useState<string[]>([]);
     const [matchedGrammars, setGrammars] = useState<Record<string, string>>({});
+    const [wordsLoading, setWordsLoading] = useState(false);
+    const [grammarsLoading, setGrammarsLoading] = useState(false);
     const [coloringMode, setColoringMode] = useState<string>("");
     const [excelLoading, setExcelLoading] = useState<boolean>(false);
     const [selectedSource, setSelectedSource] = useState<"yeni-istanbul" | "yeni-hitit">("yeni-istanbul");
@@ -37,6 +39,8 @@ export default function TextAnalysisOutputComponent() {
         // setGrammars(Object.fromEntries(
         //     response.grammarLevels.map(({ text, level }) => [text, level])
         // ));
+        setWordsLoading(true);
+        setGrammarsLoading(true);
 
         fetch("/api/word-topic-levels", {
             method: "POST",
@@ -48,13 +52,21 @@ export default function TextAnalysisOutputComponent() {
                 wordLevelSource: selectedSource,
             }),
         })
-            .then((res) => res.json())
+            .then((res) => {
+                return res.json();
+            })
             .then((data) => {
                 setMatchedWords(data[0]);
                 setGrammars(data[1]);
             })
             .catch((error) => {
                 console.error("Error fetching word levels:", error);
+                setMatchedWords({});
+                setGrammars({});
+            })
+            .finally(() => {
+                setWordsLoading(false);
+                setGrammarsLoading(false);
             });
 
     }, [formData.content, response.sentenceLevels, selectedSource]);
@@ -151,8 +163,8 @@ export default function TextAnalysisOutputComponent() {
                 </div >
 
                 <div className="flex max-h-[50vh] w-1/2 space-x-6 mt-20">
-                    <TableWithLevels title={"Kelimeler"} levelList={matchedWords} />
-                    <TableWithLevels title={"Gramer Yapıları"} levelList={matchedGrammars} />
+                    <TableWithLevels title={"Kelimeler"} levelList={matchedWords} isLoading={wordsLoading} />
+                    <TableWithLevels title={"Gramer Yapıları"} levelList={matchedGrammars} isLoading={grammarsLoading} />
                 </div>
             </div >
 
