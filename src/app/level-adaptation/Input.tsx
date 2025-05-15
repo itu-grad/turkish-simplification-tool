@@ -26,27 +26,32 @@ export default function LevelAdaptationInput({
         defaultValues: formData,
     });
 
-    const onSubmit = (data: LevelAdaptationFormData) => {
+    const onSubmit = async (data: LevelAdaptationFormData) => {
         setFormData(data);
         console.log("Form Data:", data);
 
-        const alternatives = [
-            {
-                text: "Şehrin en önemli yerlerinden birisi de çöplükleridir. Çöplükler şehirler için gereklidir evet ama bu kadar önemli olduklarını hiç düşündünüz mü?",
-            },
-            {
-                text: "İstanbul güzel şehir. İstanbul’un boy boy, renk renk resimleri yapılmıştır yıllar boyu.",
-            },
-            {
-                text: "Bir çöplük, bence bir şehir demektir. Martıların hayat kavgaları en çok çöplüklerde olur. ".repeat(
-                    15
-                ),
-            },
-        ];
+        try {
+            const res = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    original_text: data.content,
+                    level: data.level,
+                }),
+            });
 
-        setAlternatives(alternatives);
+            const result = await res.json();
+            console.log("Sadeleştirilmiş Metin:", result.reply);
+
+        } catch (error) {
+            console.error("API hatası:", error);
+        }
+
         handleGenerateText();
     };
+
 
     return (
         <form

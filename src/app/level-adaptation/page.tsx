@@ -8,13 +8,36 @@ export default function LevelAdaptation() {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
-    const handleGenerateText = () => {
+    const handleGenerateText = async () => {
         setIsLoading(true);
 
-        setTimeout(() => {
-            setIsLoading(false);
+        try {
+            const res = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    original_text: formData.content,
+                    level: formData.level,
+                }),
+            });
+
+            const result = await res.json();
+
+            setAlternatives([
+                {
+                    text: result.reply,
+                },
+            ]);
+
             router.push("/level-adaptation/output#content");
-        }, 2000);
+        } catch (error) {
+            console.error("API hatası:", error);
+            alert("Bir hata oluştu. Lütfen tekrar deneyin.");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
