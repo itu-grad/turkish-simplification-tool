@@ -7,6 +7,7 @@ export type LevelAdaptationFormData = {
 };
 
 type Alternative = {
+    id: number,
     text: string;
 };
 

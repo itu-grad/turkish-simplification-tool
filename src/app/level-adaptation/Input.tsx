@@ -26,25 +26,42 @@ export default function LevelAdaptationInput({
         defaultValues: formData,
     });
 
-    const onSubmit = (data: LevelAdaptationFormData) => {
+    const onSubmit = async (data: LevelAdaptationFormData) => {
         setFormData(data);
         console.log("Form Data:", data);
 
-        const alternatives = [
-            {
-                text: "Şehrin en önemli yerlerinden birisi de çöplükleridir. Çöplükler şehirler için gereklidir evet ama bu kadar önemli olduklarını hiç düşündünüz mü?",
-            },
-            {
-                text: "İstanbul güzel şehir. İstanbul’un boy boy, renk renk resimleri yapılmıştır yıllar boyu.",
-            },
-            {
-                text: "Bir çöplük, bence bir şehir demektir. Martıların hayat kavgaları en çok çöplüklerde olur. ".repeat(
-                    15
-                ),
-            },
-        ];
+        // const alternatives = [
+        //     {
+        //         text: "Şehrin en önemli yerlerinden birisi de çöplükleridir. Çöplükler şehirler için gereklidir evet ama bu kadar önemli olduklarını hiç düşündünüz mü?",
+        //     },
+        //     {
+        //         text: "İstanbul güzel şehir. İstanbul’un boy boy, renk renk resimleri yapılmıştır yıllar boyu.",
+        //     },
+        //     {
+        //         text: "Bir çöplük, bence bir şehir demektir. Martıların hayat kavgaları en çok çöplüklerde olur. ".repeat(
+        //             15
+        //         ),
+        //     },
+        // ];
 
-        setAlternatives(alternatives);
+        fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                content: data.content,
+                level: data.level,
+            }),
+        })
+            .then((res) => res.json())
+            .then((result) => {
+                console.log("response", result.alternatives);
+                setAlternatives(result.alternatives);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
         handleGenerateText();
     };
 
