@@ -20,13 +20,23 @@ export default function Footer() {
                         <Image
                             src="/linkedin.svg"
                             alt="LinkedIn"
-                            width={20}
-                            height={20}
+                            width={24}
+                            height={24}
                             style={{
                                 filter:
                                     "invert(26%) sepia(91%) saturate(1107%) hue-rotate(186deg) brightness(92%) contrast(88%)",
                             }}
                             className="hover:scale-110 transition"
+                        />
+                    </a>
+                    <a href="/resources">
+                        <Image
+                            src="/question_mark.svg"
+                            alt="Resources"
+                            width={24}
+                            height={24}
+                            className="hover:scale-110 transition opacity-80"
+                            style={{ filter: "invert(80%) sepia(10%) saturate(200%) hue-rotate(180deg)" }}
                         />
                     </a>
                 </div>
