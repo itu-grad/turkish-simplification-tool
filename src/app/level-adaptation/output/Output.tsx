@@ -13,7 +13,6 @@ export default function LevelAdaptationOutputComponent() {
     const [copied, setCopied] = useState(false);
     const [hasHydrated, setHasHydrated] = useState(false);
     const { alternatives, formData, resetFormData } = useLevelAdaptationFormStore();
-    console.log(alternatives, currentIndex);
     const router = useRouter();
 
     useEffect(() => {

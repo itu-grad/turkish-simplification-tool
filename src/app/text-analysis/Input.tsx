@@ -1,6 +1,6 @@
 import { ErrorMessage } from "@/components/form/ErrorMessage";
 import SubmitButton from "@/components/form/SubmitButton";
-import { TextAnalysisFormData, TextAnalysisResponse, useTextAnalysisFormStore } from "@/stores/textAnalysisStore";
+import { TextAnalysisFormData, useTextAnalysisFormStore } from "@/stores/textAnalysisStore";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 
@@ -29,16 +29,23 @@ export default function TextInput({ isLoading, handleAnalyzeText }: Props) {
         console.log('Form Data:', data);
 
         try {
-            const res = await fetch("/api/analysis", {
+            setResponse({sentenceLevels: [], contentLevel: ""})
+            fetch("/api/analysis", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ content: data.content }),
-            });
+            })
+                .then((res) => res.json())
+                .then((result) => {
+                    console.log("response", result);
+                    setResponse(result);
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
 
-            const responseData: TextAnalysisResponse = await res.json();
-            setResponse(responseData);
             handleAnalyzeText();
         } catch (error) {
             console.error("Error fetching analysis response:", error);
