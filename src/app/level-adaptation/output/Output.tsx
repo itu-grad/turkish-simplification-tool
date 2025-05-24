@@ -108,9 +108,6 @@ export default function LevelAdaptationOutputComponent() {
                 </div>
             </div>
             <div className="flex flex-row">
-                <div className="mr-auto">
-                    <span className="text-subheader text-sm">Kaynak olarak <em>Yeni İstanbul</em> kullanılmıştır.</span>
-                </div>
                 <div className="ml-auto">
                     <SubmitButton
                         isLoading={false}
