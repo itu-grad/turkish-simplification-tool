@@ -12,8 +12,6 @@ export type TextGenFormData = {
 
 type Alternative = {
     text: string;
-    words: { text: string; level: string }[];
-    grammar: { text: string; level: string }[];
 };
 
 type Store = {

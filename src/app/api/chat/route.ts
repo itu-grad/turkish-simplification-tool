@@ -7,9 +7,9 @@ const execFileAsync = promisify(execFile);
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { content } = body;
+        const { content, level } = body;
 
-        if (!content) {
+        if (!content || !level) {
             return new Response(JSON.stringify({ error: "Parameters wrong" }), {
                 status: 400,
                 headers: { 'Content-Type': 'application/json' },
@@ -17,11 +17,12 @@ export async function POST(req: Request) {
         }
 
         const pythonPath = path.join(process.cwd(), "src/app/lib/scripts/venv/bin/python");
-        const scriptPath = path.join(process.cwd(), "src/app/lib/scripts/level_determination.py");
+        const scriptPath = path.join(process.cwd(), "src/app/lib/scripts/level_adaptation.py");
 
         const { stdout, stderr } = await execFileAsync(pythonPath, [
             scriptPath,
             content,
+            level,
         ]);
 
         if (stderr) {

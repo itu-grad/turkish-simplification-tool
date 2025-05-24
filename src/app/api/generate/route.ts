@@ -7,9 +7,8 @@ const execFileAsync = promisify(execFile);
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { content } = body;
-
-        if (!content) {
+        const { content, level, targetGrammar, targetWords, theme, wordCount } = body;
+        if (!content || !level || !wordCount) {
             return new Response(JSON.stringify({ error: "Parameters wrong" }), {
                 status: 400,
                 headers: { 'Content-Type': 'application/json' },
@@ -17,11 +16,16 @@ export async function POST(req: Request) {
         }
 
         const pythonPath = path.join(process.cwd(), "src/app/lib/scripts/venv/bin/python");
-        const scriptPath = path.join(process.cwd(), "src/app/lib/scripts/level_determination.py");
+        const scriptPath = path.join(process.cwd(), "src/app/lib/scripts/text_generation.py");
 
         const { stdout, stderr } = await execFileAsync(pythonPath, [
             scriptPath,
+            level,
+            wordCount,
+            theme,
             content,
+            targetWords,
+            targetGrammar
         ]);
 
         if (stderr) {

@@ -35,7 +35,7 @@ export default function TextGenerationOutputComponent() {
     }, []);
 
     useEffect(() => {
-        if (hasHydrated && (isFormDataEmpty(formData) || !alternatives || alternatives.length === 0)) {
+        if (hasHydrated && (isFormDataEmpty(formData))) {
             router.replace("/text-generation");
         }
     }, [hasHydrated, formData, alternatives, router]);
@@ -58,7 +58,7 @@ export default function TextGenerationOutputComponent() {
     }, [formData.targetWords]);
 
     useEffect(() => {
-        if (!targetStems.length) return;
+        if (!targetStems.length || !alternatives || alternatives.length === 0) return;
 
         const text = alternatives[currentIndex].text;
         const parts: (string | JSX.Element)[] = [];
@@ -194,9 +194,6 @@ export default function TextGenerationOutputComponent() {
                 </div>
             </div>
             <div className="flex flex-row">
-                <div className="mr-auto">
-                    <span className="text-subheader text-sm">Kaynak olarak <em>Yeni İstanbul</em> kullanılmıştır.</span>
-                </div>
                 <div className="ml-auto">
                     <SubmitButton
                         isLoading={false}

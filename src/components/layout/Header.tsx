@@ -25,7 +25,6 @@ export default function Header() {
                             width={160}
                             height={160}
                             className="h-10 w-auto"
-                            layout="intrinsic"
                         />
                     </Link>
                 </div>

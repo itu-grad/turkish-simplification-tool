@@ -169,11 +169,6 @@ export default function TextAnalysisOutputComponent() {
             </div >
 
             <div className="flex flex-row">
-                <div className="mr-auto">
-                    <span className="text-subheader text-sm">
-                        Kaynak olarak <em>{selectedSource === "yeni-istanbul" ? "Yeni İstanbul" : "Yeni Hitit"}</em> kullanılmıştır.
-                    </span>
-                </div>
                 <div className="ml-auto flex gap-4">
 
                     <button
