@@ -6,16 +6,15 @@ let wordLevelsCache: { [key in "yeni-istanbul" | "yeni-hitit"]?: { [word: string
 export const loadWordLevels = (wordLevelSource: "yeni-istanbul" | "yeni-hitit"): { [word: string]: string } => {
     if (wordLevelsCache[wordLevelSource]) return wordLevelsCache[wordLevelSource]!;
 
-    const levels = ["A1", "A2", "B1", "B2", "C1"];
+    const filePath = path.join(process.cwd(), "public", "words", `${wordLevelSource}.json`);
+    const rawData = fs.readFileSync(filePath, "utf8");
+    const levelData: { [level: string]: string[] } = JSON.parse(rawData);
+
     const wordMap: { [word: string]: string } = {};
 
-    for (const level of levels) {
-        const filePath = path.join(process.cwd(), "public", "words", `${wordLevelSource}`, `${level}.txt`);
-        const content = fs.readFileSync(filePath, "utf8");
-        const words = content.split(/\r?\n/).map(w => w.trim().toLowerCase()).filter(Boolean);
-
+    for (const [level, words] of Object.entries(levelData)) {
         for (const word of words) {
-            wordMap[word] = level;
+            wordMap[word.toLowerCase()] = level;
         }
     }
 
