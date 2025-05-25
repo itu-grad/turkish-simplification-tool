@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-let wordLevelsCache: { [key in "yeni-istanbul" | "yeni-hitit"]?: { [word: string]: string } } = {};
+const wordLevelsCache: { [key in "yeni-istanbul" | "yeni-hitit"]?: { [word: string]: string } } = {};
 
 export const loadWordLevels = (wordLevelSource: "yeni-istanbul" | "yeni-hitit"): { [word: string]: string } => {
     if (wordLevelsCache[wordLevelSource]) return wordLevelsCache[wordLevelSource]!;
