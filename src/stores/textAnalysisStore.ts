@@ -8,7 +8,6 @@ export type TextAnalysisFormData = {
 export type TextAnalysisResponse = {
     contentLevel: string;
     sentenceLevels: string[];
-    grammarLevels: { text: string, level: string }[];
 };
 
 type Store = {
@@ -34,13 +33,11 @@ export const useTextAnalysisFormStore = create<Store>()(
                     response: {
                         contentLevel: "",
                         sentenceLevels: [],
-                        grammarLevels: []
                     },
                 }),
             response: {
                 contentLevel: "",
                 sentenceLevels: [],
-                grammarLevels: []
             },
             setResponse: (res: TextAnalysisResponse) => set({ response: res }),
         }),

@@ -45,7 +45,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
         }
     };
 
-    const onSubmit = (data: TextGenFormData) => {
+    const onSubmit = async  (data: TextGenFormData) => {
         const fullData = {
             ...data,
             targetWords: formData.targetWords,
@@ -53,66 +53,30 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
         };
         setFormData(fullData);
         console.log("Form Data:", fullData);
-        const alternatives = [  // assume it is the response from the api
-            {
-                text: "Şehrin en önemli yerlerinden birisi de çöplükleridir. Çöplükler şehirler için gereklidir evet ama bu kadar önemli olduklarını hiç düşündünüz mü?",
-                words: [
-                    { text: "göz", level: "A2" },
-                    { text: "köşk", level: "B2" },
-                    { text: "taraf", level: "C2" },
-                    { text: "temel", level: "A1" },
-                    { text: "tavuk", level: "A1" },
-                    { text: "peri", level: "A1" },
-                ],
-                grammar: [
-                    { text: "duyulan geçmiş zaman", level: "B2" },
-                    { text: "görülen geçmiş zaman", level: "C2" },
-                    { text: "sıfat fiil", level: "C2" },
-                    { text: "olumsuzluk eki", level: "A2" },
-                    { text: "gelecek zaman", level: "B1" },
-                    { text: "gelecek zaman", level: "B1" },
-                ]
+        setAlternatives([]);
+        fetch("/api/generate", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
             },
-            {
-                text: "İstanbul güzel şehir. İstanbul’un boy boy, renk renk resimleri yapılmıştır yıllar boyu.",
-                words: [
-                    { text: "göz", level: "A2" },
-                    { text: "köşk", level: "B2" },
-                    { text: "taraf", level: "C2" },
-                    { text: "temel", level: "A1" },
-                    { text: "tavuk", level: "A1" },
-                    { text: "peri", level: "A1" },
-                ],
-                grammar: [
-                    { text: "duyulan geçmiş zaman", level: "B2" },
-                    { text: "görülen geçmiş zaman", level: "C2" },
-                    { text: "sıfat fiil", level: "C2" },
-                    { text: "olumsuzluk eki", level: "A2" },
-                    { text: "gelecek zaman", level: "B1" },
-                    { text: "gelecek zaman", level: "B1" },
-                ]
-            },
-            {
-                text: "Bir çöplük, bence bir şehir demektir. Martıların hayat kavgaları en çok çöplüklerde olur.",
-                words: [
-                    { text: "göz", level: "A2" },
-                    { text: "köşk", level: "B2" },
-                    { text: "taraf", level: "C2" },
-                    { text: "temel", level: "A1" },
-                    { text: "tavuk", level: "A1" },
-                    { text: "peri", level: "A1" },
-                ],
-                grammar: [
-                    { text: "duyulan geçmiş zaman", level: "B2" },
-                    { text: "görülen geçmiş zaman", level: "C2" },
-                    { text: "sıfat fiil", level: "C2" },
-                    { text: "olumsuzluk eki", level: "A2" },
-                    { text: "gelecek zaman", level: "B1" },
-                    { text: "gelecek zaman", level: "B1" },
-                ]
-            },
-        ];
-        setAlternatives(alternatives);
+            body: JSON.stringify(
+                {
+                    content: fullData.content,
+                    level: fullData.level,
+                    targetGrammar: fullData.targetGrammar,
+                    targetWords: fullData.targetWords,
+                    theme: fullData.theme,
+                    wordCount: fullData.wordCount,
+                }),
+        })
+            .then((res) => res.json())
+            .then((result) => {
+                console.log("response", result);
+                setAlternatives(result.alternatives ?? []);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
         handleGenerateText();
     };
 

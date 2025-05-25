@@ -20,7 +20,7 @@ export default function LevelAdaptationOutputComponent() {
     }, []);
 
     useEffect(() => {
-        if (hasHydrated && (!alternatives || alternatives.length === 0)) {
+        if (hasHydrated && formData.content.trim() == '') {
             router.replace("/level-adaptation");
         }
     }, [hasHydrated, formData, alternatives, router]);
@@ -32,6 +32,8 @@ export default function LevelAdaptationOutputComponent() {
     };
 
     const handleNext = () => {
+        if (!alternatives || alternatives.length === 0) return;
+        console.log(currentIndex, Array.isArray(alternatives));
         setIsFading(true);
         setTimeout(() => {
             setCurrentIndex((prevIndex) => (prevIndex + 1) % alternatives.length);
@@ -40,6 +42,7 @@ export default function LevelAdaptationOutputComponent() {
     };
 
     const handlePrevious = () => {
+        if (alternatives.length === 0) return;
         setIsFading(true);
         setTimeout(() => {
             setCurrentIndex((prevIndex) =>
@@ -80,27 +83,29 @@ export default function LevelAdaptationOutputComponent() {
                                     {copied ? <p className="text-black">Kopyalandı!</p> : ""}
                                 </button>
                             </div>
-                            <div className="flex flex-row">
-                                <div>
-                                    <div className="max-w-[20] pt-16 pr-4">
-                                        <FaArrowLeft
-                                            className="text-arrow-txt text-2xl cursor-pointer hover:text-blue-500"
-                                            onClick={handlePrevious}
-                                        />
-                                    </div>
+                            <div className="flex flex-row items-center">
+                                <div className="w-8 pr-4">
+                                    <FaArrowLeft
+                                        className="text-arrow-txt text-2xl cursor-pointer hover:text-blue-500"
+                                        onClick={handlePrevious}
+                                    />
                                 </div>
-                                <div className="flex flex-col">
-                                    <div className={`transition-opacity duration-300 ${isFading ? "opacity-0" : "opacity-100"}`}>
-                                        <p className="text-header text-justify flex-1">{alternatives.length ? alternatives[currentIndex].text : ""}</p>
-                                    </div>
+                                <div className="flex flex-col flex-grow min-w-[250px]">
+                                    {alternatives.length === 0 ? (
+                                        <div className="flex items-center justify-center h-6 w-6 mx-auto">
+                                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-button-bg"></div>
+                                        </div>
+                                    ) : (
+                                        <div className={`transition-opacity duration-300 ${isFading ? "opacity-0" : "opacity-100"}`}>
+                                            <p className="text-header text-justify">{alternatives[currentIndex]?.text ?? ""}</p>
+                                        </div>
+                                    )}
                                 </div>
-                                <div>
-                                    <div className="max-w-[20] pt-16 pl-4">
-                                        <FaArrowRight
-                                            className="text-arrow-txt text-2xl cursor-pointer hover:text-blue-500"
-                                            onClick={handleNext}
-                                        />
-                                    </div>
+                                <div className="w-8 pl-4">
+                                    <FaArrowRight
+                                        className="text-arrow-txt text-2xl cursor-pointer hover:text-blue-500"
+                                        onClick={handleNext}
+                                    />
                                 </div>
                             </div>
                         </div>
