@@ -1,0 +1,12 @@
+hikayede en az bir diyalog bulunmalıdır
+hikaye kötü bir sonla bitmelidir
+hikayede bir tür çatışma olmalıdır
+anlatı önceden ima etme veya kurulum ve karşılık yöntemleri kullanmalıdır
+hikayede bir ters köşe olmalıdır
+hikaye bir ahlaki değer taşımalıdır
+hikaye fantastik unsurlar veya doğaüstü olaylar içermelidir
+hikayede ortaya çıkan sorunlar mantıklı bir şekilde çözülmelidir
+hikaye karakterlerin veya olayların geçmişi hakkında bilgi vermelidir
+hikayede karakterin iç düşüncelerine ya da kendi kendine konuşmalarına yer verilmelidir
+hikaye tek bir mekanda geçmelidir
+hikayede bir yer veya nesne görsel olarak tasvir edilmelidir

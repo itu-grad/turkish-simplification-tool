@@ -28,7 +28,7 @@ export default function TextGenerationOutputComponent() {
     const { alternatives, formData, resetFormData } = useTextGenerationFormStore();
 
     const [targetStems, setTargetStems] = useState<{ original: string; cleaned: string; stem: string }[]>([]);
-    const [highlightedText, setHighlightedText] = useState<(string | JSX.Element)[]>([]);
+    const [highlightedText, setHighlightedText] = useState<(string | JSX.Element)[][]>([]);
 
     useEffect(() => {
         setHasHydrated(true);
@@ -49,7 +49,7 @@ export default function TextGenerationOutputComponent() {
             const response = await fetch("/api/stemming", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ content: content }),
+                body: JSON.stringify({ content }),
             });
             const stems = await response.json();
             setTargetStems(stems);
@@ -58,55 +58,63 @@ export default function TextGenerationOutputComponent() {
     }, [formData.targetWords]);
 
     useEffect(() => {
-        if (!targetStems.length || !alternatives || alternatives.length === 0) return;
+        if (!targetStems.length || !alternatives?.length) return;
 
-        const text = alternatives[currentIndex].text;
-        const parts: (string | JSX.Element)[] = [];
-        let lastIndex = 0;
+        const highlight = async () => {
+            const allParts: (string | JSX.Element)[][] = [];
 
-        const targetStemSet = new Set(targetStems.map(w => w.stem));
-        const targetOriginalSet = new Set(targetStems.map(w => w.original));
+            const targetStemSet = new Set(targetStems.map(w => w.stem));
+            const targetOriginalSet = new Set(targetStems.map(w => w.original));
 
-        const fetchStems = async () => {
-            const response = await fetch("/api/stemming", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ content: text }),
-            });
-            const wordStems = await response.json();
-            for (const wordData of wordStems) {
-                const { original, stem } = wordData;
+            for (const alt of alternatives) {
+                const text = alt.text;
+                const parts: (string | JSX.Element)[] = [];
+                let lastIndex = 0;
 
-                const matchIndex = text.indexOf(original, lastIndex);
-                if (matchIndex === -1) continue;
+                const response = await fetch("/api/stemming", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ content: text }),
+                });
+                const wordStems = await response.json();
 
-                if (lastIndex < matchIndex) {
-                    parts.push(text.slice(lastIndex, matchIndex));
+                for (const wordData of wordStems) {
+                    const { original, stem } = wordData;
+                    const matchIndex = text.indexOf(original, lastIndex);
+                    if (matchIndex === -1) continue;
+
+                    if (lastIndex < matchIndex) {
+                        parts.push(text.slice(lastIndex, matchIndex));
+                    }
+
+                    if (targetStemSet.has(stem) || targetOriginalSet.has(original)) {
+                        parts.push(
+                            <span
+                                key={matchIndex}
+                                className="bg-yellow-300 text-black font-medium px-1 rounded"
+                            >
+                                {original}
+                            </span>
+                        );
+                    } else {
+                        parts.push(original);
+                    }
+
+                    lastIndex = matchIndex + original.length;
                 }
 
-                if (targetStemSet.has(stem) || targetOriginalSet.has(original)) {
-                    parts.push(
-                        <span
-                            key={matchIndex}
-                            className="bg-yellow-300 text-black font-medium px-1 rounded"
-                        >
-                            {original}
-                        </span>
-                    );
-                } else {
-                    parts.push(original);
+                if (lastIndex < text.length) {
+                    parts.push(text.slice(lastIndex));
                 }
 
-                lastIndex = matchIndex + original.length;
+                allParts.push(parts);
             }
 
-            if (lastIndex < text.length) {
-                parts.push(text.slice(lastIndex));
-            }
-            setHighlightedText(parts);
+            setHighlightedText(allParts);
         };
-        fetchStems();
-    }, [targetStems, alternatives, currentIndex]);
+        highlight();
+    }, [targetStems, alternatives]);
+
 
     const handleCopy = () => {
         navigator.clipboard.writeText(alternatives[currentIndex].text);
@@ -172,18 +180,9 @@ export default function TextGenerationOutputComponent() {
                     </div>
                     <div className="p-6 bg-white rounded-md shadow-sm">
                         <p className="text-header text-justify">
-                            {highlightedText.length > 0 ? highlightedText : alternatives[currentIndex].text}
+                            {highlightedText.length > 0 ? highlightedText[currentIndex] : alternatives[currentIndex].text}
                         </p>
                     </div>
-
-                    {/* <div className="grid grid-cols-2 gap-6 mt-10">
-                        <TableWithLevels title={"Kullanılan Kelimeler"} levelList={
-                            Object.fromEntries(alternatives[currentIndex].words.map(w => [w.text, w.level]))}
-                            width={0} />
-                        <TableWithLevels title={"Kullanılan Gramer Yapıları"} levelList={
-                            Object.fromEntries(alternatives[currentIndex].grammar.map(w => [w.text, w.level]))}
-                            width={0} />
-                    </div> */}
                     <div className="text-2xl font-medium text-header mt-5">{currentIndex + 1}</div>
                 </div>
                 <div className="max-w-[20] flex justify-center items-center">
