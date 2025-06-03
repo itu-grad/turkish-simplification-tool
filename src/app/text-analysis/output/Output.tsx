@@ -27,7 +27,7 @@ export default function TextAnalysisOutputComponent() {
     }, []);
 
     useEffect(() => {
-        if (hasHydrated && (!response || response.sentenceLevels.length === 0)) {
+        if (hasHydrated && !response) {
             router.replace("/text-analysis");
         }
     }, [hasHydrated, formData, response, router]);
@@ -36,9 +36,6 @@ export default function TextAnalysisOutputComponent() {
         if (formData.content.length === 0) return;
 
         setMatchedSentences(response.sentenceLevels);
-        // setGrammars(Object.fromEntries(
-        //     response.grammarLevels.map(({ text, level }) => [text, level])
-        // ));
         setWordsLoading(true);
         setGrammarsLoading(true);
 
