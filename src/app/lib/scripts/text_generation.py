@@ -32,7 +32,14 @@ def select_names(file_path="sources/names.txt"):
 
     return selected_names
 
-def build_prompt(level, word_count, theme, content, target_words, target_grammar):
+def get_story(level: str, filename="sources/stories.json"):
+    data = None
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    with open(os.path.join(base_dir, filename), "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return data.get(level.lower()) if data else None
+
+def build_prompt(level, word_count, theme, content, target_words, target_grammar, story=None):
     names = select_names()
     if len(names) == 1:
         names_prompt = f"Hikayedeki karakterin adı {names[0]} olmalıdır."
@@ -64,15 +71,21 @@ def build_prompt(level, word_count, theme, content, target_words, target_grammar
         f"- Tema: {theme}\n"
         f"- İlham alınacak içerik: \"{content}\"\n"
         f"- Hedef kelimeler: {', '.join(target_words) if target_words else 'Yok'}\n"
-        f"- Hedef dil bilgisi yapıları: {', '.join(target_grammar) if target_grammar else 'Yok'}\n\n"
-        f"Lütfen yukarıdaki kriterlere uygun, özgün ve akıcı bir Türkçe metin üret. Metin seviyeye uygun olmalı, hedef kelimeler "
-        f"ve dil bilgisi yapıları doğal bir şekilde kullanılmalıdır.\n"
-        f"Lütfen sadece aşağıdaki JSON formatında cevap ver:\n"
-        f"{{\n"
-        f"  \"response\": [\n"
-        f"    {{ \"text\": \"Metin 1\" }}\n"
-        f"  ]\n"
-        f"}}\n"
+        f"- Hedef dil bilgisi yapıları: {', '.join(target_grammar) if target_grammar else 'Yok'}\n"
+    )
+
+    if story:
+        prompt += f"- Verilen seviyeye örnek bir metin: \"{story}\"\n"
+
+    prompt += (
+        "\nLütfen yukarıdaki kriterlere uygun, özgün ve akıcı bir Türkçe metin üret. Metin seviyeye uygun olmalı, hedef kelimeler "
+        "ve dil bilgisi yapıları doğal bir şekilde kullanılmalıdır.\n"
+        "Lütfen sadece aşağıdaki JSON formatında cevap ver:\n"
+        "{\n"
+        "  \"response\": [\n"
+        "    { \"text\": \"Metin 1\" }\n"
+        "  ]\n"
+        "}\n"
     )
     return prompt
 
@@ -94,9 +107,10 @@ def call_chat_api(prompt):
     return response.choices[0].message.content
 
 def oneshot_generation(level, word_count, theme, content, target_words, target_grammar):
+    story = get_story(level)
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
         futures = [
-            executor.submit(call_chat_api, build_prompt(level, word_count, theme, content, target_words, target_grammar)) 
+            executor.submit(call_chat_api, build_prompt(level, word_count, theme, content, target_words, target_grammar, story)) 
             for _ in range(3)
         ]
         results = [f.result() for f in concurrent.futures.as_completed(futures)]
