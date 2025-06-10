@@ -61,8 +61,8 @@ export async function POST(req: Request) {
         row.getCell(2).style = getLevelStyle(level);
     });
 
-    const grammarSheet = workbook.addWorksheet("Gramer Yapıları");
-    grammarSheet.addRow(["Gramer Yapısı", "Seviye"]);
+    const grammarSheet = workbook.addWorksheet("Dil Bilgisi Yapıları");
+    grammarSheet.addRow(["Dil Bilgisi", "Seviye"]);
     grammarSheet.getColumn(1).width = 30;
     grammarSheet.getColumn(2).width = 15;
     grammarSheet.getRow(1).height = 30;

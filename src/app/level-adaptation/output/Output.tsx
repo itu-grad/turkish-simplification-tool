@@ -33,23 +33,24 @@ export default function LevelAdaptationOutputComponent() {
 
     const handleNext = () => {
         if (!alternatives || alternatives.length === 0) return;
-        console.log(currentIndex, Array.isArray(alternatives));
-        setIsFading(true);
-        setTimeout(() => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % alternatives.length);
-            setIsFading(false);
-        }, 300);
+        if (currentIndex < alternatives.length - 1) {
+            setIsFading(true);
+            setTimeout(() => {
+                setCurrentIndex((prevIndex) => prevIndex + 1);
+                setIsFading(false);
+            }, 300);
+        }
     };
 
     const handlePrevious = () => {
         if (alternatives.length === 0) return;
-        setIsFading(true);
-        setTimeout(() => {
-            setCurrentIndex((prevIndex) =>
-                prevIndex === 0 ? alternatives.length - 1 : prevIndex - 1
-            );
-            setIsFading(false);
-        }, 300);
+        if (currentIndex > 0) {
+            setIsFading(true);
+            setTimeout(() => {
+                setCurrentIndex((prevIndex) => prevIndex - 1);
+                setIsFading(false);
+            }, 300);
+        }
     };
 
     return (
@@ -86,7 +87,7 @@ export default function LevelAdaptationOutputComponent() {
                             <div className="flex flex-row items-center">
                                 <div className="w-8 pr-4">
                                     <FaArrowLeft
-                                        className="text-arrow-txt text-2xl cursor-pointer hover:text-blue-500"
+                                        className={`text-arrow-txt text-2xl cursor-pointer hover:text-blue-500 ${currentIndex === 0 ? "invisible" : ""}`}
                                         onClick={handlePrevious}
                                     />
                                 </div>
@@ -103,7 +104,7 @@ export default function LevelAdaptationOutputComponent() {
                                 </div>
                                 <div className="w-8 pl-4">
                                     <FaArrowRight
-                                        className="text-arrow-txt text-2xl cursor-pointer hover:text-blue-500"
+                                        className={`text-arrow-txt text-2xl cursor-pointer hover:text-blue-500 ${currentIndex === alternatives.length - 1 ? "invisible" : ""}`}
                                         onClick={handleNext}
                                     />
                                 </div>
@@ -116,7 +117,7 @@ export default function LevelAdaptationOutputComponent() {
                 <div className="ml-auto">
                     <SubmitButton
                         isLoading={false}
-                        text="Tekrar Uyarla"
+                        text="Uyarlama Sayfasına Dön"
                         type="button"
                         onClick={() => {
                             resetFormData();

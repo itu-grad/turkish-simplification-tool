@@ -5,6 +5,7 @@ export default function ResourcesPage() {
         <PageLayout
             title="Kaynaklar"
             content="Bu sadeleştirme aracı geliştirilirken, kelime seviyeleri ve gramer yapılarının seviyelerini analiz etmek için 'Yeni Hitit' ve 'Yeni İstanbul' ders kitaplarından faydalanılmıştır."
+            minHeight="min-h-screen"
         >
             { }
         </PageLayout>
