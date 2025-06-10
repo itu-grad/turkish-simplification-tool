@@ -198,7 +198,7 @@ export default function TextGenerationOutputComponent() {
                 <div className="ml-auto">
                     <SubmitButton
                         isLoading={false}
-                        text="Tekrar Üret"
+                        text="Üretim Sayfasına Dön"
                         type="button"
                         onClick={() => {
                             resetFormData();

@@ -117,7 +117,7 @@ export default function LevelAdaptationOutputComponent() {
                 <div className="ml-auto">
                     <SubmitButton
                         isLoading={false}
-                        text="Tekrar Uyarla"
+                        text="Uyarlama Sayfasına Dön"
                         type="button"
                         onClick={() => {
                             resetFormData();

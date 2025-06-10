@@ -188,7 +188,7 @@ export default function TextAnalysisOutputComponent() {
                     </button>
                     <SubmitButton
                         isLoading={false}
-                        text="Tekrar Analiz Et"
+                        text="Analiz Sayfasına Dön"
                         type="button"
                         onClick={() => {
                             resetFormData();
