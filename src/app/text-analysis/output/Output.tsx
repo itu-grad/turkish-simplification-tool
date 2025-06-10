@@ -72,6 +72,9 @@ export default function TextAnalysisOutputComponent() {
         <div className="p-8 min-w-[1200px] bg-primary-bg rounded-xl shadow-lg flex flex-col space-y-6 mt-10 mb-10">
             <div className="w-full flex justify-end mb-4">
                 <div className="flex items-center gap-2">
+                    <span className="text-xs text-gray-500">
+                        Seviyelerin belirlenmesinde kullanılacak kaynak:
+                    </span>
                     <div className="relative flex bg-toggle-bg rounded-full p-1">
                         {["yeni-istanbul", "yeni-hitit"].map((option) => (
                             <button
@@ -160,7 +163,7 @@ export default function TextAnalysisOutputComponent() {
 
                 <div className="flex max-h-[50vh] w-1/2 space-x-6 mt-20">
                     <TableWithLevels title={"Kelimeler"} levelList={matchedWords} isLoading={wordsLoading} />
-                    <TableWithLevels title={"Gramer Yapıları"} levelList={matchedGrammars} isLoading={grammarsLoading} />
+                    <TableWithLevels title={"Dil Bilgisi Yapıları"} levelList={matchedGrammars} isLoading={grammarsLoading} />
                 </div>
             </div >
 
