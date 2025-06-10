@@ -16,7 +16,7 @@ export default function TextAnalysisOutputComponent() {
     const [matchedGrammars, setGrammars] = useState<Record<string, string>>({});
     const [wordsLoading, setWordsLoading] = useState(false);
     const [grammarsLoading, setGrammarsLoading] = useState(false);
-    const [coloringMode, setColoringMode] = useState<string>("");
+    const [coloringMode, setColoringMode] = useState<string>("word");
     const [excelLoading, setExcelLoading] = useState<boolean>(false);
     const [selectedSource, setSelectedSource] = useState<"yeni-istanbul" | "yeni-hitit">("yeni-istanbul");
 
@@ -118,7 +118,6 @@ export default function TextAnalysisOutputComponent() {
                             onChange={(e) => setColoringMode(e.target.value)}
                             className="p-2 border border-input-border rounded-md bg-secondary-bg text-sm text-header focus:outline-gray-500"
                         >
-                            <option value="" hidden>Renklendirme</option>
                             <option value="word">Kelimeye göre</option>
                             <option value="sentence">Cümleye göre</option>
                             <option value="no-coloring">Renklendirme yok</option>
@@ -142,7 +141,7 @@ export default function TextAnalysisOutputComponent() {
                                                 const level = matchedWords[word];
                                                 const className = level ? `text-level-${level.toLowerCase()}` : "";
                                                 return (
-                                                    <span key={i} className={className}>
+                                                    <span key={i} className={className} title={level?.toUpperCase() || ""}>
                                                         {token}
                                                     </span>
                                                 );
@@ -151,7 +150,7 @@ export default function TextAnalysisOutputComponent() {
                                     );
                                 }
                                 return (
-                                    <span key={idx} className={sentenceClass}>
+                                    <span key={idx} className={sentenceClass} title={sentenceLevel?.toUpperCase() || ""}>
                                         {sentence}
                                     </span>
                                 );
