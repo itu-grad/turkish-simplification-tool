@@ -123,21 +123,23 @@ export default function TextGenerationOutputComponent() {
     };
 
     const handleNext = () => {
-        setIsFading(true);
-        setTimeout(() => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % alternatives.length);
-            setIsFading(false);
-        }, 300);
+        if (currentIndex < alternatives.length - 1) {
+            setIsFading(true);
+            setTimeout(() => {
+                setCurrentIndex((prevIndex) => prevIndex + 1);
+                setIsFading(false);
+            }, 300);
+        }
     };
 
     const handlePrevious = () => {
-        setIsFading(true);
-        setTimeout(() => {
-            setCurrentIndex((prevIndex) =>
-                prevIndex === 0 ? alternatives.length - 1 : prevIndex - 1
-            );
-            setIsFading(false);
-        }, 300);
+        if (currentIndex > 0) {
+            setIsFading(true);
+            setTimeout(() => {
+                setCurrentIndex((prevIndex) => prevIndex - 1);
+                setIsFading(false);
+            }, 300);
+        }
     };
 
     if (!hasHydrated || !alternatives || !alternatives[currentIndex]) {
@@ -164,7 +166,7 @@ export default function TextGenerationOutputComponent() {
             <div className="flex flex-row gap-3">
                 <div className="max-w-[20] flex justify-center items-center">
                     <FaArrowLeft
-                        className="text-arrow-txt text-2xl cursor-pointer hover:text-blue-500"
+                        className={`text-arrow-txt text-2xl cursor-pointer hover:text-blue-500 ${currentIndex === 0 ? "invisible" : ""}`}
                         onClick={handlePrevious}
                     />
                 </div>
@@ -187,7 +189,7 @@ export default function TextGenerationOutputComponent() {
                 </div>
                 <div className="max-w-[20] flex justify-center items-center">
                     <FaArrowRight
-                        className="text-arrow-txt text-2xl cursor-pointer hover:text-blue-500"
+                        className={`text-arrow-txt text-2xl cursor-pointer hover:text-blue-500 ${currentIndex === alternatives.length - 1 ? "invisible" : ""}`}
                         onClick={handleNext}
                     />
                 </div>
