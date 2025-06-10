@@ -45,7 +45,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
         }
     };
 
-    const onSubmit = async  (data: TextGenFormData) => {
+    const onSubmit = async (data: TextGenFormData) => {
         const fullData = {
             ...data,
             targetWords: formData.targetWords,
@@ -121,7 +121,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                     <input
                         {...register("theme")}
                         type="text"
-                        placeholder="bilim"
+                        placeholder="Ör: bilim"
                         className="p-2 border border-input-border rounded-md bg-secondary-bg text-header focus:outline-gray-500"
                     />
                 </div>
@@ -131,6 +131,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                 <label className="text-sm font-semibold text-header text-left">Metin İçeriği</label>
                 <textarea
                     id="content"
+                    placeholder="Üretilecek metin için istediğiniz içeriği buraya yazınız..."
                     {...register("content", {
                         required: "Metin içeriği gerekli",
                         minLength: {
@@ -147,7 +148,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
                 <div className="flex flex-col space-y-2">
                     <TagInput
                         label="Hedef Kelimeler"
-                        placeholder="zürafa, kendi"
+                        placeholder="Ör: zürafa"
                         value={formData.targetWords}
                         onChange={(tags) => handleAddTag(tags, "targetWords")}
 
@@ -156,8 +157,8 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
 
                 <div className="flex flex-col space-y-2">
                     <AutocompleteTagInput
-                        label="Hedef Gramer Yapıları"
-                        placeholder="geçmiş zaman, sıfat fiil"
+                        label="Hedef Dil Bilgisi Yapıları"
+                        placeholder="Ör: geçmiş zaman"
                         value={formData.targetGrammar}
                         onChange={(tags) => handleAddTag(tags, "targetGrammar")}
                         topics={topics}

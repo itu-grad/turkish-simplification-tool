@@ -90,6 +90,7 @@ export default function LevelAdaptationInput({
                 </label>
                 <textarea
                     id="content"
+                    placeholder="Metin giriniz..."
                     {...register("content", {
                         required: "Metin içeriği gerekli",
                         minLength: {
