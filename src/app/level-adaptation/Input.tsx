@@ -63,7 +63,7 @@ export default function LevelAdaptationInput({
                         htmlFor="level"
                         className="text-sm font-semibold text-header text-left"
                     >
-                        Seviye
+                        Hedef Seviye
                     </label>
                     <select
                         id="level"

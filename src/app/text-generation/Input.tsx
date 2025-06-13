@@ -87,7 +87,7 @@ export default function TextGenerationInput({ isLoading, handleGenerateText }: P
         >
             <div className="grid grid-cols-3 gap-6">
                 <div className="flex flex-col space-y-2">
-                    <label className="text-sm font-semibold text-header text-left">Seviye</label>
+                    <label className="text-sm font-semibold text-header text-left">Hedef Seviye</label>
                     <select
                         {...register("level", { required: "Seviye gerekli" })}
                         className="p-2 border border-input-border rounded-md bg-secondary-bg text-sm text-header focus:outline-gray-500"
