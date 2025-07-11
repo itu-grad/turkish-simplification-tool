@@ -1,5 +1,3 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 ## Getting Started
 
 First, run the development server:
@@ -36,3 +34,6 @@ OPENAI_API_KEY=xx
 - `PIPELINE_TOKEN` is the token to use for `tools.nlp.itu.edu.tr` api. If you do not want to use zemberek server, you can use this api with the provided token.
 - `USE_ZEMBEREK` is a flag for whether to use zemberek server or not.
 - `OPENAPI_x` variables are the configs for ChatGPT connection.
+
+## Final Report
+You can see the final report in this [link](https://drive.google.com/file/d/1tTGSd7uIuT7tmOFCmT_3jzPu6H2CFLFC/view?usp=sharing).
