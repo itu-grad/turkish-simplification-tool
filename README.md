@@ -36,4 +36,4 @@ OPENAI_API_KEY=xx
 - `OPENAPI_x` variables are the configs for ChatGPT connection.
 
 ## Final Report
-You can see the final report in this [link](https://drive.google.com/file/d/1tTGSd7uIuT7tmOFCmT_3jzPu6H2CFLFC/view?usp=sharing).
+You can see the final report of the project in this [link](https://drive.google.com/file/d/1tTGSd7uIuT7tmOFCmT_3jzPu6H2CFLFC/view?usp=sharing).
